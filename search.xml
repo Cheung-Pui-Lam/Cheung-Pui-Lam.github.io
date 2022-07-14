@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>hexo常用指令</title>
+      <link href="/2022/07/13/hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/"/>
+      <url>/2022/07/13/hexo%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[        <h1 id="hexo常用指令介绍"   >          <a href="#hexo常用指令介绍" class="heading-link"><i class="fas fa-link"></i></a><a href="#hexo常用指令介绍" class="headerlink" title="hexo常用指令介绍"></a>hexo常用指令介绍</h1>      <ul><li><strong>$ hexo clean</strong> (清空)<ul><li>清除缓存文件 db.json 和已生成的静态文件 public 。</li><li>网站显示异常时可以执行这条命令试试。</li></ul></li><li><strong>$ hexo g</strong> (重新生成)<ul><li><p>生成网站静态文件到默认设置的 public 文件夹。</p></li><li><p>便于查看网站生成的静态文件或者手动部署网站；</p></li><li><p>如果使用自动部署，不需要先执行该命令；<br>  hexo g 是 hexo generate 的缩写，命令效果一致</p></li></ul></li><li><strong>$ hexo s</strong> (重新启动)<ul><li>启动本地服务器，用于预览主题。<br>   -hexo s 是 hexo server 的缩写，命令效果一致；</li><li>预览的同时可以修改文章内容或主题代码，保存后刷新页面即可；</li><li>对 Hexo 根目录 _config.yml 的修改，需要重启本地服务器后才能预览效果</li></ul></li><li><strong>$ hexo d</strong> (重新部署到仓库)<ul><li>自动生成网站静态文件，并部署到设定的仓库。</li><li>hexo d 是 hexo deploy 的缩写，命令效果一致</li></ul></li><li><strong>$ hexo new “文章标题”</strong>(新建文章)<ul><li>文章标题也可以在对应的md文件中修改</li></ul></li><li><strong>$ hexo new page 网页名</strong><ul><li>例：hexo new page welcome</li><li>新建一个标题名为welcome的页面，默认连接地址：主页地址&#x2F;welcome&#x2F;</li><li>此页面不会出现在首页文章列表和归档中，也不支持设置分类和标签</li></ul></li></ul>        <h2 id="更新博客"   >          <a href="#更新博客" class="heading-link"><i class="fas fa-link"></i></a><a href="#更新博客" class="headerlink" title="更新博客"></a>更新博客</h2>      <ul><li>一般会打开博客所在文件夹内右键 Git Bash Here，然后再命令行一键三连： <figure class="highlight plaintext"><figcaption><span>Command(代码指令)</span></figcaption><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo cl &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></div></figure></li><li>然后我么就可以打开浏览器输入主机地址:localhost:4000&#x2F;，查看自己更新的博客了！</li><li>不过这只是在本地进行了更新，要想部署到网上（Github上），还要输入如下指令： <figure class="highlight plaintext"><figcaption><span>Command(代码指令)</span></figcaption><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br></pre></td></tr></table></div></figure></li><li>这样就能自动生成网站静态文件，并部署到我们设定的github仓库上了,别人访问我们的网站也能看到我们更新的内容了。</li></ul><blockquote><p>这篇博客引用了作者为”<strong>到现在负</strong>“的文章<br>原文链接为:<span class="exturl"><a class="exturl__link"   href="https://blog.csdn.net/dxxzst/article/details/76135935" >CSDN</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+          <category> hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo常用指令 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello！欢迎来到我的仓库！</title>
+      <link href="/2022/07/13/Hello-Blog/"/>
+      <url>/2022/07/13/Hello-Blog/</url>
+      
+        <content type="html"><![CDATA[<p>这是我的第一篇博客，用来记录这个博客网站的诞生！<br>后续我将会在这个博客中记录自己的前端学习历程！</p><ul><li><ul><li><ul><li>该博客诞生于2022年7月13日</li></ul></li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博主个人 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 关于博客 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
