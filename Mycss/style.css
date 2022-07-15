@@ -7,10 +7,16 @@
     background-color: rgba(10, 100, 150, 0.5);
 }
 
-/* 文字颜色 */
+/* 底部文字颜色 */
 #footer-wrap{
     font-weight: 700;
     color: #f1af00;
+}
+
+/* 关于博主页面文字样式 */
+.code{
+  font-weight: 700;
+  
 }
 
 /* 鼠标样式 */
