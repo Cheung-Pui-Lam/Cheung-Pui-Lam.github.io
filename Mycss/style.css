@@ -14,9 +14,9 @@
 }
 
 /* 关于博主页面文字样式 */
-.code{
+.line{
   font-weight: 700;
-  
+  color: black;
 }
 
 /* 鼠标样式 */
