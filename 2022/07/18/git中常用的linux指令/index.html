@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>git中常用的linux指令 | 肥林の仓库</title><meta name="keywords" content="git的学习笔记,git中常用的linux指令"><meta name="author" content="肥林(Cheung Pui Lam)"><meta name="copyright" content="肥林(Cheung Pui Lam)"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="git中常用的linux指令有如下几个 1、cd : 改变目录(进入指定文件夹)。  2、cd .. : 回退到上一个目录，直接cd进入默认目录 3、cd -  ：返回最近访问目录  4、pwd : 显示当前所在的目录路径  5、ls(ll): 都是列出当前目录中的所有文件，相较于ls，ll列出的内容更为详细（包括权限、所属用户和组、大小、时间、名称等）   6、ls -a : 显示该文件夹中的隐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git中常用的linux指令">
+<meta property="og:url" content="http://example.com/2022/07/18/git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="肥林の仓库">
+<meta property="og:description" content="git中常用的linux指令有如下几个 1、cd : 改变目录(进入指定文件夹)。  2、cd .. : 回退到上一个目录，直接cd进入默认目录 3、cd -  ：返回最近访问目录  4、pwd : 显示当前所在的目录路径  5、ls(ll): 都是列出当前目录中的所有文件，相较于ls，ll列出的内容更为详细（包括权限、所属用户和组、大小、时间、名称等）   6、ls -a : 显示该文件夹中的隐">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/upload/git/linux.webp">
+<meta property="article:published_time" content="2022-07-18T02:51:16.000Z">
+<meta property="article:modified_time" content="2022-07-18T03:41:32.670Z">
+<meta property="article:author" content="肥林(Cheung Pui Lam)">
+<meta property="article:tag" content="git的学习笔记">
+<meta property="article:tag" content="git中常用的linux指令">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/upload/git/linux.webp"><link rel="shortcut icon" href="/assets/ficon32.png"><link rel="canonical" href="http://example.com/2022/07/18/git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'git中常用的linux指令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-18 11:41:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/Mycss/style.css"><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/assets/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/upload/git/linux.webp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">肥林の仓库</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">git中常用的linux指令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-18T02:51:16.000Z" title="发表于 2022-07-18 10:51:16">2022-07-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-18T03:41:32.670Z" title="更新于 2022-07-18 11:41:32">2022-07-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/git/">git</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">353</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="git中常用的linux指令"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="git中常用的linux指令有如下几个"><a href="#git中常用的linux指令有如下几个" class="headerlink" title="git中常用的linux指令有如下几个"></a><strong>git中常用的linux指令有如下几个</strong></h1><ul>
+<li><h3 id="1、cd-改变目录-进入指定文件夹-。"><a href="#1、cd-改变目录-进入指定文件夹-。" class="headerlink" title="1、cd : 改变目录(进入指定文件夹)。"></a>1、cd : 改变目录(进入指定文件夹)。</h3> <img src="/../upload/git/git-linux-command/1.png" alt="image"></li>
+<li><h3 id="2、cd-回退到上一个目录，直接cd进入默认目录"><a href="#2、cd-回退到上一个目录，直接cd进入默认目录" class="headerlink" title="2、cd .. : 回退到上一个目录，直接cd进入默认目录"></a>2、cd .. : 回退到上一个目录，直接cd进入默认目录</h3></li>
+<li><h3 id="3、cd-：返回最近访问目录"><a href="#3、cd-：返回最近访问目录" class="headerlink" title="3、cd -  ：返回最近访问目录"></a>3、cd -  ：返回最近访问目录</h3> <img src="/../upload/git/git-linux-command/2.png" alt="image"></li>
+<li><h3 id="4、pwd-显示当前所在的目录路径"><a href="#4、pwd-显示当前所在的目录路径" class="headerlink" title="4、pwd : 显示当前所在的目录路径"></a>4、pwd : 显示当前所在的目录路径</h3> <img src="/../upload/git/git-linux-command/3.png" alt="image"></li>
+<li><h3 id="5、ls-ll-都是列出当前目录中的所有文件，相较于ls，ll列出的内容更为详细（包括权限、所属用户和组、大小、时间、名称等）"><a href="#5、ls-ll-都是列出当前目录中的所有文件，相较于ls，ll列出的内容更为详细（包括权限、所属用户和组、大小、时间、名称等）" class="headerlink" title="5、ls(ll): 都是列出当前目录中的所有文件，相较于ls，ll列出的内容更为详细（包括权限、所属用户和组、大小、时间、名称等）"></a>5、ls(ll): 都是列出当前目录中的所有文件，相较于ls，ll列出的内容更为详细（包括权限、所属用户和组、大小、时间、名称等）</h3> <img src="/../upload/git/git-linux-command/4.png" alt="image"><br> <img src="/../upload/git/git-linux-command/5.png" alt="image"></li>
+<li><h3 id="6、ls-a-显示该文件夹中的隐藏文件"><a href="#6、ls-a-显示该文件夹中的隐藏文件" class="headerlink" title="6、ls -a : 显示该文件夹中的隐藏文件"></a>6、ls -a : 显示该文件夹中的隐藏文件</h3></li>
+<li><h3 id="7、ls-l-列出文件的详细信息。"><a href="#7、ls-l-列出文件的详细信息。" class="headerlink" title="7、ls -l : 列出文件的详细信息。"></a>7、ls -l : 列出文件的详细信息。</h3></li>
+<li><h3 id="8、touch-新建一个文件-如-touch-index-js-就会在当前目录下新建一个index-js文件。"><a href="#8、touch-新建一个文件-如-touch-index-js-就会在当前目录下新建一个index-js文件。" class="headerlink" title="8、touch : 新建一个文件 如 touch index.js 就会在当前目录下新建一个index.js文件。"></a>8、touch : 新建一个文件 如 touch index.js 就会在当前目录下新建一个index.js文件。</h3> <img src="/../upload/git/git-linux-command/6.png" alt="image"></li>
+<li><h3 id="9、rm-删除一个文件-rm-index-js-就会把index-js文件删除。"><a href="#9、rm-删除一个文件-rm-index-js-就会把index-js文件删除。" class="headerlink" title="9、rm: 删除一个文件, rm index.js 就会把index.js文件删除。"></a>9、rm: 删除一个文件, rm index.js 就会把index.js文件删除。</h3> <img src="/../upload/git/git-linux-command/7.png" alt="image"></li>
+<li><h3 id="10、mkdir-新建一个目录-就是新建一个文件夹"><a href="#10、mkdir-新建一个目录-就是新建一个文件夹" class="headerlink" title="10、mkdir: 新建一个目录,就是新建一个文件夹"></a>10、mkdir: 新建一个目录,就是新建一个文件夹</h3></li>
+<li><h3 id="11、rm-r-删除一个文件夹-rm-r-src-删除src目录rm-rf-x2F-切勿在Linux中尝试！删除电-脑中全部文件！"><a href="#11、rm-r-删除一个文件夹-rm-r-src-删除src目录rm-rf-x2F-切勿在Linux中尝试！删除电-脑中全部文件！" class="headerlink" title="11、rm -r : 删除一个文件夹, rm -r src 删除src目录rm -rf &#x2F; 切勿在Linux中尝试！删除电## 脑中全部文件！"></a>11、rm -r : 删除一个文件夹, rm -r src 删除src目录rm -rf &#x2F; 切勿在Linux中尝试！删除电## 脑中全部文件！</h3></li>
+<li><h3 id="12、mv-移动文件-mv-index-html-src-。index-html-是我们要移动的文件-src-是目标文件夹-当然-这样写-必须保证文件和目标文件夹在同一目录下。"><a href="#12、mv-移动文件-mv-index-html-src-。index-html-是我们要移动的文件-src-是目标文件夹-当然-这样写-必须保证文件和目标文件夹在同一目录下。" class="headerlink" title="12、mv : 移动文件, mv index.html src 。index.html 是我们要移动的文件, src 是目标文件夹## ,当然, 这样写,必须保证文件和目标文件夹在同一目录下。"></a>12、mv : 移动文件, mv index.html src 。index.html 是我们要移动的文件, src 是目标文件夹## ,当然, 这样写,必须保证文件和目标文件夹在同一目录下。</h3></li>
+<li><h3 id="13、reset-重新初始化终端-x2F-清屏。"><a href="#13、reset-重新初始化终端-x2F-清屏。" class="headerlink" title="13、reset : 重新初始化终端&#x2F;清屏。"></a>13、reset : 重新初始化终端&#x2F;清屏。</h3></li>
+<li><h3 id="14、clear-清屏。"><a href="#14、clear-清屏。" class="headerlink" title="14、clear : 清屏。"></a>14、clear : 清屏。</h3></li>
+<li><h3 id="15、history-查看命令历史。"><a href="#15、history-查看命令历史。" class="headerlink" title="15、history : 查看命令历史。"></a>15、history : 查看命令历史。</h3></li>
+<li><h3 id="16、help-帮助。"><a href="#16、help-帮助。" class="headerlink" title="16、help : 帮助。"></a>16、help : 帮助。</h3></li>
+<li><h3 id="17、exit-退出。"><a href="#17、exit-退出。" class="headerlink" title="17、exit : 退出。"></a>17、exit : 退出。</h3></li>
+<li><h3 id="18、-表示注释"><a href="#18、-表示注释" class="headerlink" title="18、# : 表示注释"></a>18、# : 表示注释</h3></li>
+<li><h3 id="19、cat-在控制台中显示文件的全部信息-即打开该文件"><a href="#19、cat-在控制台中显示文件的全部信息-即打开该文件" class="headerlink" title="19、cat : 在控制台中显示文件的全部信息,即打开该文件"></a>19、cat : 在控制台中显示文件的全部信息,即打开该文件</h3></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">肥林(Cheung Pui Lam)</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/07/18/git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4/">http://example.com/2022/07/18/git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">肥林の仓库</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">git的学习笔记</a><a class="post-meta__tags" href="/tags/git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4/">git中常用的linux指令</a></div><div class="post_share"><div class="social-share" data-image="/upload/git/linux.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/07/18/git%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99/"><img class="prev-cover" src="/upload/git/wrong.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">git中常见的报错</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/18/git%E8%BF%9C%E7%A8%8B%E5%BA%93%E6%93%8D%E4%BD%9C/"><img class="next-cover" src="/upload/git/git.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">git学习笔记(4)-git远程库操作</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/07/18/git%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99/" title="git中常见的报错"><img class="cover" src="/upload/git/wrong.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-18</div><div class="title">git中常见的报错</div></div></a></div><div><a href="/2022/07/17/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" title="git学习笔记(2)-git的常用指令"><img class="cover" src="/upload/git/git.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-17</div><div class="title">git学习笔记(2)-git的常用指令</div></div></a></div><div><a href="/2022/07/17/git%E7%9A%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="git的学习笔记(1)"><img class="cover" src="/upload/git/git.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-17</div><div class="title">git的学习笔记(1)</div></div></a></div><div><a href="/2022/07/18/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A42/" title="git学习笔记(3)-git的常用指令(2)"><img class="cover" src="/upload/git/git.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-18</div><div class="title">git学习笔记(3)-git的常用指令(2)</div></div></a></div><div><a href="/2022/07/18/git%E8%BF%9C%E7%A8%8B%E5%BA%93%E6%93%8D%E4%BD%9C/" title="git学习笔记(4)-git远程库操作"><img class="cover" src="/upload/git/git.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-18</div><div class="title">git学习笔记(4)-git远程库操作</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/assets/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">肥林(Cheung Pui Lam)</div><div class="author-info__description">一名菜鸡程序员</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Cheung-Pui-Lam" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/www.2890299213@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4%E6%9C%89%E5%A6%82%E4%B8%8B%E5%87%A0%E4%B8%AA"><span class="toc-number">1.</span> <span class="toc-text">git中常用的linux指令有如下几个</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81cd-%E6%94%B9%E5%8F%98%E7%9B%AE%E5%BD%95-%E8%BF%9B%E5%85%A5%E6%8C%87%E5%AE%9A%E6%96%87%E4%BB%B6%E5%A4%B9-%E3%80%82"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、cd : 改变目录(进入指定文件夹)。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81cd-%E5%9B%9E%E9%80%80%E5%88%B0%E4%B8%8A%E4%B8%80%E4%B8%AA%E7%9B%AE%E5%BD%95%EF%BC%8C%E7%9B%B4%E6%8E%A5cd%E8%BF%9B%E5%85%A5%E9%BB%98%E8%AE%A4%E7%9B%AE%E5%BD%95"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、cd .. : 回退到上一个目录，直接cd进入默认目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81cd-%EF%BC%9A%E8%BF%94%E5%9B%9E%E6%9C%80%E8%BF%91%E8%AE%BF%E9%97%AE%E7%9B%AE%E5%BD%95"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、cd -  ：返回最近访问目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81pwd-%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E6%89%80%E5%9C%A8%E7%9A%84%E7%9B%AE%E5%BD%95%E8%B7%AF%E5%BE%84"><span class="toc-number">1.0.4.</span> <span class="toc-text">4、pwd : 显示当前所在的目录路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81ls-ll-%E9%83%BD%E6%98%AF%E5%88%97%E5%87%BA%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%EF%BC%8C%E7%9B%B8%E8%BE%83%E4%BA%8Els%EF%BC%8Cll%E5%88%97%E5%87%BA%E7%9A%84%E5%86%85%E5%AE%B9%E6%9B%B4%E4%B8%BA%E8%AF%A6%E7%BB%86%EF%BC%88%E5%8C%85%E6%8B%AC%E6%9D%83%E9%99%90%E3%80%81%E6%89%80%E5%B1%9E%E7%94%A8%E6%88%B7%E5%92%8C%E7%BB%84%E3%80%81%E5%A4%A7%E5%B0%8F%E3%80%81%E6%97%B6%E9%97%B4%E3%80%81%E5%90%8D%E7%A7%B0%E7%AD%89%EF%BC%89"><span class="toc-number">1.0.5.</span> <span class="toc-text">5、ls(ll): 都是列出当前目录中的所有文件，相较于ls，ll列出的内容更为详细（包括权限、所属用户和组、大小、时间、名称等）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%E3%80%81ls-a-%E6%98%BE%E7%A4%BA%E8%AF%A5%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%AD%E7%9A%84%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.6.</span> <span class="toc-text">6、ls -a : 显示该文件夹中的隐藏文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%E3%80%81ls-l-%E5%88%97%E5%87%BA%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF%E3%80%82"><span class="toc-number">1.0.7.</span> <span class="toc-text">7、ls -l : 列出文件的详细信息。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%E3%80%81touch-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6-%E5%A6%82-touch-index-js-%E5%B0%B1%E4%BC%9A%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAindex-js%E6%96%87%E4%BB%B6%E3%80%82"><span class="toc-number">1.0.8.</span> <span class="toc-text">8、touch : 新建一个文件 如 touch index.js 就会在当前目录下新建一个index.js文件。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%E3%80%81rm-%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6-rm-index-js-%E5%B0%B1%E4%BC%9A%E6%8A%8Aindex-js%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E3%80%82"><span class="toc-number">1.0.9.</span> <span class="toc-text">9、rm: 删除一个文件, rm index.js 就会把index.js文件删除。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E3%80%81mkdir-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%9B%AE%E5%BD%95-%E5%B0%B1%E6%98%AF%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">1.0.10.</span> <span class="toc-text">10、mkdir: 新建一个目录,就是新建一个文件夹</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11%E3%80%81rm-r-%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9-rm-r-src-%E5%88%A0%E9%99%A4src%E7%9B%AE%E5%BD%95rm-rf-x2F-%E5%88%87%E5%8B%BF%E5%9C%A8Linux%E4%B8%AD%E5%B0%9D%E8%AF%95%EF%BC%81%E5%88%A0%E9%99%A4%E7%94%B5-%E8%84%91%E4%B8%AD%E5%85%A8%E9%83%A8%E6%96%87%E4%BB%B6%EF%BC%81"><span class="toc-number">1.0.11.</span> <span class="toc-text">11、rm -r : 删除一个文件夹, rm -r src 删除src目录rm -rf &#x2F; 切勿在Linux中尝试！删除电## 脑中全部文件！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12%E3%80%81mv-%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6-mv-index-html-src-%E3%80%82index-html-%E6%98%AF%E6%88%91%E4%BB%AC%E8%A6%81%E7%A7%BB%E5%8A%A8%E7%9A%84%E6%96%87%E4%BB%B6-src-%E6%98%AF%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%A4%B9-%E5%BD%93%E7%84%B6-%E8%BF%99%E6%A0%B7%E5%86%99-%E5%BF%85%E9%A1%BB%E4%BF%9D%E8%AF%81%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%A4%B9%E5%9C%A8%E5%90%8C%E4%B8%80%E7%9B%AE%E5%BD%95%E4%B8%8B%E3%80%82"><span class="toc-number">1.0.12.</span> <span class="toc-text">12、mv : 移动文件, mv index.html src 。index.html 是我们要移动的文件, src 是目标文件夹## ,当然, 这样写,必须保证文件和目标文件夹在同一目录下。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13%E3%80%81reset-%E9%87%8D%E6%96%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BB%88%E7%AB%AF-x2F-%E6%B8%85%E5%B1%8F%E3%80%82"><span class="toc-number">1.0.13.</span> <span class="toc-text">13、reset : 重新初始化终端&#x2F;清屏。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14%E3%80%81clear-%E6%B8%85%E5%B1%8F%E3%80%82"><span class="toc-number">1.0.14.</span> <span class="toc-text">14、clear : 清屏。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15%E3%80%81history-%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E5%8E%86%E5%8F%B2%E3%80%82"><span class="toc-number">1.0.15.</span> <span class="toc-text">15、history : 查看命令历史。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16%E3%80%81help-%E5%B8%AE%E5%8A%A9%E3%80%82"><span class="toc-number">1.0.16.</span> <span class="toc-text">16、help : 帮助。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17%E3%80%81exit-%E9%80%80%E5%87%BA%E3%80%82"><span class="toc-number">1.0.17.</span> <span class="toc-text">17、exit : 退出。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18%E3%80%81-%E8%A1%A8%E7%A4%BA%E6%B3%A8%E9%87%8A"><span class="toc-number">1.0.18.</span> <span class="toc-text">18、# : 表示注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19%E3%80%81cat-%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B8%AD%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%A8%E9%83%A8%E4%BF%A1%E6%81%AF-%E5%8D%B3%E6%89%93%E5%BC%80%E8%AF%A5%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.19.</span> <span class="toc-text">19、cat : 在控制台中显示文件的全部信息,即打开该文件</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/07/18/git%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99/" title="git中常见的报错"><img src="/upload/git/wrong.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git中常见的报错"/></a><div class="content"><a class="title" href="/2022/07/18/git%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99/" title="git中常见的报错">git中常见的报错</a><time datetime="2022-07-18T03:43:58.000Z" title="发表于 2022-07-18 11:43:58">2022-07-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/18/git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4/" title="git中常用的linux指令"><img src="/upload/git/linux.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git中常用的linux指令"/></a><div class="content"><a class="title" href="/2022/07/18/git%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84linux%E6%8C%87%E4%BB%A4/" title="git中常用的linux指令">git中常用的linux指令</a><time datetime="2022-07-18T02:51:16.000Z" title="发表于 2022-07-18 10:51:16">2022-07-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/18/git%E8%BF%9C%E7%A8%8B%E5%BA%93%E6%93%8D%E4%BD%9C/" title="git学习笔记(4)-git远程库操作"><img src="/upload/git/git.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git学习笔记(4)-git远程库操作"/></a><div class="content"><a class="title" href="/2022/07/18/git%E8%BF%9C%E7%A8%8B%E5%BA%93%E6%93%8D%E4%BD%9C/" title="git学习笔记(4)-git远程库操作">git学习笔记(4)-git远程库操作</a><time datetime="2022-07-18T02:22:05.000Z" title="发表于 2022-07-18 10:22:05">2022-07-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/18/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A42/" title="git学习笔记(3)-git的常用指令(2)"><img src="/upload/git/git.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git学习笔记(3)-git的常用指令(2)"/></a><div class="content"><a class="title" href="/2022/07/18/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A42/" title="git学习笔记(3)-git的常用指令(2)">git学习笔记(3)-git的常用指令(2)</a><time datetime="2022-07-18T01:47:46.000Z" title="发表于 2022-07-18 09:47:46">2022-07-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/17/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" title="git学习笔记(2)-git的常用指令"><img src="/upload/git/git.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git学习笔记(2)-git的常用指令"/></a><div class="content"><a class="title" href="/2022/07/17/git%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" title="git学习笔记(2)-git的常用指令">git学习笔记(2)-git的常用指令</a><time datetime="2022-07-17T10:31:01.000Z" title="发表于 2022-07-17 18:31:01">2022-07-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By 肥林(Cheung Pui Lam)</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div>🦸‍♂️目在当下,活在当下</div> <div>🦾成为自己想成为的人!</div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
