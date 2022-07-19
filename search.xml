@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Promise解决回调地狱</title>
+      <link href="/2022/07/19/Promise%E8%A7%A3%E5%86%B3%E5%9B%9E%E8%B0%83%E5%9C%B0%E7%8B%B1/"/>
+      <url>/2022/07/19/Promise%E8%A7%A3%E5%86%B3%E5%9B%9E%E8%B0%83%E5%9C%B0%E7%8B%B1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Promise解决回调地狱问题"><a href="#Promise解决回调地狱问题" class="headerlink" title="Promise解决回调地狱问题"></a><strong>Promise</strong>解决回调地狱问题</h1><h2 id="什么是Promise？"><a href="#什么是Promise？" class="headerlink" title="什么是Promise？"></a>什么是<strong>Promise</strong>？</h2><ul><li><strong>Promise</strong> 是<strong>ES6</strong> 引入的异步编程的新解决方案。语法上 <strong>Promise</strong> 是一个构造函数， 用来<strong>封装异步操作</strong>并可以获取其成功或失败的结果。</li></ul><h2 id="什么是回调地狱？"><a href="#什么是回调地狱？" class="headerlink" title="什么是回调地狱？"></a>什么是<strong>回调地狱</strong>？</h2><ul><li>所谓回调地狱就是在回调函数里面不断的嵌套回调函数，这样就会导致代码不断缩进，可读性就会变得非常的差。</li><li>比如我要执行1秒打印一个人的姓名：<br>  <img src="/../upload/promise/1.png" alt="image"></li></ul><h2 id="这里我们可以使用Promise来解决回调地狱的问题"><a href="#这里我们可以使用Promise来解决回调地狱的问题" class="headerlink" title="这里我们可以使用Promise来解决回调地狱的问题"></a>这里我们可以使用<strong>Promise</strong>来解决回调地狱的问题</h2><ul><li>因为<strong>Promise</strong>存在一种链式调用</li><li>我们可以调用<strong>Promise</strong>中的<strong>then</strong>方法构成<strong>链式调用</strong>，代码如下： <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const p = new Promise((reslove , reject) =&gt;&#123;</span><br><span class="line">    setTimeout(function()&#123;</span><br><span class="line">        var s = &#x27;老一&#x27;;</span><br><span class="line">        reslove(s);</span><br><span class="line">    &#125; , 1000)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">p.then(function(value)&#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">    return new Promise((reslove , reject) =&gt;&#123;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            var s = &#x27;老二&#x27;;</span><br><span class="line">            reslove(s);</span><br><span class="line">        &#125; , 1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;).then(function(value)&#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">    return new Promise((reslove , reject) =&gt;&#123;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            var s = &#x27;老三&#x27;;</span><br><span class="line">            reslove(s);</span><br><span class="line">        &#125; , 1000)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).then(function(value)&#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">    return new Promise((reslove , reject) =&gt;&#123;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            var s = &#x27;老四&#x27;;</span><br><span class="line">            reslove(s);</span><br><span class="line">        &#125; , 1000)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).then(function(value)&#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">    return new Promise((reslove , reject) =&gt;&#123;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            var s = &#x27;老五&#x27;;</span><br><span class="line">            reslove(s);</span><br><span class="line">        &#125; , 1000)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).then(function(value)&#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">    return new Promise((reslove , reject) =&gt;&#123;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            var s = &#x27;老六&#x27;;</span><br><span class="line">            reslove(s);</span><br><span class="line">        &#125; , 1000)</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).then(function(value)&#123;</span><br><span class="line">    console.log(value);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li></ul><h2 id="运行结果如下"><a href="#运行结果如下" class="headerlink" title="运行结果如下:"></a>运行结果如下:</h2><p><img src="/../upload/promise/2.png" alt="image"></p><h3 id="输出结果是一致的，但是解决了回调地狱的问题"><a href="#输出结果是一致的，但是解决了回调地狱的问题" class="headerlink" title="输出结果是一致的，但是解决了回调地狱的问题"></a><strong>输出结果是一致的，但是解决了回调地狱的问题</strong></h3><h2 id="原理刨析"><a href="#原理刨析" class="headerlink" title="原理刨析:"></a><strong>原理刨析:</strong></h2><ul><li><strong>调用 then 方法 then方法的返回结果是 Promise 对象, 对象状态由回调函数的执行结果决定</strong><ul><li>1).非 promise 类型的属性, 状态为成功或者失败, 返回值就是return后面跟着的值</li><li>2).是 promise 类型的属性, 状态为成功或者失败, 返回值就是return后面跟着的新的promise对象的reslove()或者reject()</li></ul></li><li><strong>在我看来，之所以Promise能够解决回调地狱的问题主要归功于 then 方法，then方法里面有一个return属性，而这个return属性当返回的是一个Promise对象时，那么如果后面还有嵌套的.then的话，返回的Promise对象就直接对接后面的.then方法，相当于上层Promise对象返回的新Promise对象就继续对接后面的.then方法，以此类推来解决回调地狱。</strong></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+          <category> 前端知识分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Promise </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>git中常见的报错</title>
       <link href="/2022/07/18/git%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99/"/>
       <url>/2022/07/18/git%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99/</url>
