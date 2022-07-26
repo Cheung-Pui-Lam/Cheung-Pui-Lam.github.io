@@ -15,7 +15,7 @@
 
      try {
          TagCanvas.textFont = 'Microsoft YaHei, monospace';
-         TagCanvas.textColour = '#323';
+         TagCanvas.textColour = '#7f0';
          TagCanvas.textHeight = 18;
          TagCanvas.outlineColour = '#E2E1D1';
          TagCanvas.maxSpeed = 0.2;
