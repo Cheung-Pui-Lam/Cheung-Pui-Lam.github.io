@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>魔改butterfly4</title>
+      <link href="/2022/07/26/%E9%AD%94%E6%94%B9butterfly4/"/>
+      <url>/2022/07/26/%E9%AD%94%E6%94%B9butterfly4/</url>
+      
+        <content type="html"><![CDATA[<h1 id="添加音乐播放器-aplayer"><a href="#添加音乐播放器-aplayer" class="headerlink" title="添加音乐播放器(aplayer)"></a>添加音乐播放器(aplayer)</h1><ul><li><strong><a href="https://github.com/MoePlayer/hexo-tag-aplayer">官方文档-添加插件</a></strong></li><li><strong>就拿 <a href="https://cheung-pui-lam.github.io/">我的博客</a> 为例</strong></li></ul><h2 id="教程开始"><a href="#教程开始" class="headerlink" title="教程开始"></a>教程开始</h2><ul><li><ol><li><strong>首先安装 hexo-tag-aplayer 这款插件。执行如下指令：(在你博客根目录下打开控制台安装)</strong><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install --save hexo-tag-aplayer</span><br></pre></td></tr></table></figure></li></ol></li><li><ol start="2"><li><strong>如图所示:(打开控制台方式)</strong><br><img src="/../upload/mogai4/1.png" alt="image"><br><img src="/../upload/mogai4/2.png" alt="image"><br><strong>点击回车!开始安装</strong></li></ol></li><li><ol start="3"><li><strong>随后在你博客的根目录下的_config.yml(切记是根目录下,不是主题文件下)添加音乐播放器模块,如下所示</strong>  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">aplayer:</span><br><span class="line">    meting: true</span><br><span class="line">    asset_inject: false</span><br></pre></td></tr></table></figure><img src="/../upload/mogai4/3.png" alt="image"></li></ol></li><li><ol start="4"><li><strong>开启主题配置文件中_config.yml的 aplayerInject,(切记这次是你主题文件下的_config.yml)</strong><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">aplayerInject:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: true</span><br></pre></td></tr></table></figure><img src="/../upload/mogai4/4.png" alt="image"></li></ol></li><li><ol start="5"><li><strong>到这里音乐页面就基本配置完成了,下面是音源配置教程</strong></li></ol></li></ul><h1 id="音源配置教程"><a href="#音源配置教程" class="headerlink" title="音源配置教程"></a>音源配置教程</h1><ul><li><strong>以本博客为例，在博客的音乐页面（\source\music\index.md文件）添加如下代码：</strong><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% meting &quot;7539051570&quot; &quot;netease&quot; &quot;playlist&quot; &quot;mutex:false&quot; &quot;listmaxheight:400px&quot; &quot;preload:none&quot; &quot;theme:#ad7a86&quot;%&#125;</span><br></pre></td></tr></table></figure></li><li><strong>或者也可以直接添加html格式</strong><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;aplayer&quot;</span> <span class="attr">data-id</span>=<span class="string">&quot;7539051570&quot;</span> <span class="attr">data-server</span>=<span class="string">&quot;netease&quot;</span> <span class="attr">data-type</span>=<span class="string">&quot;artist&quot;</span> <span class="attr">data-preload</span>=<span class="string">&quot;auto&quot;</span> <span class="attr">data-theme</span>=<span class="string">&quot;#3F51B5&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure><img src="/../upload/mogai4/5.png" alt="image"></li></ul><h2 id="下面再来讲讲这些属性的含义"><a href="#下面再来讲讲这些属性的含义" class="headerlink" title="下面再来讲讲这些属性的含义:"></a>下面再来讲讲这些属性的含义:</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">data-id    require 歌曲id/播放列表id/专辑id/搜索关键字</span><br><span class="line">data-serverrequire 音乐平台：网易、腾讯、酷狗、夏米、百度</span><br><span class="line">data-typerequire 歌曲、播放列表、专辑、搜索、艺术家</span><br><span class="line">data-fixedfalse 启用固定模式</span><br><span class="line">data-minifalse 启用最小模式</span><br><span class="line">data-autoplayfalse音频自动播放</span><br><span class="line">data-theme #2980b9  主题颜色</span><br><span class="line">data-loop all      循环播放，值：“all”、“one”、“none”</span><br><span class="line">data-order list  播放顺序，值：“list”，“random”</span><br><span class="line">data-preload auto  数据的预处理加载 值：“无”、“元数据”、“自动”</span><br><span class="line">data-volume 0.7音量调节</span><br><span class="line">data-mutextrue防止同时播放多条音乐,在不同的页面</span><br><span class="line">data-lrctype0歌词的展现形式</span><br><span class="line">data-listfoldedfalse指示是否应首先折叠列表</span><br><span class="line">data-listmaxheight340px最大列表高度</span><br><span class="line">data-storagenamemetingjs设置存储密钥</span><br></pre></td></tr></table></figure><ul><li><strong>require 代表着這些參數是必須要使用的，其它的參數則可以根據自己需要配置。</strong><h3 id="常用的选项如下所示"><a href="#常用的选项如下所示" class="headerlink" title="常用的选项如下所示:"></a>常用的选项如下所示:</h3></li><li><strong>server可选：netease（网易云音乐），tencent（QQ音乐），kugou（酷狗音乐），xiami（虾米音乐），baidu（百度音乐）。建议网易云</strong></li><li><strong>type可选：song（歌曲），playlist（歌单），album（专辑），search（搜索关键字），artist（歌手）。添加单曲选的歌曲，歌单选择playlist，可以自行尝试。</strong></li><li><strong>id获取示例: 打开网易云音乐，选择喜欢的歌单，在网页版打开，获取歌单list，填入即可。使用的时候将上边的ID号换为自己喜欢的歌单即可。注意歌单中不能包括VIP音乐，否则无法解析。建议单独建立一个歌单，以后有喜欢的音乐添加进去，网页也会自动同步添加。</strong></li><li><strong>lrcType设置为 -1默认显示歌词，放在fixed模式下比较合适</strong></li></ul><h1 id="歌单的获取-id属性的歌单导入"><a href="#歌单的获取-id属性的歌单导入" class="headerlink" title="歌单的获取:(id属性的歌单导入)"></a>歌单的获取:(id属性的歌单导入)</h1><p><img src="/../upload/mogai4/6.png" alt="image"></p><ul><li><strong>获取歌单的id后导入指定属性即可!</strong></li></ul><h1 id="最后的成品展示"><a href="#最后的成品展示" class="headerlink" title="最后的成品展示:"></a>最后的成品展示:</h1><p><img src="/../upload/mogai4/7.png" alt="image"></p><h1 id="拓展功能-全局吸底音乐播放器-aplayer-请观看官方文档教程"><a href="#拓展功能-全局吸底音乐播放器-aplayer-请观看官方文档教程" class="headerlink" title="拓展功能:全局吸底音乐播放器(aplayer)请观看官方文档教程"></a>拓展功能:全局吸底音乐播放器(aplayer)请观看官方文档教程</h1><h2 id="官方文档-全局吸底"><a href="#官方文档-全局吸底" class="headerlink" title="官方文档-全局吸底"></a><a href="https://butterfly.js.org/posts/507c070f/">官方文档-全局吸底</a></h2><p><img src="/../upload/mogai4/8.gif" alt="image"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+          <category> hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 魔改butterfly </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>魔改butterfly</title>
       <link href="/2022/07/26/%E9%AD%94%E6%94%B9butterfly/"/>
       <url>/2022/07/26/%E9%AD%94%E6%94%B9butterfly/</url>
