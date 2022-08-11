@@ -1,0 +1,568 @@
+/* 版心公共类 */
+.container{
+    width: 1240px;
+    margin: 0 auto;
+}
+
+/* ---------------------快捷菜单模块(xtx-shortcut) */
+.xtx-shortcut{
+    height: 52px;
+    background-color: #333;
+}
+
+.xtx-shortcut .container{
+    height: 52px;
+    /* background-color: aquamarine; */
+}
+
+.xtx-shortcut ul li{
+    float: left;
+    line-height: 52px;
+    /* 竖杠颜色是继承li标签的，所以给li标签设置竖杠的颜色即可 */
+    color: #666;
+}
+
+.xtx-shortcut ul img{
+    width: 150px;
+    height: 150px;
+}
+.xtx-shortcut ul .code{
+    position: relative;
+}
+
+.xtx-shortcut ul .code img{
+    /* 子绝 */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    border: #cccccc 1px solid;
+
+    /* 元素本身隐藏，配合hover选择器来使用实现鼠标移入显示，移出隐藏 */
+    display: none;
+}
+
+.xtx-shortcut ul .code:hover img{
+    display: block;
+}
+.xtx-shortcut ul a{
+    font-size: 14px;
+    color: #dcdcdc;
+    margin: 0 16px;
+}
+
+/* 最后一个li标签中的a标签(只有li标签有顺序) */
+.xtx-shortcut ul li:last-child a{
+    margin-right: 0;
+}
+
+/* 小手机精灵图 */
+.xtx-shortcut ul li:last-child a::before{
+    content: '';
+    /* 伪元素默认是行内元素，无法直接设置宽高 */
+    display: inline-block;
+    width: 11px;
+    height: 16px;
+    /* background-color: #0f0; */
+
+    /* 垂直对齐方式 */
+    vertical-align: middle;
+
+    margin-right: 8px;
+    margin-top: -3px;
+
+    /* 设置精灵图 */
+    background: url('../images/sprites.png') -160px -70px;
+}
+
+/* ------------------------主导航模块：xtx-main-nav */
+    .xtx-main-nav{
+        height: 130px;
+        padding-top: 30px;
+        /* 自动内减 */
+        box-sizing: border-box;
+
+        /* 辅助背景颜色 */
+        /* background-color: aqua; */
+    }
+
+    .xtx-main-nav .logo{
+        width: 207px;
+        height: 70px;
+
+        /* 辅助背景颜色 */
+        /* background-color: burlywood; */
+
+        margin-left: 25px;
+    }
+    .xtx-main-nav .logo a{
+        display: block;
+        /* width: 207px; */
+        height: 70px;
+        background-image: url('../images/logo.png');
+
+        background-size: 100% 100%;
+        /* 设置a名字为网页名字便于机器收录 */
+        /* 将名字设为不可见 */
+        font-size: 0; 
+    }
+
+    .xtx-main-nav nav{
+        margin-left: 40px;
+    }
+    .xtx-main-nav nav li{
+        float: left;
+        height: 70px;
+        line-height: 70px;
+        margin-right: 48px;
+    }
+
+    .xtx-main-nav nav li a:hover{
+        color: aqua;
+        padding-bottom: 7px;
+        border-bottom: 1px aqua solid;
+    }
+
+    .xtx-main-nav .search{
+        /* 子绝父相，用于嵌套后面的反放大镜 */
+        position: relative;
+        width: 172px;
+        height: 30px;
+        margin-top: 24px;
+        margin-left: 34px;
+        background-color: yellowgreen;
+    }
+    .xtx-main-nav .search input{
+        width: 172px;
+        height: 30px;
+        border-bottom: 2px solid #e7e7e7;
+        /* 给放大镜让位置 */
+        padding-left: 31px;
+    }
+
+    /* 伪元素添加精灵图中的放大镜(默认为行内元素，这里直接使用子绝父相即可) */
+    .xtx-main-nav .search::before{
+        /* 子绝父相，伪元素默认是行内元素，无法设置宽高，需改变元素显示方式或者嵌套子绝父相 */
+        position: absolute;
+        top: 5px;
+        left: 2px;
+        content: '';
+        width: 18px;
+        height: 18px;
+
+        /* 辅助背景颜色 */
+        /* background-color: yellowgreen; */
+
+        /* 精灵图的设置 */
+        background: url(../images/sprites.png) -80px -70px ;
+    }
+
+    /* 购物车模块 */
+    .xtx-main-nav .cart{
+        /* 子绝父相，用于后面的“2”消息框 */
+        position: relative;
+
+        width: 23px;
+        height: 23px;
+        background-color: red;
+
+        
+        margin-top: 28px;
+        margin-left: 15px;
+
+        background: url(../images/sprites.png) -120px -70px;
+    }
+
+    .xtx-main-nav .cart span{
+        width: 20px;
+        height: 15px;
+        background-color: #e26237;
+
+        /* 子绝父相嵌套消息框的移动 */
+        position: absolute;
+        right: -12px;
+        top: -5px;
+
+        /* 边框圆角 */
+        border-radius: 8px;
+
+        /* 文字设置 */
+        color: #fff;
+        text-align: center;
+        line-height: 15px;
+        font-size: 13px;
+    }
+
+    /* -------------------------------联系方式模块：xtx-contact */
+    .xtx-contact{
+        /* width: ; */
+        height: 301px;
+
+        /* 辅助背景颜色 */
+        /* background-color: pink; */
+    }
+
+    .xtx-contact .container{
+        width: 1109px;
+    }
+    .box1{
+        width: 192px;
+	    height: 143px;
+
+        margin-top: 79px;
+        margin-right: 118px;
+        /* 辅助背景颜色 */
+        /* background-color: greenyellow; */
+
+        /* 字体设置 */
+        text-align: center;
+        font-size: 16px;
+        color: #999999;
+
+        /* 子绝父相，用于后面小盒子的定位 */
+        position: relative;
+
+    }
+
+    .box1 .zxkf{
+        width: 93px;
+	    height: 92px;
+
+        /* 辅助背景颜色 */
+        /* background-color: aqua; */
+
+        /* 子绝*/
+        position: absolute;
+
+        bottom: 0;
+        left: 0;
+    }
+
+    .xtx-contact .container .box1 .zxkf::before{
+        content: '';
+        width: 29px;
+        height: 27px;
+        display: inline-block;
+
+        /* 辅助背景颜色 */
+        /* background-color: pink; */
+
+        margin-top: 22px;
+
+        background: url(../images/sprites.png) -250px -70px;
+    }
+
+    .box1 .wtfk{
+        width: 93px;
+	    height: 92px;
+
+        /* 辅助背景颜色 */
+        /* background-color: aqua; */
+
+        /* 子绝*/
+        position: absolute;
+
+        bottom: 0;
+        right: 0;
+    }
+
+    .xtx-contact .container .box1 .wtfk::before{
+        content: '';
+        width: 29px;
+        height: 28px;
+        display: inline-block;
+
+        /* 辅助背景颜色 */
+        /* background-color: pink; */
+
+        margin-top: 22px;
+
+        background: url(../images/sprites.png) -350px -70px;
+    }
+
+    .box2{
+        width: 193px;
+	    height: 143px;
+
+        margin-top: 79px;
+        margin-right: 93px;
+        /* 辅助背景颜色 */
+        /* background-color: greenyellow; */
+
+        /* 字体设置 */
+        text-align: center;
+        font-size: 16px;
+        color: #999999;
+
+        /* 子绝父相，用于后面小盒子的定位 */
+        position: relative;
+    }
+
+    .box2 .gzh{
+        width: 93px;
+	    height: 92px;
+
+        /* 辅助背景颜色 */
+        /* background-color: aqua; */
+
+        /* 子绝*/
+        position: absolute;
+
+        bottom: 0;
+        left: 0;
+    }
+
+    .xtx-contact .container .box2 .gzh::before{
+        content: '';
+        width: 36px;
+        height: 29px;
+        display: inline-block;
+
+        /* 辅助背景颜色 */
+        /* background-color: pink; */
+
+        margin-top: 22px;
+
+        background: url(../images/sprites.png) -204px -14px;
+    }
+
+    .box2 .wb{
+        width: 93px;
+	    height: 92px;
+
+        /* 辅助背景颜色 */
+        /* background-color: aqua; */
+
+        /* 子绝*/
+        position: absolute;
+
+        bottom: 0;
+        right: 0;
+    }
+
+    .xtx-contact .container .box2 .wb::before{
+        content: '';
+        width: 36px;
+        height: 29px;
+        display: inline-block;
+
+        /* 辅助背景颜色 */
+        /* background-color: pink; */
+
+        margin-top: 22px;
+
+        background: url(../images/sprites.png) -349px -14px;
+    }
+    
+    .box3{
+        width: 241px;
+	    height: 156px;
+
+        margin-top: 79px;
+        margin-right: 109px;
+        /* 辅助背景颜色 */
+        /* background-color: greenyellow; */
+
+        /* 字体设置 */
+        text-align: center;
+        font-size: 16px;
+        color: #999999;
+
+        /* 子绝父相，用于后面小盒子的定位 */
+        position: relative;
+    }  
+
+    .box3 .QR-code{
+        width: 105px;
+        height: 103px;
+
+        /* 辅助背景颜色 */
+        /* background-color: #e26237; */
+
+        /* 子绝 位置的设置 */
+        position: absolute;
+        bottom: 6px;
+        left: 7px;
+        background: url(../images/xtx-QR-code.png);
+        background-size: 105px 103px;
+    }
+
+    .box3 .h1{
+        display: inline-block;
+        width: 70px;
+	    height: 14px;
+        font-size: 14px;color: #999999;
+
+        /* 位置设置 */
+        position: absolute;
+        top: 53px;
+        right: 29px;
+    }
+
+    .box3 .h2{
+        display: inline-block;
+        width: 84px;
+	    height: 14px;
+        font-size: 14px;
+
+        /* 位置设置 */
+        position: absolute;
+        right: 15px;
+        bottom: 67px;
+    }
+    .box3 a{
+        display: inline-block;
+        width: 103px;
+        height: 32px;
+        background-color: #27ba9b;
+
+        /* 位置设置 */
+        position: absolute;
+        right: 0;
+        bottom: 8px;
+
+        /* 文字设置 */
+        font-size: 14px;
+        color: #ffffff;
+        text-align: center;
+        line-height: 32px;
+    }
+    .box4{
+        width: 160px;
+	    height: 122px;
+
+        margin-top: 79px;
+        /* 辅助背景颜色 */
+        /* background-color: greenyellow; */
+
+        /* 字体设置 */
+        text-align: center;
+        font-size: 16px;
+        color: #999999;
+
+        /* 子绝父相，用于后面小盒子的定位 */
+        position: relative;
+    }
+
+    .box4 .dh{
+        display: inline-block;
+
+        /* 文字设置 */
+        width: 160px;
+	    height: 17px;
+        font-size: 22px;
+        color: #666666;
+
+
+        /* 子绝 */
+        /* position: absolute; */
+        /* top: 74px; */
+        /* 位置设置 */
+        /* box-sizing: border-box; */
+        margin-top: 46px;
+    }
+
+    .box4 .sj{
+        display: inline-block;
+
+        /* 文字设置 */
+        width: 159px;
+	    height: 14px;
+        font-size: 15px;
+        color: #999999;
+
+        /* 位置设置 */
+        /* margin-top: 17px; */
+    }
+    /* ---------------------------宣传服务模块：xtx-service */
+    .xtx-service{
+        height: 174px;
+        background-color: #333;
+    }
+
+    .xtx-service .container{
+        width: 1393px;
+        height: 173px;
+        border-bottom: 1px #434343 solid;
+        /* 辅助背景颜色 */
+        /* background-color: pink; */
+    }
+
+    .xtx-service .container a{
+        float: left;
+        width: 33.33%;
+        height: 173px;
+        
+        /* 辅助背景颜色 */
+        /* background-color: aqua; */
+
+        /* 文字设置 */
+        text-align: center;
+        line-height: 173px;
+        font-size: 28px;
+        color: #fff;
+    }
+    
+    /* 宣传服务模块精灵图的设置 */
+    .xtx-service .container a::before{
+        display: inline-block;
+        content: '';
+        width: 58px;
+        height: 58px;
+        /* background-color: red; */
+
+        margin-right: 19px;
+
+        /* 精灵图标与文字垂直居中对齐 */
+        vertical-align: middle;
+
+        background: url(../images/sprites.png) 0 0;
+    }
+
+    /* 第二个精灵图标的设置 */
+    .xtx-service .container a:nth-child(2)::before{
+
+        /* 第二个更改同一张精灵图没必要再写溢出这个代码，子需要再同一张的基础上改下位置即可(虽然说这种方法也可以) */
+        /* background: url(../images/sprites.png) -130px 0; */
+
+        background-position: -130px 0;
+    }
+
+    /* 第三个精灵图标的设置 */
+    .xtx-service .container a:nth-child(3)::before{
+
+        background-position: -65px 0;
+    }
+    
+    /* ---------------------------版权信息模块：xtx-copyright */
+    .xtx-copyright{
+        /* width: ; */
+        height: 168px;
+        background-color: #333;
+    }
+
+    /* 设置版心(因为这两行文字均再整个网页的版心内) */
+    .xtx-copyright .container{
+        padding-top: 41px;
+        box-sizing: border-box;
+
+        height: 168px;
+        /* background-color: pink; */
+        /* 继承 */
+        text-align: center;
+        font-size: 14px;
+        
+        /* a标签的文字颜色不能继承，需要独自更改，p标签的颜色可以继承 */
+        color: #999;
+    }
+
+     /* a标签的文字颜色不能继承，需要独自更改，p标签的颜色可以继承 */
+    .xtx-copyright .container a{
+        color: #999;
+    }
+
+    /* 使用选择器设置两个p标签之间的距离 */
+    .xtx-copyright .container p:first-child{
+        height: 35px;
+    }
+   

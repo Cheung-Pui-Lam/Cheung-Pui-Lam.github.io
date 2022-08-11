@@ -1,0 +1,384 @@
+/* ---------------------------网站入口模块 */
+.xtx-entry{
+    height: 500px;
+    background-color: #f5f5f5;
+}
+
+.xtx-entry .container{
+    /* 子绝父相，用于后面目录以及轮播图按钮的嵌套 */
+    position: relative;
+    height: 500px;
+    /* 辅助背景颜色 */
+    background-color: pink;
+}
+
+.xtx-entry .container .category{
+    /* 子绝 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 251px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.xtx-entry .category a{
+    display: inline-block;
+    width: 251px;
+    height: 50px;
+    color: #fff;
+}
+
+.xtx-entry .category span{
+    font-size: 14px;
+}
+
+.xtx-entry .category span:first-child{
+    margin-left: 15px;
+}
+
+.xtx-entry .category li{
+    /* 子绝父相，用于右箭头精灵图的方位设置 */
+    position: relative;
+    
+    height: 50px;
+    padding-left: 36px;
+    line-height: 50px;
+}
+
+.xtx-entry .category li:hover{
+    background-color: #27ba9b;
+}
+
+/* 右箭头显示精灵图 */
+.xtx-entry .category a::after{
+    content: '';
+    width: 6px;
+    height: 11px;
+
+    /* 辅助背景颜色 */
+    /* background-color: pink; */
+
+    /* 子绝父相(使箭头相对与父元素的大小移动而移动) */
+    position: absolute;
+    top: 19px;
+    right: 19px;
+
+    background: url(../images/sprites.png) -80px -110px;
+}
+
+/* 轮播图左按钮 */
+.xtx-entry .prev{
+    /* 子绝父相 */
+    position: absolute;
+    top: 228px;
+    left: 260px;
+
+    width: 45px;
+    height: 45px;
+
+    /* 辅助背景颜色 */
+    /* background-color: blue; */
+    border-radius: 50%;
+
+    background: url(../images/sprites.png) 12px -60px rgba(0, 0, 0, 0.3);
+}
+
+.xtx-entry .prev:hover{
+    background: url(../images/sprites.png) 12px -60px rgba(39, 186, 154, 0.3);
+}
+
+/* 轮播图右按钮 */
+.xtx-entry .next{
+    /* 子绝父相 */
+    position: absolute;
+    top: 228px;
+    right: 10px;
+
+    width: 45px;
+    height: 45px;
+
+    /* 辅助背景颜色 */
+    /* background-color: blue; */
+    border-radius: 50%;
+
+    background: url(../images/sprites.png) -22px -60px rgba(0, 0, 0, 0.3);
+}
+
+.xtx-entry .next:hover{
+    background: url(../images/sprites.png) -22px -60px rgba(39, 186, 154, 0.3);
+}
+
+.xtx-entry .indicator{
+    /* 子绝父相 */
+    position: absolute;
+    bottom: 31px;
+    left: 680px;
+
+    width: 110px;
+    height: 10px; 
+
+    /* 辅助背景颜色 */
+    /* background-color: blue; */
+}
+
+.xtx-entry .indicator li{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.43);
+    float: left;
+    margin-right: 15px;
+}
+
+.xtx-entry .indicator li:hover{
+    background-color: #fff;
+}
+
+/* 消除最后一个li标签中的右边距 */
+.xtx-entry .indicator li:last-child{
+    margin: 0;
+}
+
+/* -----------------------------新鲜好物模块 ：xtx-new-goods*/
+.xtx-new-goods{
+    height: 520px;
+    /* 辅助背景颜色 */
+    /* background-color: pink; */
+}
+
+.xtx-new-goods .goods-hd{
+    height: 115px;
+    /* 辅助背景颜色 */
+    /* background-color: green; */
+
+    /* 盒子内文字垂直全部居中 */
+    line-height: 115px;
+}
+
+.xtx-new-goods .goods-hd h2{
+    /* 为什么要设置高度，以为不设置高度，浏览器会默认设置该标签的高度，有可能会超出父盒子，影响后面元素的设置(这里影响了后面板块的浮动) */
+    height: 115px;
+    font-size: 29px;
+    color: #333333;
+    font-weight: normal;
+}
+
+.xtx-new-goods .goods-hd span{
+    font-size: 16px;
+    color: #999999;
+    margin-left: 34px;
+}
+
+.xtx-new-goods .goods-hd a{
+    font-size: 16px;
+    color: #999999;
+}
+
+/* 设置右方向精灵图 */
+.xtx-new-goods .goods-hd a::after{
+    content:'';
+    width: 7px;
+    height: 13px;
+
+    display: inline-block;
+    margin-left: 13px;
+    vertical-align: middle;
+
+    /* 辅助背景颜色 */
+    /* background-color: pink; */
+
+    background: url(../images/sprites.png) 0px -110px;
+}
+
+.xtx-new-goods .goods-list{
+    height: 405px;
+    /* 辅助背景颜色 */
+    /* background-color: yellow; */
+}
+
+.xtx-new-goods .goods-list li{
+    float: left;
+    width: 304px;
+    height: 405px;
+    /* 卡片背景颜色 */
+    background-color: #f0f9f4;
+    margin-right: 8px;
+
+    /* 消除默认行高间距 */
+    line-height: 1;
+
+    text-align: center;
+}
+
+.xtx-new-goods .goods-list li:last-child{
+    margin: 0;
+}
+
+.xtx-new-goods .goods-list li img{
+    /* 只设置宽即可，高可设可不设 */
+    width: 100%;
+    /* height: 100%; */
+}
+
+.xtx-new-goods .goods-list li h3{
+    margin-top: 22px;
+    margin-bottom: 19px;
+    font-size: 20px;
+    color: #333333;
+}
+
+.xtx-new-goods .goods-list li p{
+    font-size: 23px;
+    color: #9a2e1f;
+    font-weight: normal;
+}
+
+.xtx-new-goods .goods-list li span{
+    font-size: 17px;
+    color: #9a2e1f;
+    font-weight: normal;
+}
+
+.xtx-new-goods .goods-list li:hover{
+    border: #27ba9b 2px solid;
+}
+/* -----------------------生鲜模块 */
+.xtx-fresh{
+    height: 700px;
+    /* 辅助背景颜色 */
+    /* background-color: pink; */
+}
+
+.xtx-fresh .container .hd{
+    height: 96px;
+    /* 辅助背景颜色 */
+    /* background-color: green; */
+    line-height: 96px;
+}
+
+.xtx-fresh .container .hd h2{
+    float: left;
+    display: inline-block;
+    /* width: 57px; */
+    height: 28px;
+    font-size: 29px;
+    font-weight: 400;
+}
+
+.xtx-fresh .container .fr{
+    line-height: 96px;
+    font-size: 16px;
+    color: #999999;
+}
+.xtx-fresh .container ul li{
+    float: right;
+}
+
+.xtx-fresh .container li a{
+    font-size: 16px;
+    color: #333333;
+    margin-left: 25px;
+}
+
+/* 右箭头精灵图显示 */
+.xtx-fresh .container .hd .fr::after{
+    content:'';
+    width: 7px;
+    height: 13px;
+
+    display: inline-block;
+    margin-left: 13px;
+    vertical-align: middle;
+
+    /* 辅助背景颜色 */
+    /* background-color: pink; */
+
+    background: url(../images/sprites.png) 0px -110px;
+}
+.xtx-fresh .container li:first-child{
+    margin-right: 80px;
+}
+
+.xtx-fresh .container li a:hover{
+    color: #27ba9b;
+    padding-bottom: 7px;
+    border-bottom: 2px #27ba9b solid;
+}
+
+.xtx-fresh .container .body .left{
+    float: left;
+    width: 240px;
+	height: 610px;
+    /* 辅助背景颜色 */
+    /* background-color: greenyellow; */
+}
+
+.xtx-fresh .container .body .list{
+    float: right;
+    width: 1000px;
+	height: 610px;
+    /* 辅助背景颜色 */
+    /* background-color: aquamarine; */
+}
+
+.xtx-fresh .container .list .fr{
+    width: 242px;
+	height: 304px;
+    /* 辅助背景颜色 */
+    /* background-color: purple; */
+    margin-left: 8px;
+    margin-top: 2px;
+}
+
+.xtx-fresh .container .list .b1{
+    margin-top: 0;
+}
+.xtx-fresh .container .list .b2{
+    margin-top: 0;
+}
+
+.xtx-fresh .container .list .b3{
+    margin-top: 0;
+}
+
+.xtx-fresh .container .list .b4{
+    margin-top: 0;
+}
+
+.xtx-fresh .container .list .img{
+    width: 184px;
+	height: 184px;
+    margin: 3% 12% 4%;
+}
+
+.xtx-fresh .list .price{
+    line-height: 16px;
+    font-size: 16px;
+    color: #333333;
+    font-weight: 400;
+
+    width: 166px;
+	height: 87px;
+    /* 辅助背景颜色 */
+    /* background-color: burlywood; */
+    margin: 3% 19% 4% 12%;
+}
+
+.xtx-fresh .list .price p{
+    font-size: 23px;
+    color: #9a2e1f;
+    font-weight: normal;
+    margin-top: 25px;
+}
+
+.xtx-fresh .list .price span{
+    margin-top: 25px;
+    font-size: 17px;
+    color: #9a2e1f;
+    font-weight: normal;
+}
+
+.xtx-fresh .list .fr:hover{
+    border: #27ba9b 2px solid;
+}
