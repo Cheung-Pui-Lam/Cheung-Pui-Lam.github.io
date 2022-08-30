@@ -13,10 +13,27 @@
     color: #f1af00;
 }
 
+/* 代码框CSS */
+#article-container figure.highlight,#article-container pre{
+    color:#f8f8f2;
+    background:rgb(40, 39, 42)
+  }
+#article-container figure.highlight .highlight-tools{
+    background:#3f3f3f;
+    color:#fff
+}
+#article-container figure.highlight .gutter pre{
+    color:#d3d3d3;
+    background:grey
+  }
+#article-container figure.highlight figcaption a{
+    color:#a9a9a9!important
+  }
+
 /* 关于博主页面文字样式 */
 .line{
   font-weight: 700;
-  color: black;
+  /* color: black; */
 }
 
 /* 鼠标样式 */
