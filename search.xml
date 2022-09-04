@@ -864,9 +864,9 @@
       
         <tags>
             
-            <tag> Vue中的组件 </tag>
-            
             <tag> Vue2 </tag>
+            
+            <tag> Vue中的组件 </tag>
             
             <tag> 单文件组件 </tag>
             
@@ -930,11 +930,11 @@
       
         <tags>
             
+            <tag> Vue2 </tag>
+            
             <tag> Vue中的组件 </tag>
             
             <tag> 非单文件组件 </tag>
-            
-            <tag> Vue2 </tag>
             
             <tag> Vuecomponent构造函数 </tag>
             
@@ -969,11 +969,11 @@
       
         <tags>
             
+            <tag> Vue2 </tag>
+            
             <tag> Vue中的组件 </tag>
             
             <tag> 非单文件组件 </tag>
-            
-            <tag> Vue2 </tag>
             
         </tags>
       
@@ -1371,9 +1371,9 @@
       
         <tags>
             
-            <tag> Vue2 </tag>
-            
             <tag> 模板语法,数据绑定,数据代理 </tag>
+            
+            <tag> Vue2 </tag>
             
         </tags>
       
