@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>Vercel项目部署</title>
+      <link href="/2022/09/13/vercel%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/"/>
+      <url>/2022/09/13/vercel%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</url>
+      
+        <content type="html"><![CDATA[<h1 id="使用Vercel服务器免费部署上线自己的项目"><a href="#使用Vercel服务器免费部署上线自己的项目" class="headerlink" title="使用Vercel服务器免费部署上线自己的项目"></a>使用<strong style="color:red">Vercel</strong>服务器免费部署上线自己的项目</h1><h2 id="介绍一下vercel"><a href="#介绍一下vercel" class="headerlink" title="介绍一下vercel"></a>介绍一下<strong style="color:red">vercel</strong></h2><ul><li><strong><strong style="color:red">vercel</strong> 是一个站点托管平台，提供<strong style="color:red">CDN</strong>加速，同类的平台有<strong style="color:red">Netlify </strong>和 <strong style="color:red">github Page</strong>，相比之下，<strong style="color:red">vercel</strong> 国内的访问速度更快，并且提供<strong style="color:red">Production</strong>环境和<strong style="color:red">development</strong>环境，对于项目开发非常的有用的，并且支持持续集成，一次<strong style="color:red">push</strong>或者一次<strong style="color:red">PR</strong>会自动化构建发布，发布在<strong style="color:red">development</strong>环境，都会生成不一样的链接可供预览。</strong></li><li><strong>并且<strong style="color:red">vercel</strong>针对个人用户是免费的，针对<strong style="color:red">teams</strong>用户是收费的！</strong></li><li><strong><strong style="color:red">vercel</strong>类似于<strong style="color:red">github Page</strong>，但远比<strong style="color:red">github Page</strong>强大，速度也快得多得多，而且将<strong style="color:red">github</strong>授权给<strong style="color:red">vercel</strong>后，可以达到最优雅的发布体验，只需将代码轻轻一推，项目就自动更新部署了。</strong></li><li><strong><strong style="color:red">vercel</strong> 还支持部署<strong style="color:red">serverless接口</strong> 。那代表着，其不仅仅可以部署静态网站，甚至可以部署动态网站，而这些功能，统统都是免费的，<strong style="color:red">vercel</strong> 还支持自动配置<strong style="color:red">https</strong> ，不用自己去<strong style="color:red">freeSSL</strong> 申请证书，更是省去了一大堆证书的配置</strong></li></ul><h1 id="部署方式：github仓库部署-和-本地部署"><a href="#部署方式：github仓库部署-和-本地部署" class="headerlink" title="部署方式：github仓库部署 和 本地部署"></a>部署方式：<strong style="color:red">github</strong>仓库部署 和 <strong style="color:red">本地</strong>部署</h1><h2 id="一-github仓库部署（这里展示使用网易云后端接口）"><a href="#一-github仓库部署（这里展示使用网易云后端接口）" class="headerlink" title="一.github仓库部署（这里展示使用网易云后端接口）"></a>一.<strong style="color:red">github</strong>仓库部署（这里展示使用网易云后端接口）</h2><h3 id="1-搜索vercel进入其官网，使用github登录好后点击new-project："><a href="#1-搜索vercel进入其官网，使用github登录好后点击new-project：" class="headerlink" title="1. 搜索vercel进入其官网，使用github登录好后点击new project："></a>1. <strong>搜索<strong style="color:red">vercel</strong>进入其官网，使用<strong style="color:red">github</strong>登录好后点击<strong style="color:red">new project</strong>：</strong></h3><p><img src="/../upload/vercel/1.png" alt="image"></p><h3 id="2-找到在github仓库中自己想要部署上线的项目，点击import："><a href="#2-找到在github仓库中自己想要部署上线的项目，点击import：" class="headerlink" title="2. 找到在github仓库中自己想要部署上线的项目，点击import："></a>2. <strong>找到在<strong style="color:red">github仓库</strong>中自己想要部署上线的项目，点击<strong style="color:red">import</strong>：</strong></h3><p><img src="/../upload/vercel/2.png" alt="image"></p><h3 id="3-填写好项目名字，点击deploy，等待创建"><a href="#3-填写好项目名字，点击deploy，等待创建" class="headerlink" title="3. 填写好项目名字，点击deploy，等待创建"></a>3. <strong>填写好项目名字，点击<strong style="color:red">deploy</strong>，等待创建</strong></h3><p><img src="/../upload/vercel/3.png" alt="image"></p><h3 id="4-创建成功，出现如下-三个域名-："><a href="#4-创建成功，出现如下-三个域名-：" class="headerlink" title="4. 创建成功，出现如下(三个域名)："></a>4. <strong>创建成功，出现如下(三个域名)：</strong></h3><p><img src="/../upload/vercel/4.png" alt="image"></p><ol><li><strong>然后我们随意点击三个中的一个<strong style="color:red">域名</strong></strong><br><img src="/../upload/vercel/5.png" alt="image"></li></ol><h2 id="二-本地部署"><a href="#二-本地部署" class="headerlink" title="二.本地部署"></a>二.<strong style="color:red">本地</strong>部署</h2><h4 id="有时候我们在本地电脑写好的项目也想部署到vercel上该如何操作呢"><a href="#有时候我们在本地电脑写好的项目也想部署到vercel上该如何操作呢" class="headerlink" title="有时候我们在本地电脑写好的项目也想部署到vercel上该如何操作呢?"></a>有时候我们在本地电脑写好的项目也想部署到<strong style="color:red">vercel</strong>上该如何操作呢?</h4><h3 id="1-首先在项目的根目录新建vercel-json文件，内容："><a href="#1-首先在项目的根目录新建vercel-json文件，内容：" class="headerlink" title="1. 首先在项目的根目录新建vercel.json文件，内容："></a>1. <strong>首先在项目的根目录新建<strong style="color:red">vercel.json</strong>文件，内容：</strong></h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;rewrites&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">&#123;</span><span class="attr">&quot;source&quot;</span><span class="punctuation">:</span><span class="string">&quot;api/(.*)&quot;</span><span class="punctuation">,</span><span class="attr">&quot;destination&quot;</span><span class="punctuation">:</span><span class="string">&quot;/api&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure><p><img src="/../upload/vercel/6.png" alt="image"></p><h3 id="2-在根目录新建api文件夹，里面新建文件index-js，index-js内容："><a href="#2-在根目录新建api文件夹，里面新建文件index-js，index-js内容：" class="headerlink" title="2. 在根目录新建api文件夹，里面新建文件index.js，index.js内容："></a>2. <strong>在根目录新建<strong style="color:red">api文件夹</strong>，里面新建文件<strong style="color:red">index.js</strong>，<strong style="color:red">index.js</strong>内容：</strong></h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>()</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">static</span>(<span class="string">&#x27;../dist&#x27;</span>))</span><br><span class="line"> </span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = app</span><br></pre></td></tr></table></figure><p><img src="/../upload/vercel/7.png" alt="image"></p><h3 id="3-项目安装vercel-在终端中输入以下代码"><a href="#3-项目安装vercel-在终端中输入以下代码" class="headerlink" title="3. 项目安装vercel[在终端中输入以下代码]"></a>3. <strong>项目安装<strong style="color:red">vercel</strong>[在终端中输入以下代码]</strong></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm i vercel -g</span><br></pre></td></tr></table></figure><h3 id="4-安装好后，终端输入"><a href="#4-安装好后，终端输入" class="headerlink" title="4. 安装好后，终端输入:"></a>4. <strong>安装好后，终端输入:</strong></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ vercel login</span><br></pre></td></tr></table></figure><h3 id="5-选择-Log-in-to-Vercel-github"><a href="#5-选择-Log-in-to-Vercel-github" class="headerlink" title="5. 选择 Log in to Vercel github"></a>5. <strong>选择 <strong style="color:red">Log in to Vercel github</strong></strong></h3><h3 id="6-终端输入：vercel"><a href="#6-终端输入：vercel" class="headerlink" title="6. 终端输入：vercel"></a>6. <strong>终端输入：<strong style="color:red">vercel</strong></strong></h3><h3 id="7-狂点回车键"><a href="#7-狂点回车键" class="headerlink" title="7. 狂点回车键"></a>7. <strong>狂点回车键</strong></h3><h3 id="8-生成一个网址，就是我们部署上线的项目的地址了-域名-："><a href="#8-生成一个网址，就是我们部署上线的项目的地址了-域名-：" class="headerlink" title="8. 生成一个网址，就是我们部署上线的项目的地址了(域名)："></a>8. <strong>生成一个网址，就是我们部署上线的项目的地址了(域名)：</strong></h3><p><img src="/../upload/vercel/8.png" alt="image"><br> <strong>同时我们也可以在<strong style="color:red">vercel</strong>的官网上查看到我们部署上线了的项目</strong><br><img src="/../upload/vercel/9.png" alt="image"></p><h3 id="9-修改了项目，想要重新部署？终端输入"><a href="#9-修改了项目，想要重新部署？终端输入" class="headerlink" title="9. 修改了项目，想要重新部署？终端输入:"></a>9. <strong>修改了项目，想要重新部署？终端输入:</strong></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ vercel --prod</span><br></pre></td></tr></table></figure><blockquote><p>这篇博客引用了作者为”<strong>SoSalty</strong>“的文章<br>原文链接为:<a href="https://blog.csdn.net/SoSalty/article/details/124516171">CSDN</a></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+          <category> 前端知识分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vercel </tag>
+            
+            <tag> 项目部署 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Vue学习笔记(35)-Vue中路由器的两种工作模式</title>
       <link href="/2022/09/04/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B035/"/>
       <url>/2022/09/04/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B035/</url>
@@ -864,9 +893,9 @@
       
         <tags>
             
-            <tag> Vue2 </tag>
-            
             <tag> Vue中的组件 </tag>
+            
+            <tag> Vue2 </tag>
             
             <tag> 单文件组件 </tag>
             
@@ -930,11 +959,11 @@
       
         <tags>
             
-            <tag> Vue2 </tag>
-            
             <tag> Vue中的组件 </tag>
             
             <tag> 非单文件组件 </tag>
+            
+            <tag> Vue2 </tag>
             
             <tag> Vuecomponent构造函数 </tag>
             
@@ -969,11 +998,11 @@
       
         <tags>
             
-            <tag> Vue2 </tag>
-            
             <tag> Vue中的组件 </tag>
             
             <tag> 非单文件组件 </tag>
+            
+            <tag> Vue2 </tag>
             
         </tags>
       
@@ -1371,9 +1400,9 @@
       
         <tags>
             
-            <tag> 模板语法,数据绑定,数据代理 </tag>
-            
             <tag> Vue2 </tag>
+            
+            <tag> 模板语法,数据绑定,数据代理 </tag>
             
         </tags>
       
