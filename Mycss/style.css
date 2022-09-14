@@ -98,6 +98,7 @@ body {
 }
 
 /* 博主介绍卡片背景彩带 */
-.card-info-avatar:hover {
+.card-info:hover {
   background: url(https://cdn.jsdelivr.net/gh/rigodlee/BLOGCDN/img/H3342af90d24b4d62b9bbfec9688ccc25M.gif);
 }
+
