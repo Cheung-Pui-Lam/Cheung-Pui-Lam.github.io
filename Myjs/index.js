@@ -1,3 +1,4 @@
+// 引入jQuery调用inject显示
 $(document).ready(function(e){
     $('.framework-info').html('本站已运行<SPAN id=span_dt_dt style="color: #fff;"></SPAN>');
 })
