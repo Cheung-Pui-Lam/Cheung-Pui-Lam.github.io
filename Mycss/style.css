@@ -138,7 +138,7 @@ hr:before {
 #article-container h5:before,
 #article-container h6:before {
     position: absolute;
-    color: #f47466;
+    color: #66ccff;
     /* 回形针 */
     /* content: '\f0c1';  
     line-height: 1;
