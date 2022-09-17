@@ -106,6 +106,12 @@ body {
   /* background-image: url(https://cdn.jsdelivr.net/gh/rigodlee/BLOGCDN/img/20200530181856.gif) !important; */
 }
 
+/* 电子时钟去边框和阴影 */
+.card-background{
+    background-color: transparent !important;
+    box-shadow:0 0 !important;
+}
+
 /* 标题样式 */
 #article-container h1:before,
 #article-container h2:before,
