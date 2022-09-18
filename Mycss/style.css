@@ -9,8 +9,9 @@
 
 /* 底部文字颜色 */
 #footer-wrap{
-    font-weight: 700;
-    color: #f1af00;
+    /* color: #f1af00; */
+    /* font-size: large; */
+    font-weight: 900;
 }
 
 /* 代码框CSS */
