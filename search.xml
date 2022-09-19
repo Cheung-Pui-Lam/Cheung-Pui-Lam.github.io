@@ -4,11 +4,11 @@
   
     
     <entry>
-      <title>Vue3学习笔记10</title>
+      <title>Vue3学习笔记(10)-相较于配置式API,组合式API的优势</title>
       <link href="/2022/09/19/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010/"/>
       <url>/2022/09/19/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010/</url>
       
-        <content type="html"><![CDATA[<h1 id="Composition-API-的优势"><a href="#Composition-API-的优势" class="headerlink" title="Composition API 的优势"></a>Composition API 的优势</h1><h2 id="1-Options-API-配置式Api-存在的问题"><a href="#1-Options-API-配置式Api-存在的问题" class="headerlink" title="1.Options API (配置式Api)存在的问题"></a>1.Options API (配置式Api)存在的问题</h2><ul><li><strong>使用传统OptionsAPI中，新增或者修改一个需求，就需要分别在data，methods，computed里修改 。</strong><br><img src="/../upload/Vue/Vue3-5/d1.gif" alt="image"><br><img src="/../upload/Vue/Vue3-5/d2.gif" alt="image"></li></ul><h2 id="2-Composition-API-的优势"><a href="#2-Composition-API-的优势" class="headerlink" title="2.Composition API 的优势"></a>2.Composition API 的优势</h2><ul><li><strong>我们可以更加优雅的组织我们的代码，函数。让相关功能的代码更加有序的组织在一起。</strong><br><img src="/../upload/Vue/Vue3-5/d3.gif" alt="image"><br><img src="/../upload/Vue/Vue3-5/d4.gif" alt="image"></li></ul>]]></content>
+        <content type="html"><![CDATA[<h1 id="Composition-API-的优势"><a href="#Composition-API-的优势" class="headerlink" title="Composition API 的优势"></a>Composition API 的优势</h1><h2 id="1-Options-API-配置式Api-存在的问题"><a href="#1-Options-API-配置式Api-存在的问题" class="headerlink" title="1.Options API (配置式Api)存在的问题"></a>1.Options API (配置式Api)存在的问题</h2><ul><li><strong>使用传统OptionsAPI中，新增或者修改一个需求，就需要分别在data，methods，computed里修改 。</strong><br><img src="/../upload/Vue/Vue3-5/d1.gif" alt="image"><br><img src="/../upload/Vue/Vue3-5/d2.gif" alt="image"></li></ul><h2 id="2-Composition-API-组合式API-的优势"><a href="#2-Composition-API-组合式API-的优势" class="headerlink" title="2.Composition API (组合式API)的优势"></a>2.Composition API (组合式API)的优势</h2><ul><li><strong>我们可以更加优雅的组织我们的代码，函数。让相关功能的代码更加有序的组织在一起。</strong><br><img src="/../upload/Vue/Vue3-5/d3.gif" alt="image"><br><img src="/../upload/Vue/Vue3-5/d4.gif" alt="image"></li></ul>]]></content>
       
       
       <categories>
@@ -1471,9 +1471,9 @@
       
         <tags>
             
-            <tag> Vue中的组件 </tag>
-            
             <tag> Vue2 </tag>
+            
+            <tag> Vue中的组件 </tag>
             
             <tag> 单文件组件 </tag>
             
@@ -1537,11 +1537,11 @@
       
         <tags>
             
+            <tag> Vue2 </tag>
+            
             <tag> Vue中的组件 </tag>
             
             <tag> 非单文件组件 </tag>
-            
-            <tag> Vue2 </tag>
             
             <tag> Vuecomponent构造函数 </tag>
             
@@ -1576,11 +1576,11 @@
       
         <tags>
             
+            <tag> Vue2 </tag>
+            
             <tag> Vue中的组件 </tag>
             
             <tag> 非单文件组件 </tag>
-            
-            <tag> Vue2 </tag>
             
         </tags>
       
@@ -2005,9 +2005,9 @@
       
         <tags>
             
-            <tag> Vue2 </tag>
-            
             <tag> 模板语法,数据绑定,数据代理 </tag>
+            
+            <tag> Vue2 </tag>
             
         </tags>
       
