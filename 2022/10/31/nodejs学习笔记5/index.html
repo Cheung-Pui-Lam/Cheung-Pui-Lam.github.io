@@ -1,0 +1,447 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块 | 肥林の仓库</title><meta name="keywords" content="node.js,内置模块,stream模块,zlib模块,path模块"><meta name="author" content="肥林(Cheung Pui Lam)"><meta name="copyright" content="肥林(Cheung Pui Lam)"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="stream模块 官方文档  stream是Node.js中fs模块提供的又一个仅在服务区端可用的子模块，目的是支持“流”这种数据结构。  什么是流？流是一种抽象的数据结构。想象水流，当在水管中流动时，就可以从某个地方（例如自来水厂）源源不断地到达另一个地方（比如你家的洗手池）。我们也可以把数据看成是数据流，比如你敲键盘的时候，就可以把每个字符依次连起来，看成字符流。这个流是从键盘输入到应用程序，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块">
+<meta property="og:url" content="http://example.com/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/index.html">
+<meta property="og:site_name" content="肥林の仓库">
+<meta property="og:description" content="stream模块 官方文档  stream是Node.js中fs模块提供的又一个仅在服务区端可用的子模块，目的是支持“流”这种数据结构。  什么是流？流是一种抽象的数据结构。想象水流，当在水管中流动时，就可以从某个地方（例如自来水厂）源源不断地到达另一个地方（比如你家的洗手池）。我们也可以把数据看成是数据流，比如你敲键盘的时候，就可以把每个字符依次连起来，看成字符流。这个流是从键盘输入到应用程序，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/upload/nodejs/nodejs.jpeg">
+<meta property="article:published_time" content="2022-10-31T11:33:00.000Z">
+<meta property="article:modified_time" content="2022-10-31T11:51:41.843Z">
+<meta property="article:author" content="肥林(Cheung Pui Lam)">
+<meta property="article:tag" content="node.js">
+<meta property="article:tag" content="内置模块">
+<meta property="article:tag" content="stream模块">
+<meta property="article:tag" content="zlib模块">
+<meta property="article:tag" content="path模块">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/upload/nodejs/nodejs.jpeg"><link rel="shortcut icon" href="/assets/ficon32.png"><link rel="canonical" href="http://example.com/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-31 19:51:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/Mycss/style.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="/Mycss/runtimer.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/assets/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">113</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">164</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS：小兔鲜儿</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS+JS：品优购</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：仿抑云音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：后台管理系统</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/upload/nodejs/nodejs.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">肥林の仓库</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS：小兔鲜儿</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS+JS：品优购</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：仿抑云音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：后台管理系统</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-31T11:33:00.000Z" title="发表于 2022-10-31 19:33:00">2022-10-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-10-31T11:51:41.843Z" title="更新于 2022-10-31 19:51:41">2022-10-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">前端知识分享</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/node-js/">node.js</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="stream模块"><a href="#stream模块" class="headerlink" title="stream模块"></a><code>stream</code>模块</h1><ul>
+<li><p><strong><a target="_blank" rel="noopener" href="https://www.nodeapp.cn/stream.html">官方文档</a></strong></p>
+</li>
+<li><p><strong><code>stream</code>是<code>Node.js</code>中<code>fs</code>模块提供的又一个仅在服务区端可用的子模块，目的是支持“流”这种数据结构。</strong></p>
+</li>
+<li><p><strong>什么是流？流是一种抽象的数据结构。想象水流，当在水管中流动时，就可以从某个地方（例如自来水厂）源源不断地到达另一个地方（比如你家的洗手池）。我们也可以把数据看成是数据流，比如你敲键盘的时候，就可以把每个字符依次连起来，看成字符流。这个流是从键盘输入到应用程序，实际上它还对应着一个名字：标准输入流（<code>stdin</code>）。</strong></p>
+</li>
+<li><p><strong>数据流就是数据不是一次性全部返回或者一次性全部读取的,他是通过先读取(或者写入)一部分,再读取(或者写入)一部分,知道最后完成数据的全部操作的,因此<code>stream</code>模块更加适用于大型数据的读取或者写入操作</strong></p>
+</li>
+<li><p><strong>如果应用程序把字符一个一个输出到显示器上，这也可以看成是一个流，这个流也有名字：标准输出流（<code>stdout</code>）。流的特点是数据是有序的，而且必须依次读取，或者依次写入，不能像<code>Array</code>那样随机定位。</strong></p>
+</li>
+<li><p><strong>有些流用来读取数据，比如从文件读取数据时，可以打开一个文件流，然后从文件流中不断地读取数据。有些流用来写入数据，比如向文件写入数据时，只需要把数据不断地往文件流中写进去就可以了。</strong></p>
+</li>
+<li><p><strong>在<code>Node.js</code>中，流也是一个对象，我们只需要响应流的事件就可以了：<code>data</code>事件表示流的数据已经可以读取了，<code>end</code>事件表示这个流已经到末尾了，没有数据可以读取了，<code>error</code>事件表示出错了。</strong></p>
+</li>
+</ul>
+<h3 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示:"></a>代码展示:</h3><ul>
+<li><strong>读取数据流(<code>readStream可读流.js</code>)</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// nodejs内置模块:stream(文件流操作) - createReadStream(文件可读流)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.引入fs模块</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.创建文件可读流(里面接受两个参数:要读取的文件路径,读取的格式)</span></span><br><span class="line"><span class="keyword">const</span> rs = fs.<span class="title function_">createReadStream</span>(<span class="string">&#x27;./1.txt&#x27;</span> , <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.设置监听事件实现数据传输</span></span><br><span class="line">rs.<span class="title function_">on</span>(<span class="string">&#x27;data&#x27;</span> , <span class="function">(<span class="params">chunk</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`数据正在传输:...`</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(chunk);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4.数据传输完成</span></span><br><span class="line">rs.<span class="title function_">on</span>(<span class="string">&#x27;end&#x27;</span> , <span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`数据传输完成!!`</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 5.数据传输失败</span></span><br><span class="line">rs.<span class="title function_">on</span>(<span class="string">&#x27;error&#x27;</span> , <span class="function">(<span class="params">err</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`数据传输失败,失败信息为:<span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	要注意，`data`事件可能会有多次，每次传递的`chunk`是流的一部分数据。</span></span><br><span class="line"><span class="comment">	要以流的形式写入文件，只需要不断调用`write()`方法，最后以`end()`结束：</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>写入数据流(<code>writeStream可写流.js</code>)</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// nodejs内置模块:stream(文件流操作) - createWriteStream(文件可写流)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.引入fs模块</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.创建文件可写流(里面接受两个参数:要写入的文件路径,写入的格式)</span></span><br><span class="line"><span class="keyword">const</span> wsl = fs.<span class="title function_">createWriteStream</span>(<span class="string">&#x27;./2.txt&#x27;</span> , <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.掉用write实现数据的写入</span></span><br><span class="line">wsl.<span class="title function_">write</span>(<span class="string">&#x27;111&#x27;</span>)</span><br><span class="line">wsl.<span class="title function_">write</span>(<span class="string">&#x27;222&#x27;</span>)</span><br><span class="line">wsl.<span class="title function_">write</span>(<span class="string">&#x27;333&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4.最后调用end来结束文件的写入</span></span><br><span class="line">wsl.<span class="title function_">end</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    要注意，`data`事件可能会有多次，每次传递的`chunk`是流的一部分数据。</span></span><br><span class="line"><span class="comment">    要以流的形式写入文件，只需要不断调用`write()`方法，最后以`end()`结束：</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>管道连接读写数据流(<code>pipe管道连接流.js</code>)</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// nodejs内置模块:stream(文件流操作) - pipe(文件可写流)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    pipe 顾名思义是管道的意思,这个方法能 可读流 和 可写流 连在一起</span></span><br><span class="line"><span class="comment">    更加简单的实现数据的读写复制,能将一个文件里面的内容很简单的就复制到另一个文件</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.首先导入fs模块</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.创建可读流和可写流</span></span><br><span class="line"><span class="keyword">const</span> rs = fs.<span class="title function_">createReadStream</span>(<span class="string">&#x27;./1.txt&#x27;</span>, <span class="string">&#x27;utf-8&#x27;</span>)<span class="comment">//创建可读流(数据的导出源)</span></span><br><span class="line"><span class="keyword">const</span> wsl = fs.<span class="title function_">createWriteStream</span>(<span class="string">&#x27;./2.txt&#x27;</span> , <span class="string">&#x27;utf-8&#x27;</span>)<span class="comment">//创建可写流(数据的导入源)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.使用pipe管道将两个源头接起来(读取到的 =&gt; pipe =&gt; 写入)</span></span><br><span class="line">rs.<span class="title function_">pipe</span>(wsl)<span class="comment">//实现将 1.txt 里面的内容写入到 2.txt 中去</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>pipe</code> 就像可以把两个水管串成一个更长的水管一样，两个流也可以串起来。一个<code>Readable</code>流和一个<code>Writable</code>流串起来后，所有的数据自动从<code>Readable</code>流进入<code>Writable</code>流，这种操作叫<code>pipe</code>。</strong></li>
+<li><strong>在<code>Node.js</code>中，<code>Readable</code>流有一个<code>pipe()</code>方法，就是用来干这件事的。</strong></li>
+<li><strong>让我们用<code>pipe()</code>把一个文件流和另一个文件流串起来，这样源文件的所有数据就自动写入到目标文件里了，所以，这实际上是一个复制文件的程序</strong></li>
+</ul>
+<h1 id="zlib模块"><a href="#zlib模块" class="headerlink" title="zlib模块"></a><code>zlib</code>模块</h1><ul>
+<li><strong><a target="_blank" rel="noopener" href="https://www.nodeapp.cn/zlib.html">官方文档</a></strong></li>
+</ul>
+<h2 id="浏览器解析页面的大致流程如下"><a href="#浏览器解析页面的大致流程如下" class="headerlink" title="浏览器解析页面的大致流程如下:"></a>浏览器解析页面的大致流程如下:</h2><p><img src="/../upload/nodejs/n2/0.png" alt="image"></p>
+<ul>
+<li><strong>由此可见,如果文件过大从<code>webserver</code>到浏览器的传输时间就会很长所以我们可以先将文件压缩成<code>gzip</code>文件再进行传输。</strong></li>
+</ul>
+<h4 id="代码展示-1"><a href="#代码展示-1" class="headerlink" title="代码展示:"></a>代码展示:</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// nodejs内置模块:zlib(文件压缩)</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    要知道浏览器的解析过程是:</span></span><br><span class="line"><span class="comment">    html源码 =(解析)&gt; WebServer =(传递)&gt; 浏览器 =(渲染)&gt; 渲染到页面上</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    如果文件过大从webserver到浏览器的传输时间就会很长,导致页面出现延迟卡顿</span></span><br><span class="line"><span class="comment">    这就会很影响用户的实际使用体验,因此我们可以先将文件压缩成gzip文件再进行传输</span></span><br><span class="line"><span class="comment">    而压缩成gzip文件的方法就包含在zlib模块中</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.首先导入相对应的模块</span></span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&quot;http&quot;</span>)<span class="comment">//http模块用于创建服务器</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>)<span class="comment">//fs模块用于操作文件</span></span><br><span class="line"><span class="keyword">const</span> zlib = <span class="built_in">require</span>(<span class="string">&quot;zlib&quot;</span>)<span class="comment">//zlib模块用于压缩文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.创建gzip压缩</span></span><br><span class="line"><span class="keyword">const</span> gzip = zlib.<span class="title function_">createGzip</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3.创建服务器</span></span><br><span class="line">http.<span class="title function_">createServer</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 4.创建文件的可读流</span></span><br><span class="line">    <span class="keyword">const</span> readStream = fs.<span class="title function_">createReadStream</span>(<span class="string">&quot;./index.txt&quot;</span>)</span><br><span class="line">    <span class="comment">// 5.设置响应头文件</span></span><br><span class="line">    res.<span class="title function_">writeHead</span>(<span class="number">200</span>, &#123; <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-javascript;charset=utf-8&quot;</span>,<span class="string">&quot;Content-Encoding&quot;</span>:<span class="string">&quot;gzip&quot;</span>&#125;)</span><br><span class="line">    <span class="comment">// 6.使用pipe管道将可读流与页面渲染连通起来,让文件能够输出到页面当中</span></span><br><span class="line">    readStream.<span class="title function_">pipe</span>(gzip).<span class="title function_">pipe</span>(res)<span class="comment">//res本身就是一个可写流</span></span><br><span class="line"></span><br><span class="line">&#125;).<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;服务器启动成功,端口号3000正在监听....&quot;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示:"></a>结果展示:</h3><ul>
+<li><p><strong>使用<code>zlib</code>压缩前</strong><br><img src="/../upload/nodejs/n2/3.png" alt="image"></p>
+</li>
+<li><p><strong>使用<code>zlib</code>压缩后</strong><br><img src="/../upload/nodejs/n2/2.png" alt="image"></p>
+</li>
+</ul>
+<h1 id="path模块"><a href="#path模块" class="headerlink" title="path模块"></a><code>path</code>模块</h1><ul>
+<li><p><strong><a target="_blank" rel="noopener" href="https://www.nodeapp.cn/path.html">官方文档</a></strong></p>
+</li>
+<li><p><strong><code>path</code> 模块是 <code>Node.js</code> 官方提供的、用来处理路径的模块。它提供了一系列的方法和属性，用来满足用户对路径的处理需求。</strong></p>
+</li>
+<li><p><strong>例如:</strong></p>
+<ul>
+<li><strong><code>path.join()</code> 方法，用来将多个路径片段拼接成一个完整的路径字符串</strong></li>
+<li><strong><code>path.basename()</code> 方法，用来从路径字符串中，将文件名解析出来</strong></li>
+<li><strong><code>path.extname()</code>方法 获取文件的拓展名，即后缀名</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="代码展示-2"><a href="#代码展示-2" class="headerlink" title="代码展示:"></a>代码展示:</h3><ul>
+<li><strong><code>path.join()进行路径的拼接.js</code></strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//首先导入相对应的模块</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意：  ../ 会抵消前面的路径</span></span><br><span class="line"><span class="keyword">const</span> pathStr = path.<span class="title function_">join</span>(<span class="string">&#x27;/a&#x27;</span>, <span class="string">&#x27;/b/c&#x27;</span>, <span class="string">&#x27;../../&#x27;</span>, <span class="string">&#x27;./d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>)<span class="comment">// a/b/e</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(pathStr)  <span class="comment">// \a\b\d\e</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意：今后凡是涉及到路径拼接的操作，都要使用 path.join() 方法进行处理。不要直接使用 + 进行字符串的拼接。</span></span><br><span class="line"><span class="comment">// fs.readFile(__dirname + &#x27;/files/1.txt&#x27;)</span></span><br><span class="line"></span><br><span class="line">fs.<span class="title function_">readFile</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;./files.txt&#x27;</span>), <span class="string">&#x27;utf8&#x27;</span>, <span class="keyword">function</span>(<span class="params">err, dataStr</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;文件读取失败！&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;文件读取成功！&#x27;</span> + <span class="string">&#x27;\n&#x27;</span> + dataStr)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>结果展示:</strong><br><img src="/../upload/nodejs/n2/4.png" alt="image"></p>
+</li>
+<li><p><strong><code>path.basename()读取文件名.js</code></strong></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 使用 path.basename() 方法，可以获取路径中的最后一部分，经常通过这个方法获取路径中的文件名</span></span><br><span class="line"><span class="comment">//导入path模块</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 语法格式如下：</span></span><br><span class="line"><span class="comment">// path.basename(path[,ext])</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 参数解读：</span></span><br><span class="line"><span class="comment">// path ： 必选参数，表示一个路径的字符串,一定是要字符串，最好有一个变量代替</span></span><br><span class="line"><span class="comment">// ext ： 可选参数，表示文件扩展名</span></span><br><span class="line"><span class="comment">// 返回: &lt;string&gt; 表示路径中的最后一部分</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 例子：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = path.<span class="title function_">join</span>(__dirname , <span class="string">&#x27;./path路径模块初识.html&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newPath = path.<span class="title function_">basename</span>(a , <span class="string">&#x27;.html&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newPath);<span class="comment">//只有 path路径模块初识 ， 无后缀.html了</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>结果展示</strong><br><img src="/../upload/nodejs/n2/5.png" alt="image"></p>
+</li>
+<li><p><strong><code>path.extname()获取拓展名.js</code></strong></p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// path.extname() 只获取文件的拓展名，即后缀名</span></span><br><span class="line"><span class="comment">// 语法格式</span></span><br><span class="line"><span class="comment">// path.extname(path)</span></span><br><span class="line"><span class="comment">// 参数解析</span></span><br><span class="line"><span class="comment">// path &lt;string&gt;必选参数，表示一个路径的字符串</span></span><br><span class="line"><span class="comment">// 返回: &lt;string&gt; 返回得到的扩展名字符串</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 例子</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> a = path.<span class="title function_">join</span>(__dirname , <span class="string">&#x27;./path路径模块初识.html&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> name = path.<span class="title function_">extname</span>(a);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(name);<span class="comment">//.html 只有后缀名</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>结果展示:</strong><br><img src="/../upload/nodejs/n2/6.png" alt="image"></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/about/">肥林(Cheung Pui Lam)</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/">https://cheung-pui-lam.github.io/2022/10/27/nodejs学习笔记3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href = https://creativecommons.org/licenses/by-nc-sa/4.0/ target = "_blank"> CC BY-NC-SA 4.0</a>许可协议。转载请注明来自 <a href = https://cheung-pui-lam.github.io/ target = "_blank">肥林の仓库</a></span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/node-js/">node.js</a><a class="post-meta__tags" href="/tags/%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/">内置模块</a><a class="post-meta__tags" href="/tags/stream%E6%A8%A1%E5%9D%97/">stream模块</a><a class="post-meta__tags" href="/tags/zlib%E6%A8%A1%E5%9D%97/">zlib模块</a><a class="post-meta__tags" href="/tags/path%E6%A8%A1%E5%9D%97/">path模块</a></div><div class="post_share"><div class="social-share" data-image="/upload/nodejs/nodejs.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/"><img class="next-cover" src="/upload/nodejs/nodejs.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">nodejs学习笔记(4)-内置模块(3)-fs文件操作模块</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" title="nodejs学习笔记(2)-内置模块(1)-http模块及其扩展模块"><img class="cover" src="/upload/nodejs/nodejs.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-27</div><div class="title">nodejs学习笔记(2)-内置模块(1)-http模块及其扩展模块</div></div></a></div><div><a href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" title="nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块"><img class="cover" src="/upload/nodejs/nodejs.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-27</div><div class="title">nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块</div></div></a></div><div><a href="/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/" title="nodejs学习笔记(4)-内置模块(3)-fs文件操作模块"><img class="cover" src="/upload/nodejs/nodejs.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-31</div><div class="title">nodejs学习笔记(4)-内置模块(3)-fs文件操作模块</div></div></a></div><div><a href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" title="nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用"><img class="cover" src="/upload/nodejs/nodejs.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-27</div><div class="title">nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/assets/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">肥林(Cheung Pui Lam)</div><div class="author-info__description">一名菜鸡程序员</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">113</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">164</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Cheung-Pui-Lam" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/www.2890299213@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☄️欢迎来到我的博客!☄️<br>这个🔗站点主要用于记录博主的🤡生活和🌍学习的点滴!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#stream%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">stream模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B1%95%E7%A4%BA"><span class="toc-number">1.0.1.</span> <span class="toc-text">代码展示:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zlib%E6%A8%A1%E5%9D%97"><span class="toc-number">2.</span> <span class="toc-text">zlib模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%A7%A3%E6%9E%90%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">浏览器解析页面的大致流程如下:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B1%95%E7%A4%BA-1"><span class="toc-number">2.1.0.1.</span> <span class="toc-text">代码展示:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-number">2.1.1.</span> <span class="toc-text">结果展示:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#path%E6%A8%A1%E5%9D%97"><span class="toc-number">3.</span> <span class="toc-text">path模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B1%95%E7%A4%BA-2"><span class="toc-number">3.0.1.</span> <span class="toc-text">代码展示:</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/" title="nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块"><img src="/upload/nodejs/nodejs.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块"/></a><div class="content"><a class="title" href="/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B05/" title="nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块">nodejs学习笔记(5)-内置模块(4)-stream模块，zlib模块和path模块</a><time datetime="2022-10-31T11:33:00.000Z" title="发表于 2022-10-31 19:33:00">2022-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/" title="nodejs学习笔记(4)-内置模块(3)-fs文件操作模块"><img src="/upload/nodejs/nodejs.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(4)-内置模块(3)-fs文件操作模块"/></a><div class="content"><a class="title" href="/2022/10/31/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04/" title="nodejs学习笔记(4)-内置模块(3)-fs文件操作模块">nodejs学习笔记(4)-内置模块(3)-fs文件操作模块</a><time datetime="2022-10-31T11:32:56.000Z" title="发表于 2022-10-31 19:32:56">2022-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" title="nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块"><img src="/upload/nodejs/nodejs.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块"/></a><div class="content"><a class="title" href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" title="nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块">nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块</a><time datetime="2022-10-27T13:09:42.000Z" title="发表于 2022-10-27 21:09:42">2022-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" title="nodejs学习笔记(2)-内置模块(1)-http模块及其扩展模块"><img src="/upload/nodejs/nodejs.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(2)-内置模块(1)-http模块及其扩展模块"/></a><div class="content"><a class="title" href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" title="nodejs学习笔记(2)-内置模块(1)-http模块及其扩展模块">nodejs学习笔记(2)-内置模块(1)-http模块及其扩展模块</a><time datetime="2022-10-27T13:09:38.000Z" title="发表于 2022-10-27 21:09:38">2022-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" title="nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用"><img src="/upload/nodejs/nodejs.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用"/></a><div class="content"><a class="title" href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" title="nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用">nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用</a><time datetime="2022-10-27T13:09:35.000Z" title="发表于 2022-10-27 21:09:35">2022-10-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 肥林(Cheung Pui Lam)</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div>🦸‍♂️目在当下,活在当下</div> <div>🦾成为自己想成为的人!</div></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://s2.loli.net/2022/07/26/vqTgLsAKRQOpVeF.png" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo" title=""><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly" title=""><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://sm.ms/" style="margin-inline:5px" data-title="本站的静态资源由github和sm.ms提供托管服务" title=""><img src="https://img.shields.io/badge/CDN-Github%26SM.MS-brightgreen?style=flat&amp;logo=Shelly" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/Myjs/runtimer.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Es6/es6.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">Es6中的类与对象</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/js/event.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">JavaScript 中的 event</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/prototype/prototype.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-29</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">构造函数和原型(1)</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(2)-事件处理</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(1)-模板语法,数据绑定以及数据代理</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '500ms');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://github-calender.vercel.app/api?Cheung-Pui-Lam",['#ebedf0', '#f1f8ff', '#dbedff', '#c8e1ff', '#79b8ff', '#2188ff', '#0366d6', '#005cc5', '#044289', '#032f62', '#05264c'],'Cheung-Pui-Lam')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
