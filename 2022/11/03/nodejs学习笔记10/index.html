@@ -1,0 +1,454 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器 | 肥林の仓库</title><meta name="keywords" content="node.js,express框架,模板引擎,服务端渲染,express生成器"><meta name="author" content="肥林(Cheung Pui Lam)"><meta name="copyright" content="肥林(Cheung Pui Lam)"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="express模板引擎(服务端渲染)为什么需要模板引擎? 我们都知道,使用express框架能够很快的搭建一个服务器,服务器能够向,前端返回接口数据,渲染页面亦或者返回一段html的代码片段,但是我们要将代码片段写在res.send(&#39;这里面&#39;),就显得非常的麻烦和复杂,并且我们在加载静态资源的时候,通过请求url来发送请求,而url后面就需要携带.html为后缀,这就非常的不好看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器">
+<meta property="og:url" content="http://example.com/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010/index.html">
+<meta property="og:site_name" content="肥林の仓库">
+<meta property="og:description" content="express模板引擎(服务端渲染)为什么需要模板引擎? 我们都知道,使用express框架能够很快的搭建一个服务器,服务器能够向,前端返回接口数据,渲染页面亦或者返回一段html的代码片段,但是我们要将代码片段写在res.send(&#39;这里面&#39;),就显得非常的麻烦和复杂,并且我们在加载静态资源的时候,通过请求url来发送请求,而url后面就需要携带.html为后缀,这就非常的不好看">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/upload/nodejs/express.jpeg">
+<meta property="article:published_time" content="2022-11-03T12:56:29.000Z">
+<meta property="article:modified_time" content="2022-11-03T13:22:30.850Z">
+<meta property="article:author" content="肥林(Cheung Pui Lam)">
+<meta property="article:tag" content="node.js">
+<meta property="article:tag" content="express框架">
+<meta property="article:tag" content="模板引擎">
+<meta property="article:tag" content="服务端渲染">
+<meta property="article:tag" content="express生成器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/upload/nodejs/express.jpeg"><link rel="shortcut icon" href="/assets/ficon32.png"><link rel="canonical" href="http://example.com/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-03 21:22:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/Mycss/style.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="/Mycss/runtimer.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/assets/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">173</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS：小兔鲜儿</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS+JS：品优购</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：仿抑云音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：后台管理系统</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/upload/nodejs/express.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">肥林の仓库</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS：小兔鲜儿</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fas fa-sitemap"></i><span> HTML+CSS+JS：品优购</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：仿抑云音乐</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fas fa-sitemap"></i><span> Vue2：后台管理系统</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-03T12:56:29.000Z" title="发表于 2022-11-03 20:56:29">2022-11-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-03T13:22:30.850Z" title="更新于 2022-11-03 21:22:30">2022-11-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">前端知识分享</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/node-js/">node.js</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="express模板引擎-服务端渲染"><a href="#express模板引擎-服务端渲染" class="headerlink" title="express模板引擎(服务端渲染)"></a><code>express</code>模板引擎(服务端渲染)</h1><h2 id="为什么需要模板引擎"><a href="#为什么需要模板引擎" class="headerlink" title="为什么需要模板引擎?"></a>为什么需要模板引擎?</h2><ul>
+<li><p><strong>我们都知道,使用<code>express</code>框架能够很快的搭建一个服务器,服务器能够向,前端返回接口数据,渲染页面亦或者返回一段<code>html</code>的代码片段,但是我们要将代码片段写在<code>res.send(&#39;这里面&#39;)</code>,就显得非常的麻烦和复杂,并且我们在加载静态资源的时候,通过请求<code>url</code>来发送请求,而<code>url</code>后面就需要携带<code>.html</code>为后缀,这就非常的不好看,因此就衍生了<code>模板引擎</code>!</strong></p>
+</li>
+<li><p><strong>使用模板引擎过后,在程序运行时，模板引擎使用实际的值替换模板文件中的变量，并将模板转换为要发送给客户端的<code>HTML</code>文件。这种方法使得设计<code>HTML</code>页面变得更加容易，轻松实现数据与视图分离，有利于大型项目中的前后端开发的分工协作。</strong></p>
+</li>
+</ul>
+<h2 id="安装pug模板引擎"><a href="#安装pug模板引擎" class="headerlink" title="安装pug模板引擎"></a>安装<code>pug</code>模板引擎</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install pug --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="项目目录"><a href="#项目目录" class="headerlink" title="项目目录:"></a>项目目录:</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">├── dist</span><br><span class="line">|	└── js</span><br><span class="line">|		└── js.<span class="property">js</span></span><br><span class="line">├── app.<span class="property">js</span></span><br><span class="line">└── view</span><br><span class="line">    ├── home.<span class="property">pug</span></span><br><span class="line">	└── style.<span class="property">css</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="重点设置"><a href="#重点设置" class="headerlink" title="重点设置:"></a>重点设置:</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 引入pug模板</span></span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;views&#x27;</span>, path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;view&#x27;</span>));<span class="comment">//__dirname表示当前目录下</span></span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;view engine&#x27;</span>, <span class="string">&#x27;pug&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码展示"><a href="#代码展示" class="headerlink" title="代码展示:"></a>代码展示:</h3><ul>
+<li><strong><code>app.js</code>(服务器)</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// pug模板引擎的基本使用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入express框架</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置模板引擎</span></span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;view engine&#x27;</span> , <span class="string">&#x27;pug&#x27;</span>)<span class="comment">//指定模板解析引擎</span></span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;views&#x27;</span> , <span class="string">&#x27;./views&#x27;</span>)<span class="comment">//指定模板代码的读取目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将dist中的所有文件变成静态资源托管到服务器上</span></span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">static</span>(<span class="string">&#x27;dist&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送get请求</span></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>,<span class="function">(<span class="params">req , res</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 模板引擎最重要的一点:能够将服务器中的参数传给前端页面</span></span><br><span class="line">    <span class="keyword">var</span> obj = &#123;<span class="comment">//通过对象的形式</span></span><br><span class="line">        <span class="attr">name</span>:<span class="string">&#x27;lam&#x27;</span>,</span><br><span class="line">        <span class="attr">age</span>:<span class="number">100</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 使用render函数来解析pug模板(views文件夹下的home.pug)</span></span><br><span class="line">    res.<span class="title function_">render</span>(<span class="string">&#x27;home&#x27;</span>,obj)<span class="comment">//渲染模板后返回给前端,并且携带参数</span></span><br><span class="line">    <span class="comment">// 相较于send(),render()只能解析模板,但send()能发送接口数据和解析html片段</span></span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 开启服务器</span></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>,<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`服务器已启动,端口3000正在监听...`</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>home.pug</code>(渲染模板)</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">doctype html</span><br><span class="line">html(lang=&quot;en&quot;)</span><br><span class="line">    head</span><br><span class="line">        meta(charset=&quot;UTF-8&quot;)</span><br><span class="line">        meta(http-equiv=&quot;X-UA-Compatible&quot;, content=&quot;IE=edge&quot;)</span><br><span class="line">        meta(name=&quot;viewport&quot;, content=&quot;width=device-width, initial-scale=1.0&quot;)</span><br><span class="line">        title 首页</span><br><span class="line">        //- 引入js(非同一目录下)</span><br><span class="line">        script </span><br><span class="line">            include ../dist/js/js.js</span><br><span class="line">        //- 引入css样式(同一目录)</span><br><span class="line">        style </span><br><span class="line">            include style.css </span><br><span class="line">    body </span><br><span class="line">        h1 你好! pug</span><br><span class="line">        p(class=&#x27;h&#x27;) this is #&#123;name&#125;&#x27;s website</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示:"></a>结果展示:</h3><p><img src="/../upload/nodejs/n4/7.png" alt="image"></p>
+<h1 id="express生成器"><a href="#express生成器" class="headerlink" title="express生成器"></a><code>express</code>生成器</h1><ul>
+<li><strong><a target="_blank" rel="noopener" href="https://www.expressjs.com.cn/starter/generator.html">官方文档</a></strong></li>
+<li><strong>express项目生成器，是一个<code>nodejs</code>程序,类似与脚手架，可以帮助我们快速搭建一个<code>express</code>项目。</strong></li>
+</ul>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法:"></a>使用方法:</h2><ol>
+<li><strong>首先要安装<code>express-generator</code>(生成器)这个express项目生成器工具</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// 可以使用npx进行安装(但是Nodejs必须在8.2.0及更高版本才行)</span><br><span class="line">$ npx express-generator</span><br><span class="line"> </span><br><span class="line">// 相对于较老的Nodejs版本 建议还是用npm将express-generator安装到全局中使用</span><br><span class="line">$ npm install -g express-generator</span><br><span class="line">//安装完毕后可以在命令行输入 express 检查是否安装成功</span><br><span class="line"> </span><br><span class="line">// -h 参数可以列出所有可用的命令行参数</span><br><span class="line">$ express -h</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>创建项目</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// 创建项目  这样直接就可以快速的创建出一个项目 但是这样默认使用的是jade模板</span><br><span class="line">$ express 项目名    </span><br><span class="line"> </span><br><span class="line">// 如果想要使用别的模板 则用 --view=[模板名] 创建项目</span><br><span class="line">// 这里演示pug模板项目创建</span><br><span class="line">$ express 项目名 --view=pug</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>项目结构</strong></li>
+</ol>
+<ul>
+<li><p><strong>将创建好的项目在<code>vscode</code>中打开 可看到如下项目结构</strong><br><img src="/../upload/nodejs/n4/8.png" alt="image"></p>
+</li>
+<li><p><strong>可以看到,项目的模板是<code>pug</code>，还有就是项目并没有帮我们安装依赖，那么我们就需要自己手动安装项目的依赖</strong></p>
+</li>
+<li><p><strong>项目<code>根目录</code>下有4个自带的文件夹</strong></p>
+<ul>
+<li><strong><code>bin</code>:存放项目源代码的文件夹。</strong></li>
+<li><strong><code>public</code>:项目静态文件夹。</strong></li>
+<li><strong><code>routers</code>:存放路由的文件夹。</strong></li>
+<li><strong><code>views</code>:存放模板的文件夹。</strong></li>
+</ul>
+</li>
+<li><p><strong>这里讲解一下一个很重要的文件<code>app.js</code></strong></p>
+<ul>
+<li><strong><code>app.js</code>引入各种模块包，其中最重要是<code>express</code>框架，使用框架包创建应用程序实例，在应用程序运行过程中，需要其他模块包配合它。比如：<code>http-error</code>记录请求过程中的错误信息。再比如<code>morgan</code>记录请求日志.</strong></li>
+<li><strong>再比如<code>cookie-parser</code>记录<code>cookie</code>解析。还是<code>express.json()</code>，<code>express.urlencoded()</code>。相对比较重要的路由中间件（必须掌握如何定义路由）。</strong></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    http-errors 这个模块包主要是监听在请求的过程中出现的错误和错误信息，</span></span><br><span class="line"><span class="comment">    是一个中间件本质也是一个模块，其实是一个函数</span></span><br><span class="line"><span class="comment">*/</span> </span><br><span class="line"><span class="keyword">var</span> createError = <span class="built_in">require</span>(<span class="string">&#x27;http-errors&#x27;</span>);</span><br><span class="line"><span class="comment">// 语句-&gt;函数-&gt;脚本库-&gt;模块-&gt;框架-&gt;平台</span></span><br><span class="line"><span class="comment">// 引入express模块</span></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="comment">// 引入path模块，路径</span></span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="comment">// 主要对cookie进行设置或者获取的功能</span></span><br><span class="line"><span class="keyword">var</span> cookieParser = <span class="built_in">require</span>(<span class="string">&#x27;cookie-parser&#x27;</span>);</span><br><span class="line"><span class="comment">// 主要是负责服务器日志</span></span><br><span class="line"><span class="keyword">var</span> logger = <span class="built_in">require</span>(<span class="string">&#x27;morgan&#x27;</span>);</span><br><span class="line"><span class="comment">// 引入的路由文件</span></span><br><span class="line"><span class="keyword">var</span> indexRouter = <span class="built_in">require</span>(<span class="string">&#x27;./routes/index&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> usersRouter = <span class="built_in">require</span>(<span class="string">&#x27;./routes/users&#x27;</span>);</span><br><span class="line"><span class="comment">// 创建服务器对象</span></span><br><span class="line"><span class="keyword">var</span> app = <span class="title function_">express</span>();</span><br><span class="line"><span class="comment">// 设置服务器对象的中间件</span></span><br><span class="line"><span class="comment">// view engine setup</span></span><br><span class="line"><span class="comment">// 模板渲染的页面所存放的位置</span></span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;views&#x27;</span>, path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;views&#x27;</span>));</span><br><span class="line"><span class="comment">// 使用的渲染语法</span></span><br><span class="line">app.<span class="title function_">set</span>(<span class="string">&#x27;view engine&#x27;</span>, <span class="string">&#x27;ejs&#x27;</span>);</span><br><span class="line"> </span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">logger</span>(<span class="string">&#x27;dev&#x27;</span>));</span><br><span class="line"><span class="comment">// 使用json解析对象或者字符串</span></span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">urlencoded</span>(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;));</span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">cookieParser</span>());</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">static</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;public&#x27;</span>)));</span><br><span class="line"><span class="comment">// 使用两个路由文件</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&#x27;/&#x27;</span>, indexRouter);</span><br><span class="line"><span class="comment">// 可以为一个路由文件的接口添加前缀,把路由前缀加上/users/</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&#x27;/users&#x27;</span>, usersRouter);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// catch 404 and forward to error handler</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="keyword">function</span>(<span class="params">req, res, next</span>) &#123;</span><br><span class="line">  <span class="comment">// next把本次请求传递给另一个中间件,如果没有next,服务器就没有响应.</span></span><br><span class="line">  <span class="comment">// 每一次请求都要走中间件,中间件会对请求进行加工然后再给服务器</span></span><br><span class="line">  <span class="title function_">next</span>(<span class="title function_">createError</span>(<span class="number">404</span>));</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// error handler</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="keyword">function</span>(<span class="params">err, req, res, next</span>) &#123;</span><br><span class="line">  <span class="comment">// set locals, only providing error in development</span></span><br><span class="line">  res.<span class="property">locals</span>.<span class="property">message</span> = err.<span class="property">message</span>;</span><br><span class="line">  res.<span class="property">locals</span>.<span class="property">error</span> = req.<span class="property">app</span>.<span class="title function_">get</span>(<span class="string">&#x27;env&#x27;</span>) === <span class="string">&#x27;development&#x27;</span> ? err : &#123;&#125;;</span><br><span class="line"> </span><br><span class="line">  <span class="comment">// render the error page</span></span><br><span class="line">  res.<span class="title function_">status</span>(err.<span class="property">status</span> || <span class="number">500</span>);</span><br><span class="line">  res.<span class="title function_">render</span>(<span class="string">&#x27;error&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"> </span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = app;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>安装依赖</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// 进入到项目的根目录</span><br><span class="line">$ <span class="built_in">cd</span> myapp</span><br><span class="line">// 进行依赖的安装</span><br><span class="line">$ npm install || npm i</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>项目的启动</strong></li>
+</ol>
+<ul>
+<li><p><strong>打开项目中的<code>package.json</code>文件可以看到</strong><br><img src="/../upload/nodejs/n4/9.png" alt="image"></p>
+</li>
+<li><p><strong>默认帮我们生成了一个<code>start</code> 命令 运行当前项目<code>bin</code>目录下的<code>www</code>文件 其实这个文件就相当于这个项目的入口文件</strong></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// 启动项目 在项目的根目录下打开终端 运行下面命令就可以运行项目了</span><br><span class="line">$ npm run start</span><br><span class="line"> </span><br><span class="line">// 也可以使用 以下命令来启动项目 因为www文件就是我们项目的有个入口文件</span><br><span class="line">$ node ./bin/www</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><strong>项目的热更新</strong></li>
+</ol>
+<ul>
+<li><p><strong>上面的项目启动方式 当我们项目早运行的过程中修改代码 浏览器中的内容是不会自动更新的这时就需要我们重启项目 这样给我们开发项目带来非常的不便 这时我们就可以使用<code>热部署</code>模块来改造我们的项目</strong></p>
+</li>
+<li><p><strong>下面我就推荐两款热部署工具 当代码被修改时项目会重新启动</strong></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// 第一款 node-dev </span><br><span class="line">// 安装命令 如下  </span><br><span class="line">$ npm install -g node-dev</span><br><span class="line">//安装完后就可以用如下命令来启动项目了 当项目代码修改时启动的项目的内容也会发生变化</span><br><span class="line">$  node-dev [文件名]</span><br><span class="line"> </span><br><span class="line">// 第二款 nodemon</span><br><span class="line">// 安装命令如下</span><br><span class="line">$ npm install -g nodemon</span><br><span class="line">//安装完后就可以用如下命令来启动项目了 当项目代码修改时启动的项目的内容也会发生变化</span><br><span class="line">$ nodemon [文件名]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>这样我们就可以修改 <code>package.json</code> 里面的启动命令 来达到一个项目热部署的效果 这里,我将start 改成了 <code>&quot;start&quot;: &quot;nodemon ./bin/www&quot;</code></strong></li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;nodemon ./bin/www&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果:"></a>运行结果:</h3><p><img src="/../upload/nodejs/n4/10.png" alt="image"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/about/">肥林(Cheung Pui Lam)</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/2022/11/01/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B06/">https://cheung-pui-lam.github.io/2022/11/01/nodejs学习笔记6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href = https://creativecommons.org/licenses/by-nc-sa/4.0/ target = "_blank"> CC BY-NC-SA 4.0</a>许可协议。转载请注明来自 <a href = https://cheung-pui-lam.github.io/ target = "_blank">肥林の仓库</a></span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/node-js/">node.js</a><a class="post-meta__tags" href="/tags/express%E6%A1%86%E6%9E%B6/">express框架</a><a class="post-meta__tags" href="/tags/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E/">模板引擎</a><a class="post-meta__tags" href="/tags/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/">服务端渲染</a><a class="post-meta__tags" href="/tags/express%E7%94%9F%E6%88%90%E5%99%A8/">express生成器</a></div><div class="post_share"><div class="social-share" data-image="/upload/nodejs/express.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/03/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8Epug/"><img class="prev-cover" src="/upload/nodejs/pug.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">模板引擎pug-pug 模板语法的学习</div></div></a></div><div class="next-post pull-right"><a href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09/"><img class="next-cover" src="/upload/nodejs/express.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">nodejs学习笔记(9)-express框架学习(3)-获取get和post请求的参数和托管静态资源</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/11/03/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8Epug/" title="模板引擎pug-pug 模板语法的学习"><img class="cover" src="/upload/nodejs/pug.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-03</div><div class="title">模板引擎pug-pug 模板语法的学习</div></div></a></div><div><a href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B08/" title="nodejs学习笔记(8)-express框架学习(2)-express中间件"><img class="cover" src="/upload/nodejs/express.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-03</div><div class="title">nodejs学习笔记(8)-express框架学习(2)-express中间件</div></div></a></div><div><a href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07/" title="nodejs学习笔记(7)-express框架学习(1)-创建基本服务器以及基本路由"><img class="cover" src="/upload/nodejs/express.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-03</div><div class="title">nodejs学习笔记(7)-express框架学习(1)-创建基本服务器以及基本路由</div></div></a></div><div><a href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09/" title="nodejs学习笔记(9)-express框架学习(3)-获取get和post请求的参数和托管静态资源"><img class="cover" src="/upload/nodejs/express.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-03</div><div class="title">nodejs学习笔记(9)-express框架学习(3)-获取get和post请求的参数和托管静态资源</div></div></a></div><div><a href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" title="nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用"><img class="cover" src="/upload/nodejs/nodejs.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-27</div><div class="title">nodejs学习笔记(1)-模块化(暴露和引入)以及npm的基本使用</div></div></a></div><div><a href="/2022/10/27/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03/" title="nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块"><img class="cover" src="/upload/nodejs/nodejs.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-27</div><div class="title">nodejs学习笔记(3)-内置模块(2)-url模块，querystring模块和event模块</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/assets/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">肥林(Cheung Pui Lam)</div><div class="author-info__description">一名菜鸡程序员</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">119</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">173</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Cheung-Pui-Lam" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/www.2890299213@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☄️欢迎来到我的博客!☄️<br>这个🔗站点主要用于记录博主的🤡生活和🌍学习的点滴!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#express%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93"><span class="toc-number">1.</span> <span class="toc-text">express模板引擎(服务端渲染)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E"><span class="toc-number">1.1.</span> <span class="toc-text">为什么需要模板引擎?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85pug%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E"><span class="toc-number">1.2.</span> <span class="toc-text">安装pug模板引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95"><span class="toc-number">1.2.1.</span> <span class="toc-text">项目目录:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%82%B9%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">重点设置:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B1%95%E7%A4%BA"><span class="toc-number">1.2.3.</span> <span class="toc-text">代码展示:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-number">1.2.4.</span> <span class="toc-text">结果展示:</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#express%E7%94%9F%E6%88%90%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">express生成器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">使用方法:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">2.1.1.</span> <span class="toc-text">运行结果:</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8Epug/" title="模板引擎pug-pug 模板语法的学习"><img src="/upload/nodejs/pug.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="模板引擎pug-pug 模板语法的学习"/></a><div class="content"><a class="title" href="/2022/11/03/%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8Epug/" title="模板引擎pug-pug 模板语法的学习">模板引擎pug-pug 模板语法的学习</a><time datetime="2022-11-03T12:56:32.000Z" title="发表于 2022-11-03 20:56:32">2022-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010/" title="nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器"><img src="/upload/nodejs/express.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器"/></a><div class="content"><a class="title" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010/" title="nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器">nodejs学习笔记(10)-express框架学习(4)-pug模板引擎的基本使用以及express生成器</a><time datetime="2022-11-03T12:56:29.000Z" title="发表于 2022-11-03 20:56:29">2022-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09/" title="nodejs学习笔记(9)-express框架学习(3)-获取get和post请求的参数和托管静态资源"><img src="/upload/nodejs/express.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(9)-express框架学习(3)-获取get和post请求的参数和托管静态资源"/></a><div class="content"><a class="title" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B09/" title="nodejs学习笔记(9)-express框架学习(3)-获取get和post请求的参数和托管静态资源">nodejs学习笔记(9)-express框架学习(3)-获取get和post请求的参数和托管静态资源</a><time datetime="2022-11-03T12:56:25.000Z" title="发表于 2022-11-03 20:56:25">2022-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B08/" title="nodejs学习笔记(8)-express框架学习(2)-express中间件"><img src="/upload/nodejs/express.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(8)-express框架学习(2)-express中间件"/></a><div class="content"><a class="title" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B08/" title="nodejs学习笔记(8)-express框架学习(2)-express中间件">nodejs学习笔记(8)-express框架学习(2)-express中间件</a><time datetime="2022-11-03T12:56:22.000Z" title="发表于 2022-11-03 20:56:22">2022-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07/" title="nodejs学习笔记(7)-express框架学习(1)-创建基本服务器以及基本路由"><img src="/upload/nodejs/express.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nodejs学习笔记(7)-express框架学习(1)-创建基本服务器以及基本路由"/></a><div class="content"><a class="title" href="/2022/11/03/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07/" title="nodejs学习笔记(7)-express框架学习(1)-创建基本服务器以及基本路由">nodejs学习笔记(7)-express框架学习(1)-创建基本服务器以及基本路由</a><time datetime="2022-11-03T12:56:18.000Z" title="发表于 2022-11-03 20:56:18">2022-11-03</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 肥林(Cheung Pui Lam)</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div>🦸‍♂️目在当下,活在当下</div> <div>🦾成为自己想成为的人!</div></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://s2.loli.net/2022/07/26/vqTgLsAKRQOpVeF.png" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo" title=""><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly" title=""><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://sm.ms/" style="margin-inline:5px" data-title="本站的静态资源由github和sm.ms提供托管服务" title=""><img src="https://img.shields.io/badge/CDN-Github%26SM.MS-brightgreen?style=flat&amp;logo=Shelly" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/Myjs/runtimer.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Es6/es6.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">Es6中的类与对象</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/js/event.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">JavaScript 中的 event</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/prototype/prototype.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-29</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">构造函数和原型(1)</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(2)-事件处理</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(1)-模板语法,数据绑定以及数据代理</a><div class="blog-slider__text">这是一篇文章！(这是一句废话🤣🤣🤣!!主要是懒得写描述,点进去看就知道啦!😜😜😜)</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '500ms');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://cdn.cbd.int/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://github-calender.vercel.app/api?Cheung-Pui-Lam",['#ebedf0', '#f1f8ff', '#dbedff', '#c8e1ff', '#79b8ff', '#2188ff', '#0366d6', '#005cc5', '#044289', '#032f62', '#05264c'],'Cheung-Pui-Lam')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
