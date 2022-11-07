@@ -1369,11 +1369,11 @@
             
             <tag> 后台管理系统 </tag>
             
+            <tag> elementUi组件库 </tag>
+            
             <tag> table组件封装 </tag>
             
             <tag> form组件封装 </tag>
-            
-            <tag> elementUi组件库 </tag>
             
         </tags>
       
@@ -1410,11 +1410,11 @@
             
             <tag> 后台管理系统 </tag>
             
-            <tag> elementUi组件库 </tag>
-            
             <tag> mock </tag>
             
             <tag> token </tag>
+            
+            <tag> elementUi组件库 </tag>
             
         </tags>
       
