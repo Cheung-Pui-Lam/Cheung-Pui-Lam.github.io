@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>node模块推荐-(分享两个有趣的字体banner模块和一个人脸识别模块)</title>
+      <title>node模块推荐-(分享几个有趣的npm包:两个字体banner模块和一个人脸识别模块)</title>
       <link href="/2022/11/30/node%E6%A8%A1%E5%9D%97%E6%8E%A8%E8%8D%90/"/>
       <url>/2022/11/30/node%E6%A8%A1%E5%9D%97%E6%8E%A8%E8%8D%90/</url>
       
@@ -1075,13 +1075,13 @@
             
             <tag> 打包工具 </tag>
             
-            <tag> webpack高级篇&#39; </tag>
-            
             <tag> Tree Shaking </tag>
             
             <tag> Babel处理重复代码 </tag>
             
             <tag> 图片压缩(Image Minimizer) </tag>
+            
+            <tag> webpack高级篇&#39; </tag>
             
         </tags>
       
@@ -1116,6 +1116,8 @@
             
             <tag> 打包工具 </tag>
             
+            <tag> webpack高级篇&#39; </tag>
+            
             <tag> HotModuleReplacement </tag>
             
             <tag> OneOf </tag>
@@ -1125,8 +1127,6 @@
             <tag> Cache缓存 </tag>
             
             <tag> Thead </tag>
-            
-            <tag> webpack高级篇&#39; </tag>
             
         </tags>
       
@@ -1556,11 +1556,11 @@
             
             <tag> 后台管理系统 </tag>
             
-            <tag> elementUi组件库 </tag>
-            
             <tag> table组件封装 </tag>
             
             <tag> form组件封装 </tag>
+            
+            <tag> elementUi组件库 </tag>
             
         </tags>
       
@@ -1597,11 +1597,11 @@
             
             <tag> 后台管理系统 </tag>
             
+            <tag> elementUi组件库 </tag>
+            
             <tag> mock </tag>
             
             <tag> token </tag>
-            
-            <tag> elementUi组件库 </tag>
             
         </tags>
       
@@ -1700,11 +1700,11 @@
       
         <tags>
             
-            <tag> Vue3 </tag>
-            
             <tag> toRef </tag>
             
             <tag> toRefs </tag>
+            
+            <tag> Vue3 </tag>
             
         </tags>
       
@@ -1780,11 +1780,11 @@
       
         <tags>
             
-            <tag> Vue3 </tag>
-            
             <tag> toRef </tag>
             
             <tag> toRefs </tag>
+            
+            <tag> Vue3 </tag>
             
         </tags>
       
