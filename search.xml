@@ -191,13 +191,13 @@
             
             <tag> node.js </tag>
             
-            <tag> websocket </tag>
-            
             <tag> express框架 </tag>
             
-            <tag> 数据库 </tag>
-            
             <tag> jwt </tag>
+            
+            <tag> websocket </tag>
+            
+            <tag> 数据库 </tag>
             
             <tag> socket.io模块 </tag>
             
@@ -230,9 +230,9 @@
             
             <tag> node.js </tag>
             
-            <tag> websocket </tag>
-            
             <tag> express框架 </tag>
+            
+            <tag> websocket </tag>
             
             <tag> socket.io模块 </tag>
             
@@ -265,15 +265,15 @@
             
             <tag> node.js </tag>
             
-            <tag> websocket </tag>
-            
             <tag> express框架 </tag>
+            
+            <tag> jwt </tag>
+            
+            <tag> websocket </tag>
             
             <tag> ws模块 </tag>
             
             <tag> 数据库 </tag>
-            
-            <tag> jwt </tag>
             
         </tags>
       
@@ -304,9 +304,9 @@
             
             <tag> node.js </tag>
             
-            <tag> websocket </tag>
-            
             <tag> express框架 </tag>
+            
+            <tag> websocket </tag>
             
             <tag> ws模块 </tag>
             
@@ -339,9 +339,9 @@
             
             <tag> node.js </tag>
             
-            <tag> websocket </tag>
-            
             <tag> express框架 </tag>
+            
+            <tag> websocket </tag>
             
         </tags>
       
@@ -374,9 +374,9 @@
             
             <tag> express框架 </tag>
             
-            <tag> jwt </tag>
-            
             <tag> 中间件 </tag>
+            
+            <tag> jwt </tag>
             
         </tags>
       
@@ -518,9 +518,9 @@
             
             <tag> node.js </tag>
             
-            <tag> express框架 </tag>
-            
             <tag> MySQL </tag>
+            
+            <tag> express框架 </tag>
             
         </tags>
       
