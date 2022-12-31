@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>Node.js之Node与java作为后台服务器的对比</title>
+      <link href="/2022/12/31/node%E5%AF%B9%E6%AF%94java/"/>
+      <url>/2022/12/31/node%E5%AF%B9%E6%AF%94java/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Node-js之Node与java作为后台服务器的对比"><a href="#Node-js之Node与java作为后台服务器的对比" class="headerlink" title="Node.js之Node与java作为后台服务器的对比"></a><code>Node.js</code>之<code>Node</code>与<code>java</code>作为后台服务器的对比</h1><ul><li><strong>最近一直在学习<code>Node.js</code>,随着逐渐深入的了解，发现真的<code>node</code>能越来越变得热门是有其存在的道理的。可能有人会说，<code>java</code>作为后端语言一直隐隐有龙头老大的姿势，为何我们还要去学<code>node</code>呢？<code>Node.js</code>究竟是什么？它是新的语言还是新的框架，是新的工具抑或只是一个简单的<code>JavaScript</code>文件？</strong></li></ul><h2 id="两种工具的介绍"><a href="#两种工具的介绍" class="headerlink" title="两种工具的介绍:"></a>两种工具的介绍:</h2><h3 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a><code>Node.js</code></h3><ul><li><strong><code>Node.js</code>是一个基于<code>Chrome</code>的<code>JavaScript</code>运行时构建的平台，可以轻松构建快速且可扩展的网络应用程序。<code>Node.js</code>使用<code>事件驱动的无阻塞 I/O 模型</code>，使其轻量级且高效，非常适合跨分布式设备运行的数据密集型实时应用程序。</strong></li><li><strong><code>NodeJS</code>是用于<code>服务器端</code>和<code>网络开发</code>的开源和免费使用的<code>运行时环境</code>，可用于跨平台。用<code>JavaScript</code>编写的<code>NodeJS应用程序</code>可以在<code>任何操作系统</code>（包括<code>OS X</code>，<code>Windows</code>或<code>Linux</code>）的<code>运行时环境中运行</code>。</strong></li><li><strong><code>NodeJS</code>提供了一个<code>巨大的库</code>，其中包括各种<code>JavaScript</code>资源。因此，<code>NodeJS</code>提供了一个<code>运行时环境</code>和<code>JavaScript库</code>，并具有强大的<code>V8</code>引擎。</strong></li></ul><h2 id="java"><a href="#java" class="headerlink" title="java"></a><code>java</code></h2><ul><li><strong><code>Java</code>是<code>面向对象</code>的<code>编程语言</code>之一，严格来说是典型的。它是由两位工程师<code>James Gosling</code>和<code>Patrick Naughton</code>于1991年开发的。Java致力于”<code>一次编写，随处运行</code>“的概念，它允许用户访问所有平台上的代码，这些平台无需一次重新编译即可运行<code>Java</code>。<code>Java</code>是开源的，安全的，高度稳定的，灵活的;非常适合银行、电子商务、金融科技等安全网络使用。</strong></li></ul><h2 id="运行时环境"><a href="#运行时环境" class="headerlink" title="运行时环境"></a><strong>运行时环境</strong></h2><ul><li><strong>我们众所周知<code>Java</code>具有一个称作<code>JRE</code>的运行时环境来使得<code>java</code>程序能够顺利运行。<code>JRE</code>有一个称为<code>JVM</code>的<code>虚拟机</code>。<code>JVM</code>有许多<code>组件</code>，如<code>垃圾回收器（GC）</code>，<code>即时（JIT）编译器</code>，<code>解释器</code>，<code>类装载器</code>，<code>线程管理器</code>，<code>异常处理器</code>，用于在不同时间执行不同的任务。<code>JRE</code>还有一系列的库来帮助运行时的<code>Java</code>程序。</strong></li><li><strong>我们为什么要突然牵扯到<code>JRE运行时环境</code>呢，其实正是为了与<code>node</code>作比较，<code>Node</code>不是一种语言，也不是框架，更不是工具，它是运行<code>JavaScript</code>应用程序的<code>运行时环境</code>。<code>Node.js</code>有一个称为<code>JavaScript Virtual Machine</code>的虚拟机。它为基于<code>JavaScript</code>的应用程序生成机器代码，以便在不同的平台上启用它。这个<code>虚拟机</code>就是<code>Google</code>的<code>V8</code>引擎，也有主要组件，如<code>JIT</code>和<code>GC</code>，分别用于执行任务，运行时编译，和内存管理。</strong></li></ul><h2 id="发展潜力"><a href="#发展潜力" class="headerlink" title="发展潜力"></a><strong>发展潜力</strong></h2><ul><li><p><strong>判断<code>Java</code>和<code>node</code>的发展潜力可能要从其<code>背后的生态社区和支持库</code>上切入，然而以<code>Java</code>为核心的传统体系自然比不上<code>node</code>这样的新势力，简而言之，<code>Java</code>成熟而庞大，<code>node</code>迅捷而活跃。<code>java</code>其功能性和实用性自然不必多说，但是<code>java</code>包含了大量的样品代码，扰乱了程序猿所想表达的意图，就比如<code>java</code>三大框架之一的<code>spring</code>，程序猿在使用<code>spring</code>的时候<code>servlet</code>,数据持久，以及构成系统的底层的东西，<code>spring</code>框架已经封装好会帮助你处理这一切，我们只需要专注于写业务层代码就足以。但是在<code>Spring</code>中，子系统一个接一个，哪怕你<code>犯最微小的错误</code>，它都会用让你<code>崩溃的异常</code>来惩罚你。可能紧接着你就会看到<code>巨大的异常信息</code>。里面包含着一个一个你根本不知道的封装好的方法，<code>Spring</code>做了许多工作来实现代码的功能。这种级别的抽象显然需要大量的逻辑，长长的异常信息不一定是坏事，它指出了一个症状：这需要多少内存和性能上的额外开销？<code>spring</code>是怎么执行的？框架需要解析方法名、猜测程序员的意图、构建类似于抽象语法树的东西、生成<code>SQL</code>等等。这些事情的额外开销有多大？所以说使用<code>java</code>掩盖复杂性并不会因此简单化，只会让系统更复杂。<code>java</code>严格的类型检查使得<code>Java</code>帮你避免许多类型的<code>bug</code>，因为不好的代码无法通过编译。<code>Java</code>的强类型的缺点就是太多样板代码。程序员要不断进行类型转换，程序员要花掉更多时间写精确的代码，使用更多的样板代码，以图早期发现错误并改正。</strong></p></li><li><p><strong>而<code>Node.js</code>恰恰相反。线程会导致更复杂化的系统。所以<code>Node.js</code>采用<code>轻量级，单线程的系统</code>，利用了<code>js</code>的<code>匿名函数</code>进行<code>异步回调</code>，你只需要简单的使用<code>匿名函数</code>，也就是<code>闭包</code>。不需要搜索正确的抽象接口，只需要写下业务代码，没有任何冗余。这就是使用<code>Node.js</code>的最大好处，不过<code>异步回调</code>自然也出现一个急需解决的问题：<code>回调地狱</code>。</strong></p></li><li><p><strong>在<code>Node.js</code>中，我们不断嵌套<code>回调函数</code>的同时，很容易就陷入<code>回调函数的地狱</code>中，每层嵌套都会让代码更复杂，使得错误处理和结果处理更困难。一个相关的问题就是<code>js</code>语言不会帮助程序员恰当地<code>表达异步执行</code>。其实有些库会使用<code>Promise</code>来简化异步操作，但是看起来我们把问题简单化了，但是事实上代码层面更复杂化了，<code>Promise</code>用了许多样板代码，掩盖了程序员的真实意图。后来<code>Node.js</code>支持<code>ES5</code>与<code>ES6</code>，可以采用<code>async/await</code>函数重写回调函数。还是同样的异步结构，但使用了正常的循环结构来书写。错误和结果处理的位置也很自然，代码更易于理解，更容易编写，而且也可以很容易地理解程序员的意图。回调陷阱并不是用掩盖复杂性的方式解决的。相反，语言和范式的改变解决了回调陷阱的问题，同时还解决了过多样板代码的问题。有了<code>async</code>函数，代码就更漂亮了。简单化的解决方法，将<code>Node.js</code>的缺点转化为了优点。</strong></p></li><li><p><strong>但是<code>JavaScript</code>的<code>类型很松散</code>。而且在你书写代码的时候不会进行报错，许多类型<code>不需要定义</code>，通常也不需要用类型转换。因此代码更清晰易读，但存在漏掉编码错误的风险，只有在编译的时候才会去检查你语法以及逻辑是否存在问题，所以在<code>Node.js</code>中，为了更好的调试<code>BUG</code>，<code>node</code>支持将程序分成不同的模块，因为有模块的存在，将错误发生的范围缩小到某个范围内，使得<code>Node.js</code>模块更容易测试。</strong></p></li></ul><h2 id="包管理"><a href="#包管理" class="headerlink" title="包管理"></a><strong>包管理</strong></h2><ul><li><strong><code>java</code>最重要的问题之一就是<code>没有统一的包管理系统</code>，可能有人会和我说<code>Maven</code>。但是无论是用途、易用性还是功能上，<code>Maven</code>与<code>Node.js</code>的包管理系统相比简直是天壤之别。<code>npm</code> 是 <code>Node.js</code> 官方提供的<code>包管理工具</code>，他已经成了 <code>Node.js</code> 包的标准发布平台，用于 <code>Node.js</code> 包的发布、传播、依赖控制。<code>npm</code> 提供了命令行工具，使你可以方便地下载、安装、升级、删除包，也可以让你作为开发者发布并维护包。最好的地方是<code>npm</code>代码库不仅供<code>Node.js</code>使用，也可以让前端工程师使用。所有的前端<code>JavaScript</code>库都以<code>npm</code>包的形式存在。许多前端工具如<code>Webpack</code>都是用<code>Node.js</code>编写的。</strong></li></ul><h2 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a><strong>性能对比</strong></h2><ul><li><strong><code>java</code>使用<code>HotSpot</code>这个<code>超级虚拟机</code>，它采用了<code>多字节编译策略</code>。它会检测经常执行的代码，一段代码执行次数越多，就会应用越多的优化。因此<code>HotSpot</code>性能相对来说更快。<code>Node</code>底层选择用<code>c++</code>和<code>chrome的v8引擎</code>来实现的，<code>node.js</code>的<code>事件驱动机制</code>，这意味着要面对大规模的<code>http请求</code>，<code>node.js</code>是凭借<code>事件驱动</code>来完成的，性能部分是不用担心的，并且很出色。而且，由于<code>V8引擎</code>的改进，<code>Node.js</code>的每次发布都会带来<code>巨大的性能提升</code></strong></li></ul><h3 id="node的优势"><a href="#node的优势" class="headerlink" title="node的优势:"></a><code>node</code>的优势:</h3><ul><li><strong>异步和事件驱动</strong><ul><li><strong><code>Node.js</code>库上的 <code>API </code>是<code>异步</code>的，这意味着<code>非阻塞</code>。基本上，<code>NodeJS</code>允许服务器永远不会在<code>API</code>上等待或停止以获取返回数据，服务器在调用后立即移动到下一个<code>API</code>。</strong></li></ul></li><li><strong>单线程但高度可扩展</strong><ul><li><strong><code>NodeJS </code>作为具有<code>事件循环</code>的<code>单线程模型</code>工作。事件机制帮助服务器不可阻挡地运行，这使得服务器具有高度可扩展性，这与常规服务器不同。</strong></li></ul></li><li><strong>无中间件缓冲</strong><ul><li><strong><code>NodeJS</code>应用程序以<code>块</code>的形式提供输出数据，使它们无需任何缓冲区或用户等待即可正常工作。</strong></li></ul></li><li><strong>非常快</strong><ul><li><strong><code>NodeJS</code>建立在<code>V</code>引擎上，这使得它更快，并且使用其库也快速且可访问。它可以在客户端和服务器端使用相同的语言。</strong></li></ul></li></ul><h4 id="虽然Node对高并发应用有着极高的性能，但是Node-js也有着自己的缺点："><a href="#虽然Node对高并发应用有着极高的性能，但是Node-js也有着自己的缺点：" class="headerlink" title="虽然Node对高并发应用有着极高的性能，但是Node.js也有着自己的缺点："></a>虽然<code>Node</code>对高并发应用有着极高的性能，但是<code>Node.js</code>也有着自己的缺点：</h4><ol><li><strong><code>Node</code>不适合<code>CPU密集型应用</code>，因为<code>CPU密集型应用</code>如果有<code>长时间的运算</code>，不如大循环，将会导致<code>CPU时间片不能释放</code>，使得后续的<code>IO操作全部暂停</code>。</strong></li><li><strong>而且<code>Node</code>只支持<code>单核CPU</code>，不能<code>充分利用CPU资源</code></strong></li><li><strong>可靠性低，一旦代码某个环节崩溃，将会导致整个系统都崩溃，原因就在于<code>Node</code>是使用<code>单进程</code>。</strong></li><li><strong><code>Node</code>的开源组件库质量参差不齐，更新快，而且不向下兼容。</strong></li></ol><ul><li><strong>其实<code>Node.js</code>作为后端能实现几乎所有应用，只是我们选择的时候考虑更多的是项目场景是不是适合用<code>NodeJS</code>。</strong></li></ul><h3 id="java的优势"><a href="#java的优势" class="headerlink" title="java的优势"></a><code>java</code>的优势</h3><ul><li><strong><code>Java</code>是另一种选择，也是一种<code>高端编程语言</code>，可以帮助任何类型的开发。有许多新技术堆栈正在编程中出现，<code>Java</code>仍然在竞争中屹立不倒。</strong></li></ul><ol><li><strong><code>Java</code>是一种<code>面向对象</code>的语言，允许用户在其他程序中重用对象。</strong></li><li><strong><code>Java</code>被认为是一种<code>高级编程语言</code>，但它具有简单的语法和更快的学习曲线，这使得每种类型的用户都更容易。</strong></li><li><strong>它拥有大量的库和托管服务提供商，可在任何计算机上提供支持。</strong></li><li><strong><code>Java</code>允许用户在任何支持<code>Java</code>的平台上工作，如果不支持，那么您可以使用虚拟<code>Java环境</code>，在任何设备上开始工作并在任何设备上完成它。</strong></li><li><strong><code>Java</code>允许<code>独立的多线程</code>，这意味着一个线程不会影响其他线程。</strong></li><li><strong>自动存储管理称为垃圾回收器。</strong></li></ol><h2 id="Nodejs和Java之间的快速比较"><a href="#Nodejs和Java之间的快速比较" class="headerlink" title="Nodejs和Java之间的快速比较"></a><code>Nodejs</code>和<code>Java</code>之间的快速比较</h2><p><img src="/../upload/nodejs/n-j1.png" alt="image"></p><blockquote><p>这篇博客引用了作者为”<strong><a href="https://my.oschina.net/niyueling?tab=history&year=2020&month=01&history=202001">程序猿周先森</a></strong>“和”<strong><a href="https://www.bilibili.com/read/cv15690560">小小趴菜</a></strong>“的文章</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习 </category>
+          
+          <category> 前端知识分享 </category>
+          
+          <category> node.js </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> node.js </tag>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>TS项目练习:贪吃蛇小游戏(三)</title>
       <link href="/2022/12/23/Typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012/"/>
       <url>/2022/12/23/Typescript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012/</url>
@@ -815,9 +846,9 @@
             
             <tag> node.js </tag>
             
-            <tag> express框架 </tag>
-            
             <tag> MySQL </tag>
+            
+            <tag> express框架 </tag>
             
         </tags>
       
@@ -1463,13 +1494,13 @@
             
             <tag> 打包工具 </tag>
             
+            <tag> webpack高级篇&#39; </tag>
+            
             <tag> Tree Shaking </tag>
             
             <tag> Babel处理重复代码 </tag>
             
             <tag> 图片压缩(Image Minimizer) </tag>
-            
-            <tag> webpack高级篇&#39; </tag>
             
         </tags>
       
@@ -1504,8 +1535,6 @@
             
             <tag> 打包工具 </tag>
             
-            <tag> webpack高级篇&#39; </tag>
-            
             <tag> HotModuleReplacement </tag>
             
             <tag> OneOf </tag>
@@ -1515,6 +1544,8 @@
             <tag> Cache缓存 </tag>
             
             <tag> Thead </tag>
+            
+            <tag> webpack高级篇&#39; </tag>
             
         </tags>
       
