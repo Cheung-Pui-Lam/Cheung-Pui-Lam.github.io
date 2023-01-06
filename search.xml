@@ -1589,9 +1589,9 @@
             
             <tag> 打包工具 </tag>
             
-            <tag> Code Split </tag>
-            
             <tag> webpack高级篇&#39; </tag>
+            
+            <tag> Code Split </tag>
             
         </tags>
       
@@ -1667,8 +1667,6 @@
             
             <tag> 打包工具 </tag>
             
-            <tag> webpack高级篇&#39; </tag>
-            
             <tag> HotModuleReplacement </tag>
             
             <tag> OneOf </tag>
@@ -1678,6 +1676,8 @@
             <tag> Cache缓存 </tag>
             
             <tag> Thead </tag>
+            
+            <tag> webpack高级篇&#39; </tag>
             
         </tags>
       
