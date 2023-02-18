@@ -1,0 +1,414 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>react学习笔记(23) - Redux(3) 中间件(1):redux-thunk | 肥林の仓库</title><meta name="keywords" content="中间件,react,Redux,redux-thunk"><meta name="author" content="肥林(Playing 🦸‍♂️)"><meta name="copyright" content="肥林(Playing 🦸‍♂️)"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="redux中间件 官方文档  在redux里，action仅仅是携带了数据的普通js对象。action creator返回的值是这个action类型的对象。然后通过store.dispatch()进行分发。同步的情况下一切都很完美，也就是说,默认情况下，Redux 自身只能处理同步数据流。但是在实际项目开发中，状态的更新、获取，通常是使用异步操作来实现, 但是reducer无法处理异步的情况。那么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react学习笔记(23) - Redux(3) 中间件(1):redux-thunk">
+<meta property="og:url" content="http://example.com/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023/index.html">
+<meta property="og:site_name" content="肥林の仓库">
+<meta property="og:description" content="redux中间件 官方文档  在redux里，action仅仅是携带了数据的普通js对象。action creator返回的值是这个action类型的对象。然后通过store.dispatch()进行分发。同步的情况下一切都很完美，也就是说,默认情况下，Redux 自身只能处理同步数据流。但是在实际项目开发中，状态的更新、获取，通常是使用异步操作来实现, 但是reducer无法处理异步的情况。那么">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/upload/react/redux.png">
+<meta property="article:published_time" content="2023-02-18T05:40:43.000Z">
+<meta property="article:modified_time" content="2023-02-18T05:48:52.642Z">
+<meta property="article:author" content="肥林(Playing 🦸‍♂️)">
+<meta property="article:tag" content="中间件">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="Redux">
+<meta property="article:tag" content="redux-thunk">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/upload/react/redux.png"><link rel="shortcut icon" href="/assets/ficon32.png"><link rel="canonical" href="http://example.com/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'react学习笔记(23) - Redux(3) 中间件(1):redux-thunk',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-18 13:48:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/Mycss/style.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="/Mycss/runtimer.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/assets/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">253</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">28</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS：小兔鲜儿(PC端)</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS+JS：品优购(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：仿抑云音乐(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：后台管理系统(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue3-waimai.vercel.app/#/"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue3：饿了美外卖(移动端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/vlpo4U4Lilc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业自动化办公OA系统(双端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam?tab=repositories"><i class="fa-fw fa-brands fa-square-github"></i><span> 所有项目的源码</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/upload/react/redux.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">肥林の仓库</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS：小兔鲜儿(PC端)</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS+JS：品优购(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：仿抑云音乐(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：后台管理系统(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue3-waimai.vercel.app/#/"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue3：饿了美外卖(移动端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/vlpo4U4Lilc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业自动化办公OA系统(双端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam?tab=repositories"><i class="fa-fw fa-brands fa-square-github"></i><span> 所有项目的源码</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">react学习笔记(23) - Redux(3) 中间件(1):redux-thunk</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-18T05:40:43.000Z" title="发表于 2023-02-18 13:40:43">2023-02-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-18T05:48:52.642Z" title="更新于 2023-02-18 13:48:52">2023-02-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">前端知识分享</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/react/">react</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="react学习笔记(23) - Redux(3) 中间件(1):redux-thunk"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="redux中间件"><a href="#redux中间件" class="headerlink" title="redux中间件"></a><code>redux</code>中间件</h1><ul>
+<li><p><strong><a target="_blank" rel="noopener" href="https://redux.js.org/tutorials/fundamentals/part-6-async-logic">官方文档</a></strong></p>
+</li>
+<li><p><strong>在<code>redux</code>里，<code>action</code>仅仅是携带了数据的普通<code>js对象</code>。<code>action creator</code>返回的值是这个<code>action</code>类型的对象。然后通过<code>store.dispatch()</code>进行分发。同步的情况下一切都很完美，也就是说,默认情况下，<code>Redux</code> 自身只能处理同步数据流。但是在实际项目开发中，状态的更新、获取，通常是使用异步操作来实现, 但是<code>reducer</code>无法处理异步的情况。那么我们就需要在<code>action</code>和<code>reducer</code>中间架起一座桥梁来处理异步。这就是<code>middleware</code>(中间件)。</strong></p>
+</li>
+<li><p><strong>由此可见,在<code>redux</code>中,中间件的的核心功能就是:在<code> action</code> 被发起之后，到达 <code>reducer </code>之前的一些扩展,主要增强<code>store.dispatch</code>的能力</strong></p>
+</li>
+</ul>
+<h2 id="中间件的执行流程"><a href="#中间件的执行流程" class="headerlink" title="中间件的执行流程"></a>中间件的执行流程</h2><p><img src="/../upload/react/r10/1.gif" alt="image"></p>
+<blockquote>
+<p><strong>由上图我们可以看出,所谓<code>redux中间件</code>其实就是指的是<code>action</code>和<code>store</code>之间的流程加工。即<code>dispatch</code>的封装和升级。</strong></p>
+</blockquote>
+<h2 id="中间件的作用以及触发时机"><a href="#中间件的作用以及触发时机" class="headerlink" title="中间件的作用以及触发时机"></a>中间件的作用以及触发时机</h2><p><strong>处理具有副作用(side effect)的功能</strong>，比如，异步操作就是最常见的 side effect</p>
+<h3 id="中间件说明："><a href="#中间件说明：" class="headerlink" title="中间件说明："></a><strong>中间件说明：</strong></h3><ul>
+<li>中间件，可以理解为处理一个功能的中间环节</li>
+<li>中间件的优势：可以串联、组合，在一个项目中使用多个中间件</li>
+<li><strong><code>Redux</code> 中间件用来处理 状态 更新，也就是在 状态 更新的过程中，执行一系列的相应操作</strong></li>
+</ul>
+<h3 id="中间件的触发时机"><a href="#中间件的触发时机" class="headerlink" title="中间件的触发时机"></a>中间件的触发时机</h3><ul>
+<li><p><code>Redux</code> 中间件执行时机：<strong>在 <code>dispatching action</code> 和 到达 <code>reducer</code> 之间</strong>。</p>
+</li>
+<li><p>没有中间件：<code>dispatch(action) =&gt; reducer</code><br><img src="/../upload/react/r10/1.jpg" alt="image"></p>
+</li>
+<li><p>使用中间件：<code>dispatch(action) =&gt; 执行中间件代码 =&gt; reducer</code><br><img src="/../upload/react/r10/2.jpg" alt="image"></p>
+</li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h4><p><strong>封装了 <code>redux</code> 自己的 <code>dispatch</code> 方法</strong></p>
+<ul>
+<li><strong>没有中间件：<code>store.dispatch()</code> 就是 <code>Redux</code> 库自己提供的原生 <code>dispatch</code> 方法，用来发起状态更新</strong></li>
+<li><strong>使用中间件：<code>store.dispatch()</code>就是中间件封装处理后的 <code>dispatch</code>，但是，最终一定会调用 <code>Redux</code> 自己的 <code>dispatch</code> 方法发起状态更新</strong></li>
+</ul>
+<h1 id="redux-thunk"><a href="#redux-thunk" class="headerlink" title="redux-thunk"></a><code>redux-thunk</code></h1><ul>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/reduxjs/redux-thunk">官方文档</a></strong></li>
+<li><strong><code>Redux-thunk</code> 是 <code>redux</code> 的中间件,它主要设计用来<code>处理项目中的异步操作</code>，如获取接口数据等,过去<code>异步操作</code>都会写在组件中，请求到数据再创建 <code>action</code>。这使得<code>异步操作</code>遍布很多组件文件,中，维护不便，且不易于自动化测试。</strong></li>
+<li><strong><code>Redux-thunk </code>主要理念是：将所有<code>异步操作</code>都放在<code>action</code>里面去处理，与业务组件代码解耦,而要实现这个理念，需要 <code>action </code>处理异步逻辑，需要它是一个函数。</strong></li>
+</ul>
+<h2 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h2><ul>
+<li><strong>原生的<code>Redux</code>中,<code>action</code>(<code>actionCreator</code>)内部返回的是一个对象,但是<code>redux-thunk</code>中间件可以处理<code>函数形式的 action</code>,由此我们就可以在这个函数形式的<code>action</code>中处理异步操作</strong></li>
+<li><strong><code>React</code>内部通过判断你<code>action</code>中返回的是一个对象还是一个函数来执行操作,如果是返回一个对象则直接调用<code>dispatch</code>来修改状态,如果是一个函数,则使用者可以执行决定调用<code>dispatch</code>的时机,即我们可以等待异步操作完成后在调用<code>dispatch</code>修改状态(<code>redux-thunk会给我们在返回的函数中提供dispatch</code>)</strong></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 引入axios</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 1. 原生的actionCreator形式创建的action */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getDataAction</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">// 使用axios发送数据请求(异步操作)</span></span><br><span class="line">    axios.<span class="title function_">get</span>(<span class="string">&#x27;/xxx/xxx&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;数据请求成功&#x27;</span>,res)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> &#123; <span class="comment">// 数据请求成功action后返回原生的对象</span></span><br><span class="line">            <span class="attr">type</span>:<span class="string">&#x27;getData&#x27;</span>,<span class="comment">// 触发修改全局store中状态的字段</span></span><br><span class="line">            <span class="attr">value</span>:res,<span class="comment">// 返回的数据</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">	此时项目会报错,因为是异步操作,也就是说,数据还没有回来之前,可能return已经执行了,</span></span><br><span class="line"><span class="comment">	但是你的return是写在数据请求的回调函数中的,但是数据回来是需要时间的,此时你的原</span></span><br><span class="line"><span class="comment">	函数早已执行完毕了,但是由于原函数没有return,那就是默认undefined,就会导致报错</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getDataAction <span class="comment">// 将创建的action暴露出去</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* ------------------------------------------------------------------------ */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. 使用redux中间件结合actionCreator创建的action实现异步处理操作 */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getDataAction2</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">// redux-thunk 写法则是支持在action中返回一个函数</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        注意：此处返回的是一个函数，返回的函数有两个参数：</span></span><br><span class="line"><span class="comment">        第一个参数：dispatch 函数，用来分发 action</span></span><br><span class="line"><span class="comment">        第二个参数：getState 函数，用来获取 redux 状态</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function">(<span class="params">dispatch,getState</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 使用axios发送数据请求(异步操作)</span></span><br><span class="line">        axios.<span class="title function_">get</span>(<span class="string">&#x27;/xxx/xxx&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;数据请求成功!&#x27;</span>,res)</span><br><span class="line">			<span class="comment">// 判断数据请求完成后再通过dispatch通知reducer修改状态</span></span><br><span class="line">            dispatch (&#123; <span class="comment">// 数据请求成功action后返回原生的对象</span></span><br><span class="line">                <span class="attr">type</span>:<span class="string">&#x27;getData&#x27;</span>,<span class="comment">// 触发修改全局store中状态的字段</span></span><br><span class="line">                <span class="attr">value</span>:res,<span class="comment">// 返回的数据</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getDataAction <span class="comment">// 将创建的action暴露出去</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h2><ol>
+<li><strong>安装<code>redux-thunk</code></strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i redux-thunk</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>在全局的<code>store</code>中配置中间件,类似于<code>Vue</code>中的<code>Vue.use()</code></strong></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 引入中间件, applyMiddleware()应用中间件</span></span><br><span class="line"><span class="comment">// 1. 引入redux</span></span><br><span class="line"><span class="keyword">import</span> &#123;applyMiddleware, combineReducers, createStore&#125; <span class="keyword">from</span> <span class="string">&#x27;redux&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 引入其他的小Reducer</span></span><br><span class="line"><span class="keyword">import</span> pageNameReducer <span class="keyword">from</span> <span class="string">&#x27;./reducer/pageNameReducer&#x27;</span><span class="comment">//处理关于页面标题的reducer</span></span><br><span class="line"><span class="keyword">import</span> isShowBottomReducer <span class="keyword">from</span> <span class="string">&#x27;./reducer/isShowBottomReducer&#x27;</span><span class="comment">//处理底部区域展示的reducer</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 引入中间件</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ReduxThunk</span> <span class="keyword">from</span> <span class="string">&#x27;redux-thunk&#x27;</span><span class="comment">//引入redux-thunk中间件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 合并reducer</span></span><br><span class="line"><span class="keyword">const</span> reducer = <span class="title function_">combineReducers</span>(&#123;</span><br><span class="line">    pageNameReducer,</span><br><span class="line">    isShowBottomReducer</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    由于创建的state是不能直接放到创建的store中的, 需要通过reducer将数据添加到store中,</span></span><br><span class="line"><span class="comment">    因此创建store时必须创建reducer;reducer函数的返回值, 会作为store之后存储的state,</span></span><br><span class="line"><span class="comment">    只要调用dispatch就会重新执行reducer函数,reducer是一个纯函数，不可以直接修改state,</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 5. 创建全局store</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(reducer,<span class="title function_">applyMiddleware</span>(<span class="title class_">ReduxThunk</span>))<span class="comment">//并应用中间件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 6. 导出store</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> store</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong><code>actionCreator</code>自定义<code>action</code></strong></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口地址:随机生成一个狗图(vpn):https://dog.ceo/api/breeds/image/random</span></span><br><span class="line"><span class="comment">// 1. 引入axios</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. 使用redux中间件结合actionCreator创建的action实现异步处理操作 */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getDataAction2</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">// redux-thunk 写法则是支持在action中返回一个函数</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        注意：此处返回的是一个函数，返回的函数有两个参数：</span></span><br><span class="line"><span class="comment">        第一个参数：dispatch 函数，用来分发 action</span></span><br><span class="line"><span class="comment">        第二个参数：getState 函数，用来获取 redux 状态</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function">(<span class="params">dispatch,getState</span>)=&gt;</span>&#123;<span class="comment">// 处理异步操作,等待数据返回成功在执行dispatch操作(相当于转为同步)</span></span><br><span class="line">        <span class="comment">// 使用axios发送数据请求(异步操作)</span></span><br><span class="line">        axios.<span class="title function_">get</span>(<span class="string">&#x27;https://dog.ceo/api/breeds/image/random&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;数据请求成功!&#x27;</span>,res)</span><br><span class="line">			<span class="comment">//判断数据请求完成后再通过dispatch通知reducer修改状态</span></span><br><span class="line">            dispatch (&#123; <span class="comment">// 数据请求成功action后返回原生的对象</span></span><br><span class="line">                <span class="attr">type</span>:<span class="string">&#x27;getData&#x27;</span>,<span class="comment">// 触发修改全局store中状态的字段</span></span><br><span class="line">                <span class="attr">value</span>:res.<span class="property">data</span>.<span class="property">message</span>,<span class="comment">// 返回的数据</span></span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> getDataAction2 <span class="comment">// 将创建的action暴露出去</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong><code>home.js</code>(home组件)</strong></li>
+</ol>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; <span class="title class_">Component</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"><span class="comment">// 引入路由相关的组件</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">HashRouter</span> <span class="keyword">as</span> <span class="title class_">Router</span>, <span class="title class_">Route</span>, <span class="title class_">Redirect</span>, <span class="title class_">Switch</span>, <span class="title class_">NavLink</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react-router-dom&#x27;</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&#x27;../../store/index.js&#x27;</span><span class="comment">//引入全局store</span></span><br><span class="line"><span class="comment">// 引入对应的组件</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">About</span> <span class="keyword">from</span> <span class="string">&#x27;./about.js&#x27;</span><span class="comment">//关于页</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Info</span> <span class="keyword">from</span> <span class="string">&#x27;./info.js&#x27;</span><span class="comment">//个人信息页</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Footer</span> <span class="keyword">from</span> <span class="string">&#x27;./footer.js&#x27;</span><span class="comment">//底部区域</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">NotFound</span> <span class="keyword">from</span> <span class="string">&#x27;./404.js&#x27;</span><span class="comment">//404页面</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">home</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">  <span class="title function_">componentDidMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">      通过store.subscribe()函数可以监听store中的数据变化,</span></span><br><span class="line"><span class="comment">      store.subscribe()函数的参数接收一个函数, 该函数在store数据发生更新自动回调</span></span><br><span class="line"><span class="comment">    */</span> </span><br><span class="line"></span><br><span class="line">    store.<span class="title function_">subscribe</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;home组件监听中....&#x27;</span>);</span><br><span class="line">      <span class="comment">// 修改组件中state的状态重新渲染组件</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">        <span class="comment">// 使用reducer合并则需要多获取对应的小reducer在获取对应的状态</span></span><br><span class="line">        <span class="attr">isShow</span>:store.<span class="title function_">getState</span>().<span class="property">isShowBottomReducer</span>.<span class="property">isShow</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  state = &#123;</span><br><span class="line">    <span class="comment">// 我们可以在其他文件中通过 store.getState 来获取当前的state;</span></span><br><span class="line">    <span class="comment">// 使用reducer合并则需要多获取对应的小reducer在获取对应的状态</span></span><br><span class="line">    <span class="attr">isShow</span>:store.<span class="title function_">getState</span>().<span class="property">isShowBottomReducer</span>.<span class="property">isShow</span> <span class="comment">// 获取全局store中的状态</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;是否展示底部区域&#x27;</span>,store.<span class="title function_">getState</span>());</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>首页<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>(去到信息页关闭底部,去到关于页开启底部)<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span> <span class="attr">width:</span> &#x27;<span class="attr">100</span>%&#x27;, <span class="attr">height:</span> &#x27;<span class="attr">400px</span>&#x27;, <span class="attr">backgroundColor:</span> &#x27;<span class="attr">yellowgreen</span>&#x27; &#125;&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Router</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">NavLink</span> <span class="attr">to</span>=<span class="string">&#123;</span>&#x27;/<span class="attr">home</span>/<span class="attr">info</span>&#x27;&#125;&gt;</span>info<span class="tag">&lt;/<span class="name">NavLink</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">NavLink</span> <span class="attr">to</span>=<span class="string">&#123;</span>&#x27;/<span class="attr">home</span>/<span class="attr">about</span>&#x27;&#125;&gt;</span>about<span class="tag">&lt;/<span class="name">NavLink</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            &#123;/* 使用Switch来解决每次页面刷新,重定向功能执行的bug(模糊匹配) */&#125;</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Switch</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/home/about&quot;</span> <span class="attr">component</span>=<span class="string">&#123;About&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/home/info&quot;</span> <span class="attr">component</span>=<span class="string">&#123;Info&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">Redirect</span> <span class="attr">from</span>=<span class="string">&quot;/&quot;</span> <span class="attr">to</span>=<span class="string">&quot;/home/info&quot;</span> <span class="attr">exact</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">              &#123;/* 匹配不到的页面则展示404 */&#125;</span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">Route</span> <span class="attr">component</span>=<span class="string">&#123;NotFound&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">Switch</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;/<span class="name">Router</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#123;/* 通过判断全局store中的isShow来执行是否展示Footer组件 */&#125;</span></span><br><span class="line"><span class="language-xml">        &#123;this.state.isShow &amp;&amp; <span class="tag">&lt;<span class="name">Footer</span> /&gt;</span>&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong><code>about.js</code>(展示图片的组件)</strong></li>
+</ol>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> ,&#123;useEffect,useState&#125;<span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&#x27;../../store/index.js&#x27;</span><span class="comment">//引入全局store</span></span><br><span class="line"><span class="keyword">import</span> getDataAction <span class="keyword">from</span> <span class="string">&#x27;../../store/actionCreator/getDataAction.js&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">About</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 使用reducer合并则需要多获取对应的小reducer在获取对应的状态</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;组件创建时全局store中的图片数据&#x27;</span>,store.<span class="title function_">getState</span>().<span class="property">dataReducer</span>.<span class="property">data</span>);</span><br><span class="line">  <span class="comment">// 模拟生命周期</span></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;<span class="comment">//组件挂载</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;进入About组件&#x27;</span>);</span><br><span class="line">    <span class="comment">// 判断全局store中是否有图片数据</span></span><br><span class="line">    <span class="keyword">if</span>(store.<span class="title function_">getState</span>().<span class="property">dataReducer</span>.<span class="property">data</span> === <span class="string">&#x27;&#x27;</span>)&#123;</span><br><span class="line">      store.<span class="title function_">dispatch</span>(<span class="title function_">getDataAction</span>())</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;全局store中没有数据!&#x27;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;使用缓存中的数据!&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function">()=&gt;</span>&#123;<span class="comment">//组件销毁</span></span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;退出About组件&#x27;</span>);</span><br><span class="line">      <span class="comment">// 离开About组件修改全局store中的payload为false(关闭底部区域)</span></span><br><span class="line">      <span class="title function_">unsubscribe</span>()<span class="comment">//取消订阅</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,[])</span><br><span class="line">  <span class="comment">// 使用hooks创建调用state</span></span><br><span class="line">  <span class="comment">// 使用reducer合并则需要多获取对应的小reducer在获取对应的状态</span></span><br><span class="line">  <span class="keyword">const</span> [img,setImg] = <span class="title function_">useState</span>(store.<span class="title function_">getState</span>().<span class="property">dataReducer</span>.<span class="property">data</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 我们也可以在对应的组件中设置store订阅(设置订阅与取消订阅固定形式)</span></span><br><span class="line">  <span class="keyword">var</span> unsubscribe = store.<span class="title function_">subscribe</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;about组件订阅中.....&#x27;</span>,store.<span class="title function_">getState</span>().<span class="property">dataReducer</span>.<span class="property">data</span>);</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="comment">// 展示全局store中的pageName</span></span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&#123;</span>`$&#123;<span class="attr">img</span>&#125;`&#125; <span class="attr">alt</span>=<span class="string">&quot;&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示:"></a>结果展示:</h3><p><img src="/../upload/react/r10/2.gif" alt="image"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/about/">肥林(Playing 🦸‍♂️)</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/2023/02/12/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B022/">https://cheung-pui-lam.github.io/2023/02/12/react学习笔记22/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href = https://creativecommons.org/licenses/by-nc-sa/4.0/ target = "_blank"> CC BY-NC-SA 4.0</a>许可协议。转载请注明来自 <a href = https://cheung-pui-lam.github.io/ target = "_blank">肥林の仓库</a></span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a><a class="post-meta__tags" href="/tags/react/">react</a><a class="post-meta__tags" href="/tags/Redux/">Redux</a><a class="post-meta__tags" href="/tags/redux-thunk/">redux-thunk</a></div><div class="post_share"><div class="social-share" data-image="/upload/react/redux.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B024/"><img class="prev-cover" src="/upload/react/redux.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">react学习笔记(24) - Redux(4) 中间件(2)-redux-promise以及开发这工具的使用</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/12/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B022/"><img class="next-cover" src="/upload/react/redux.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">react学习笔记(22) - Redux(2) - reducer的拓展</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B024/" title="react学习笔记(24) - Redux(4) 中间件(2)-redux-promise以及开发这工具的使用"><img class="cover" src="/upload/react/redux.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-18</div><div class="title">react学习笔记(24) - Redux(4) 中间件(2)-redux-promise以及开发这工具的使用</div></div></a></div><div><a href="/2023/02/07/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B021/" title="react学习笔记(21) - Flux 和 Redux"><img class="cover" src="/upload/react/redux.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-07</div><div class="title">react学习笔记(21) - Flux 和 Redux</div></div></a></div><div><a href="/2023/02/12/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B022/" title="react学习笔记(22) - Redux(2) - reducer的拓展"><img class="cover" src="/upload/react/redux.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-12</div><div class="title">react学习笔记(22) - Redux(2) - reducer的拓展</div></div></a></div><div><a href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B025/" title="react学习笔记(25) - Redux(5) react-redux的基本使用"><img class="cover" src="/upload/react/react-redux.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-18</div><div class="title">react学习笔记(25) - Redux(5) react-redux的基本使用</div></div></a></div><div><a href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B026/" title="react学习笔记(26) - Redux(6) react-redux的原理以及redux数据持久化"><img class="cover" src="/upload/react/react-redux.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-18</div><div class="title">react学习笔记(26) - Redux(6) react-redux的原理以及redux数据持久化</div></div></a></div><div><a href="/2022/11/05/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014/" title="nodejs学习笔记(14)-Cookie与Session身份验证(2) - 在node中session中间件的使用"><img class="cover" src="/upload/nodejs/session.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-05</div><div class="title">nodejs学习笔记(14)-Cookie与Session身份验证(2) - 在node中session中间件的使用</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/assets/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">肥林(Playing 🦸‍♂️)</div><div class="author-info__description">一名菜鸡程序员</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">180</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">253</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">28</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Cheung-Pui-Lam" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://mail.qq.com/" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☄️欢迎来到我的博客!☄️<br>这个🔗站点主要用于记录博主的🤡生活和🌍学习的点滴!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#redux%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">redux中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">中间件的执行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E4%BD%9C%E7%94%A8%E4%BB%A5%E5%8F%8A%E8%A7%A6%E5%8F%91%E6%97%B6%E6%9C%BA"><span class="toc-number">1.2.</span> <span class="toc-text">中间件的作用以及触发时机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E8%AF%B4%E6%98%8E%EF%BC%9A"><span class="toc-number">1.2.1.</span> <span class="toc-text">中间件说明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E8%A7%A6%E5%8F%91%E6%97%B6%E6%9C%BA"><span class="toc-number">1.2.2.</span> <span class="toc-text">中间件的触发时机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">原理:</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#redux-thunk"><span class="toc-number">2.</span> <span class="toc-text">redux-thunk</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91"><span class="toc-number">2.1.</span> <span class="toc-text">实现逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">使用流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="toc-number">2.2.1.</span> <span class="toc-text">结果展示:</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B026/" title="react学习笔记(26) - Redux(6) react-redux的原理以及redux数据持久化"><img src="/upload/react/react-redux.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="react学习笔记(26) - Redux(6) react-redux的原理以及redux数据持久化"/></a><div class="content"><a class="title" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B026/" title="react学习笔记(26) - Redux(6) react-redux的原理以及redux数据持久化">react学习笔记(26) - Redux(6) react-redux的原理以及redux数据持久化</a><time datetime="2023-02-18T05:40:52.000Z" title="发表于 2023-02-18 13:40:52">2023-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B025/" title="react学习笔记(25) - Redux(5) react-redux的基本使用"><img src="/upload/react/react-redux.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="react学习笔记(25) - Redux(5) react-redux的基本使用"/></a><div class="content"><a class="title" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B025/" title="react学习笔记(25) - Redux(5) react-redux的基本使用">react学习笔记(25) - Redux(5) react-redux的基本使用</a><time datetime="2023-02-18T05:40:49.000Z" title="发表于 2023-02-18 13:40:49">2023-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B024/" title="react学习笔记(24) - Redux(4) 中间件(2)-redux-promise以及开发这工具的使用"><img src="/upload/react/redux.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="react学习笔记(24) - Redux(4) 中间件(2)-redux-promise以及开发这工具的使用"/></a><div class="content"><a class="title" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B024/" title="react学习笔记(24) - Redux(4) 中间件(2)-redux-promise以及开发这工具的使用">react学习笔记(24) - Redux(4) 中间件(2)-redux-promise以及开发这工具的使用</a><time datetime="2023-02-18T05:40:46.000Z" title="发表于 2023-02-18 13:40:46">2023-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023/" title="react学习笔记(23) - Redux(3) 中间件(1):redux-thunk"><img src="/upload/react/redux.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="react学习笔记(23) - Redux(3) 中间件(1):redux-thunk"/></a><div class="content"><a class="title" href="/2023/02/18/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B023/" title="react学习笔记(23) - Redux(3) 中间件(1):redux-thunk">react学习笔记(23) - Redux(3) 中间件(1):redux-thunk</a><time datetime="2023-02-18T05:40:43.000Z" title="发表于 2023-02-18 13:40:43">2023-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/12/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B022/" title="react学习笔记(22) - Redux(2) - reducer的拓展"><img src="/upload/react/redux.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="react学习笔记(22) - Redux(2) - reducer的拓展"/></a><div class="content"><a class="title" href="/2023/02/12/react%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B022/" title="react学习笔记(22) - Redux(2) - reducer的拓展">react学习笔记(22) - Redux(2) - reducer的拓展</a><time datetime="2023-02-12T14:08:32.000Z" title="发表于 2023-02-12 22:08:32">2023-02-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 肥林(Playing 🦸‍♂️)</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div>🦸‍♂️目在当下,活在当下</div> <div>🦾成为自己想成为的人!</div></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://s2.loli.net/2022/07/26/vqTgLsAKRQOpVeF.png" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo" title=""><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly" title=""><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://sm.ms/" style="margin-inline:5px" data-title="本站的静态资源由github和sm.ms提供托管服务" title=""><img src="https://img.shields.io/badge/CDN-Github%26SM.MS-brightgreen?style=flat&amp;logo=Shelly" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/Myjs/runtimer.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Es6/es6.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">Es6中的类与对象</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/js/event.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">JavaScript 中的 event</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/prototype/prototype.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-29</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">构造函数和原型(1)</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(2)-事件处理</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(1)-模板语法,数据绑定以及数据代理</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '500ms');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
