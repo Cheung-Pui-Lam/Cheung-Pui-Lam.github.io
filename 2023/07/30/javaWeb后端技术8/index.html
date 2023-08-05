@@ -1,0 +1,669 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦 | 肥林の仓库</title><meta name="author" content="肥林(Playing 🦸‍♂️)"><meta name="copyright" content="肥林(Playing 🦸‍♂️)"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="3. 分层解耦3.1 三层架构3.1.1 介绍在我们进行程序设计以及程序开发时，尽可能让每一个接口、类、方法的职责更单一些（单一职责原则）。  单一职责原则：一个类或一个方法，就只做一件事情，只管一块功能。 这样就可以让类、接口、方法的复杂度更低，可读性更强，扩展性更好，也更利用后期的维护。  我们之前开发的程序呢，并不满足单一职责原则。下面我们来分析下之前的程序：   那其实我们上述案例的处理逻">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦">
+<meta property="og:url" content="http://example.com/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF8/index.html">
+<meta property="og:site_name" content="肥林の仓库">
+<meta property="og:description" content="3. 分层解耦3.1 三层架构3.1.1 介绍在我们进行程序设计以及程序开发时，尽可能让每一个接口、类、方法的职责更单一些（单一职责原则）。  单一职责原则：一个类或一个方法，就只做一件事情，只管一块功能。 这样就可以让类、接口、方法的复杂度更低，可读性更强，扩展性更好，也更利用后期的维护。  我们之前开发的程序呢，并不满足单一职责原则。下面我们来分析下之前的程序：   那其实我们上述案例的处理逻">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/upload/java/springboot.jpg">
+<meta property="article:published_time" content="2023-07-30T08:54:43.000Z">
+<meta property="article:modified_time" content="2023-08-05T04:00:22.461Z">
+<meta property="article:author" content="肥林(Playing 🦸‍♂️)">
+<meta property="article:tag" content="javaWeb">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="IOC">
+<meta property="article:tag" content="控制反转">
+<meta property="article:tag" content="DI">
+<meta property="article:tag" content="依赖注入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/upload/java/springboot.jpg"><link rel="shortcut icon" href="/assets/ficon32.png"><link rel="canonical" href="http://example.com/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-05 12:00:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/Mycss/style.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="/Mycss/runtimer.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/assets/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">232</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">345</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS：小兔鲜儿(PC端)</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS+JS：品优购(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：仿抑云音乐(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：后台管理系统(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue3-waimai.vercel.app/#/"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue3：饿了美外卖(移动端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/vlpo4U4Lilc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业自动化办公OA系统(双端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/Hb9c8cjoBVc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业后台管理系统+企业门户官网(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam?tab=repositories"><i class="fa-fw fa-brands fa-square-github"></i><span> 所有项目的源码</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/upload/java/springboot.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="肥林の仓库"><span class="site-name">肥林の仓库</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS：小兔鲜儿(PC端)</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS+JS：品优购(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：仿抑云音乐(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：后台管理系统(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue3-waimai.vercel.app/#/"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue3：饿了美外卖(移动端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/vlpo4U4Lilc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业自动化办公OA系统(双端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/Hb9c8cjoBVc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业后台管理系统+企业门户官网(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam?tab=repositories"><i class="fa-fw fa-brands fa-square-github"></i><span> 所有项目的源码</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-30T08:54:43.000Z" title="发表于 2023-07-30 16:54:43">2023-07-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-05T04:00:22.461Z" title="更新于 2023-08-05 12:00:22">2023-08-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">后端知识分享</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/javaWeb/">javaWeb</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/javaWeb/Spring/">Spring</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/javaWeb/Spring/SpringBoot/">SpringBoot</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="3-分层解耦"><a href="#3-分层解耦" class="headerlink" title="3. 分层解耦"></a>3. 分层解耦</h2><h3 id="3-1-三层架构"><a href="#3-1-三层架构" class="headerlink" title="3.1 三层架构"></a>3.1 三层架构</h3><h4 id="3-1-1-介绍"><a href="#3-1-1-介绍" class="headerlink" title="3.1.1 介绍"></a>3.1.1 介绍</h4><p>在我们进行程序设计以及程序开发时，尽可能让每一个接口、类、方法的职责更单一些（单一职责原则）。</p>
+<blockquote>
+<p>单一职责原则：一个类或一个方法，就只做一件事情，只管一块功能。</p>
+<p>这样就可以让类、接口、方法的复杂度更低，可读性更强，扩展性更好，也更利用后期的维护。</p>
+</blockquote>
+<p>我们之前开发的程序呢，并不满足单一职责原则。下面我们来分析下之前的程序：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204191650390.png" alt="image"> </p>
+<p>那其实我们上述案例的处理逻辑呢，从组成上看可以分为三个部分：</p>
+<ul>
+<li>数据访问：负责业务数据的维护操作，包括增、删、改、查等操作。</li>
+<li>逻辑处理：负责业务逻辑处理的代码。</li>
+<li>请求处理、响应数据：负责，接收页面的请求，给页面响应数据。</li>
+</ul>
+<p>按照上述的三个组成部分，在我们项目开发中呢，可以将代码分为三层：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204193837678.png" alt="image"></p>
+<ul>
+<li>Controller：控制层。接收前端发送的请求，对请求进行处理，并响应数据。</li>
+<li>Service：业务逻辑层。处理具体的业务逻辑。</li>
+<li>Dao：数据访问层(Data Access Object)，也称为持久层。负责数据访问操作，包括数据的增、删、改、查。</li>
+</ul>
+<p>基于三层架构的程序执行流程：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204194207812.png" alt="image"></p>
+<ul>
+<li>前端发起的请求，由Controller层接收（Controller响应数据给前端）</li>
+<li>Controller层调用Service层来进行逻辑处理（Service层处理完后，把处理结果返回给Controller层）</li>
+<li>Serivce层调用Dao层（逻辑处理过程中需要用到的一些数据要从Dao层获取）</li>
+<li>Dao层操作文件中的数据（Dao拿到的数据会返回给Service层）</li>
+</ul>
+<blockquote>
+<p>思考：按照三层架构的思想，如何要对业务逻辑(Service层)进行变更，会影响到Controller层和Dao层吗？ </p>
+<p>答案：不会影响。 （程序的扩展性、维护性变得更好了）</p>
+</blockquote>
+<h4 id="3-1-2-代码拆分"><a href="#3-1-2-代码拆分" class="headerlink" title="3.1.2 代码拆分"></a>3.1.2 代码拆分</h4><p>我们使用三层架构思想，来改造下之前的程序：</p>
+<ul>
+<li>控制层包名：xxxx.controller</li>
+<li>业务逻辑层包名：xxxx.service</li>
+<li>数据访问层包名：xxxx.dao</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204195812200.png" alt="image"></p>
+<p><strong>控制层：</strong>接收前端发送的请求，对请求进行处理，并响应数据</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpController</span> &#123;</span><br><span class="line">    <span class="comment">//业务层对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">EmpService</span> <span class="variable">empService</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EmpServiceA</span>();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/listEmp&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">list</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//1. 调用service层, 获取数据</span></span><br><span class="line">        List&lt;Emp&gt; empList = empService.listEmp();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3. 响应数据</span></span><br><span class="line">        <span class="keyword">return</span> Result.success(empList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>业务逻辑层：</strong>处理具体的业务逻辑</p>
+<ul>
+<li>业务接口</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//业务逻辑接口（制定业务标准）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpService</span> &#123;</span><br><span class="line">    <span class="comment">//获取员工列表</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>业务实现类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//业务逻辑实现类（按照业务标准实现）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpServiceA</span> <span class="keyword">implements</span> <span class="title class_">EmpService</span> &#123;</span><br><span class="line">    <span class="comment">//dao层对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">EmpDao</span> <span class="variable">empDao</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">EmpDaoA</span>();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 调用dao, 获取数据</span></span><br><span class="line">        List&lt;Emp&gt; empList = empDao.listEmp();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 对数据进行转换处理 - gender, job</span></span><br><span class="line">        empList.stream().forEach(emp -&gt; &#123;</span><br><span class="line">            <span class="comment">//处理 gender 1: 男, 2: 女</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">gender</span> <span class="operator">=</span> emp.getGender();</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">&quot;1&quot;</span>.equals(gender))&#123;</span><br><span class="line">                emp.setGender(<span class="string">&quot;男&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;2&quot;</span>.equals(gender))&#123;</span><br><span class="line">                emp.setGender(<span class="string">&quot;女&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//处理job - 1: 讲师, 2: 班主任 , 3: 就业指导</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">job</span> <span class="operator">=</span> emp.getJob();</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">&quot;1&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;讲师&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;2&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;班主任&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;3&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;就业指导&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> empList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>数据访问层：</strong>负责数据的访问操作，包含数据的增、删、改、查</p>
+<ul>
+<li>数据访问接口</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//数据访问层接口（制定标准）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpDao</span> &#123;</span><br><span class="line">    <span class="comment">//获取员工列表数据</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>数据访问实现类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//数据访问实现类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpDaoA</span> <span class="keyword">implements</span> <span class="title class_">EmpDao</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 加载并解析emp.xml</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">file</span> <span class="operator">=</span> <span class="built_in">this</span>.getClass().getClassLoader().getResource(<span class="string">&quot;emp.xml&quot;</span>).getFile();</span><br><span class="line">        System.out.println(file);</span><br><span class="line">        List&lt;Emp&gt; empList = XmlParserUtils.parse(file, Emp.class);</span><br><span class="line">        <span class="keyword">return</span> empList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204201342490.png" alt="image"></p>
+<p>三层架构的好处：</p>
+<ol>
+<li>复用性强</li>
+<li>便于维护</li>
+<li>利用扩展</li>
+</ol>
+<h3 id="3-2-分层解耦"><a href="#3-2-分层解耦" class="headerlink" title="3.2 分层解耦"></a>3.2 分层解耦</h3><p>刚才我们学习过程序分层思想了，接下来呢，我们来学习下程序的解耦思想。</p>
+<p>解耦：解除耦合。</p>
+<h4 id="3-2-1-耦合问题"><a href="#3-2-1-耦合问题" class="headerlink" title="3.2.1 耦合问题"></a>3.2.1 耦合问题</h4><p>首先需要了解软件开发涉及到的两个概念：内聚和耦合。</p>
+<ul>
+<li><p>内聚：软件中各个功能模块内部的功能联系。</p>
+</li>
+<li><p>耦合：衡量软件中各个层&#x2F;模块之间的依赖、关联的程度。</p>
+</li>
+</ul>
+<p><strong>软件设计原则：高内聚低耦合。</strong></p>
+<blockquote>
+<p>高内聚指的是：一个模块中各个元素之间的联系的紧密程度，如果各个元素(语句、程序段)之间的联系程度越高，则内聚性越高，即 “高内聚”。</p>
+<p>低耦合指的是：软件中各个层、模块之间的依赖关联程序越低越好。</p>
+</blockquote>
+<p>程序中高内聚的体现：</p>
+<ul>
+<li>EmpServiceA类中只编写了和员工相关的逻辑处理代码</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204202531571.png" alt="image"> </p>
+<p>程序中耦合代码的体现：</p>
+<ul>
+<li>把业务类变为EmpServiceB时，需要修改controller层中的代码</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204203904900.png" alt="image"></p>
+<p>高内聚、低耦合的目的是使程序模块的可重用性、移植性大大增强。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20220828215549593.png" alt="image"></p>
+<h4 id="3-2-2-解耦思路"><a href="#3-2-2-解耦思路" class="headerlink" title="3.2.2  解耦思路"></a>3.2.2  解耦思路</h4><p>之前我们在编写代码时，需要什么对象，就直接new一个就可以了。 这种做法呢，层与层之间代码就耦合了，当service层的实现变了之后， 我们还需要修改controller层的代码。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204204916033.png" alt="image"></p>
+<p> 那应该怎么解耦呢？</p>
+<ul>
+<li>首先不能在EmpController中使用new对象。代码如下：</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204205328069.png" alt="image"></p>
+<ul>
+<li>此时，就存在另一个问题了，不能new，就意味着没有业务层对象（程序运行就报错），怎么办呢？<ul>
+<li>我们的解决思路是：<ul>
+<li>提供一个容器，容器中存储一些对象(例：EmpService对象)</li>
+<li>controller程序从容器中获取EmpService类型的对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>我们想要实现上述解耦操作，就涉及到Spring中的两个核心概念：</p>
+<ul>
+<li><p><strong>控制反转：</strong> Inversion Of Control，简称IOC。对象的创建控制权由程序自身转移到外部（容器），这种思想称为控制反转。</p>
+<blockquote>
+<p>对象的创建权由程序员主动创建转移到容器(由容器创建、管理对象)。这个容器称为：IOC容器或Spring容器</p>
+</blockquote>
+</li>
+<li><p><strong>依赖注入：</strong> Dependency Injection，简称DI。容器为应用程序提供运行时，所依赖的资源，称之为依赖注入。</p>
+<blockquote>
+<p>程序运行时需要某个资源，此时容器就为其提供这个资源。</p>
+<p>例：EmpController程序运行时需要EmpService对象，Spring容器就为其提供并注入EmpService对象</p>
+</blockquote>
+</li>
+</ul>
+<p>IOC容器中创建、管理的对象，称之为：bean对象</p>
+<h3 id="3-3-IOC-amp-DI"><a href="#3-3-IOC-amp-DI" class="headerlink" title="3.3 IOC&amp;DI"></a>3.3 IOC&amp;DI</h3><p>上面我们引出了Spring中IOC和DI的基本概念，下面我们就来具体学习下IOC和DI的代码实现。</p>
+<h4 id="3-3-1-IOC-amp-DI入门"><a href="#3-3-1-IOC-amp-DI入门" class="headerlink" title="3.3.1 IOC&amp;DI入门"></a>3.3.1 IOC&amp;DI入门</h4><p>任务：完成Controller层、Service层、Dao层的代码解耦</p>
+<ul>
+<li>思路：<ol>
+<li>删除Controller层、Service层中new对象的代码</li>
+<li>Service层及Dao层的实现类，交给IOC容器管理</li>
+<li>为Controller及Service注入运行时依赖的对象<ul>
+<li>Controller程序中注入依赖的Service层对象</li>
+<li>Service程序中注入依赖的Dao层对象</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p>第1步：删除Controller层、Service层中new对象的代码</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204212807207.png" alt="image"></p>
+<p>第2步：Service层及Dao层的实现类，交给IOC容器管理</p>
+<ul>
+<li>使用Spring提供的注解：@Component ，就可以实现类交给IOC容器管理</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204213328034.png" alt="image"></p>
+<p>第3步：为Controller及Service注入运行时依赖的对象</p>
+<ul>
+<li>使用Spring提供的注解：@Autowired ，就可以实现程序运行时IOC容器自动注入需要的依赖对象</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204213859112.png" alt="image"></p>
+<p>完整的三层代码：</p>
+<ul>
+<li><strong>Controller层：</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span> <span class="comment">//运行时,从IOC容器中获取该类型对象,赋值给该变量</span></span><br><span class="line">    <span class="keyword">private</span> EmpService empService ;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/listEmp&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">list</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//1. 调用service, 获取数据</span></span><br><span class="line">        List&lt;Emp&gt; empList = empService.listEmp();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3. 响应数据</span></span><br><span class="line">        <span class="keyword">return</span> Result.success(empList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Service层：</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span> <span class="comment">//将当前对象交给IOC容器管理,成为IOC容器的bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpServiceA</span> <span class="keyword">implements</span> <span class="title class_">EmpService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span> <span class="comment">//运行时,从IOC容器中获取该类型对象,赋值给该变量</span></span><br><span class="line">    <span class="keyword">private</span> EmpDao empDao ;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 调用dao, 获取数据</span></span><br><span class="line">        List&lt;Emp&gt; empList = empDao.listEmp();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 对数据进行转换处理 - gender, job</span></span><br><span class="line">        empList.stream().forEach(emp -&gt; &#123;</span><br><span class="line">            <span class="comment">//处理 gender 1: 男, 2: 女</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">gender</span> <span class="operator">=</span> emp.getGender();</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">&quot;1&quot;</span>.equals(gender))&#123;</span><br><span class="line">                emp.setGender(<span class="string">&quot;男&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;2&quot;</span>.equals(gender))&#123;</span><br><span class="line">                emp.setGender(<span class="string">&quot;女&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//处理job - 1: 讲师, 2: 班主任 , 3: 就业指导</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">job</span> <span class="operator">=</span> emp.getJob();</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">&quot;1&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;讲师&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;2&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;班主任&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;3&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;就业指导&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> empList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Dao层：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span> <span class="comment">//将当前对象交给IOC容器管理,成为IOC容器的bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpDaoA</span> <span class="keyword">implements</span> <span class="title class_">EmpDao</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 加载并解析emp.xml</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">file</span> <span class="operator">=</span> <span class="built_in">this</span>.getClass().getClassLoader().getResource(<span class="string">&quot;emp.xml&quot;</span>).getFile();</span><br><span class="line">        System.out.println(file);</span><br><span class="line">        List&lt;Emp&gt; empList = XmlParserUtils.parse(file, Emp.class);</span><br><span class="line">        <span class="keyword">return</span> empList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行测试：</p>
+<ul>
+<li>启动SpringBoot引导类，打开浏览器，输入：<a target="_blank" rel="noopener" href="http://localhost:8080/emp.html">http://localhost:8080/emp.html</a></li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204185455556.png" alt="image"></p>
+<h4 id="3-3-2-IOC详解"><a href="#3-3-2-IOC详解" class="headerlink" title="3.3.2 IOC详解"></a>3.3.2 IOC详解</h4><p>通过IOC和DI的入门程序呢，我们已经基本了解了IOC和DI的基础操作。接下来呢，我们学习下IOC控制反转和DI依赖注入的细节。</p>
+<h5 id="3-3-2-1-bean的声明"><a href="#3-3-2-1-bean的声明" class="headerlink" title="3.3.2.1 bean的声明"></a>3.3.2.1 bean的声明</h5><p>前面我们提到IOC控制反转，就是将对象的控制权交给Spring的IOC容器，由IOC容器创建及管理对象。IOC容器创建的对象称为bean对象。</p>
+<p>在之前的入门案例中，要把某个对象交给IOC容器管理，需要在类上添加一个注解：@Component </p>
+<p>而Spring框架为了更好的标识web应用程序开发当中，bean对象到底归属于哪一层，又提供了@Component的衍生注解：</p>
+<ul>
+<li>@Controller    （标注在控制层类上）</li>
+<li>@Service          （标注在业务层类上）</li>
+<li>@Repository    （标注在数据访问层类上）</li>
+</ul>
+<p>修改入门案例代码：</p>
+<ul>
+<li><strong>Controller层：</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span>  <span class="comment">//@RestController = @Controller + @ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span> <span class="comment">//运行时,从IOC容器中获取该类型对象,赋值给该变量</span></span><br><span class="line">    <span class="keyword">private</span> EmpService empService ;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/listEmp&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Result <span class="title function_">list</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//1. 调用service, 获取数据</span></span><br><span class="line">        List&lt;Emp&gt; empList = empService.listEmp();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3. 响应数据</span></span><br><span class="line">        <span class="keyword">return</span> Result.success(empList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Service层：</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpServiceA</span> <span class="keyword">implements</span> <span class="title class_">EmpService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span> <span class="comment">//运行时,从IOC容器中获取该类型对象,赋值给该变量</span></span><br><span class="line">    <span class="keyword">private</span> EmpDao empDao ;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 调用dao, 获取数据</span></span><br><span class="line">        List&lt;Emp&gt; empList = empDao.listEmp();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 对数据进行转换处理 - gender, job</span></span><br><span class="line">        empList.stream().forEach(emp -&gt; &#123;</span><br><span class="line">            <span class="comment">//处理 gender 1: 男, 2: 女</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">gender</span> <span class="operator">=</span> emp.getGender();</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">&quot;1&quot;</span>.equals(gender))&#123;</span><br><span class="line">                emp.setGender(<span class="string">&quot;男&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;2&quot;</span>.equals(gender))&#123;</span><br><span class="line">                emp.setGender(<span class="string">&quot;女&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//处理job - 1: 讲师, 2: 班主任 , 3: 就业指导</span></span><br><span class="line">            <span class="type">String</span> <span class="variable">job</span> <span class="operator">=</span> emp.getJob();</span><br><span class="line">            <span class="keyword">if</span>(<span class="string">&quot;1&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;讲师&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;2&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;班主任&quot;</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&quot;3&quot;</span>.equals(job))&#123;</span><br><span class="line">                emp.setJob(<span class="string">&quot;就业指导&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> empList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Dao层：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EmpDaoA</span> <span class="keyword">implements</span> <span class="title class_">EmpDao</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Emp&gt; <span class="title function_">listEmp</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">//1. 加载并解析emp.xml</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">file</span> <span class="operator">=</span> <span class="built_in">this</span>.getClass().getClassLoader().getResource(<span class="string">&quot;emp.xml&quot;</span>).getFile();</span><br><span class="line">        System.out.println(file);</span><br><span class="line">        List&lt;Emp&gt; empList = XmlParserUtils.parse(file, Emp.class);</span><br><span class="line">        <span class="keyword">return</span> empList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>要把某个对象交给IOC容器管理，需要在对应的类上加上如下注解之一：</p>
+<table>
+<thead>
+<tr>
+<th align="left">注解</th>
+<th>说明</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">@Controller</td>
+<td>@Component的衍生注解</td>
+<td>标注在控制器类上</td>
+</tr>
+<tr>
+<td align="left">@Service</td>
+<td>@Component的衍生注解</td>
+<td>标注在业务类上</td>
+</tr>
+<tr>
+<td align="left">@Repository</td>
+<td>@Component的衍生注解</td>
+<td>标注在数据访问类上（由于与mybatis整合，用的少）</td>
+</tr>
+<tr>
+<td align="left">@Component</td>
+<td>声明bean的基础注解</td>
+<td>不属于以上三类时，用此注解</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>查看源码：<img src="/../upload/java/javaweb/springboot/assets1/image-20221204221320230.png" alt="image"></p>
+</blockquote>
+<p>在IOC容器中，每一个Bean都有一个属于自己的名字，可以通过注解的value属性指定bean的名字。如果没有指定，默认为类名首字母小写。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204222650873.png" alt="image"></p>
+<blockquote>
+<p>注意事项: </p>
+<ul>
+<li>声明bean的时候，可以通过value属性指定bean的名字，如果没有指定，默认为类名首字母小写。</li>
+<li>使用以上四个注解都可以声明bean，但是在springboot集成web开发中，声明控制器bean只能用@Controller。</li>
+</ul>
+</blockquote>
+<h5 id="3-3-2-2-组件扫描"><a href="#3-3-2-2-组件扫描" class="headerlink" title="3.3.2.2 组件扫描"></a>3.3.2.2 组件扫描</h5><p>问题：使用前面学习的四个注解声明的bean，一定会生效吗？</p>
+<p>答案：不一定。（原因：bean想要生效，还需要被组件扫描）</p>
+<p> 下面我们通过修改项目工程的目录结构，来测试bean对象是否生效：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204223602694.png" alt="image"></p>
+<p>运行程序后，报错：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204223815554.png" alt="image"></p>
+<p>为什么没有找到bean对象呢？</p>
+<ul>
+<li>使用四大注解声明的bean，要想生效，还需要被组件扫描注解@ComponentScan扫描</li>
+</ul>
+<blockquote>
+<p>@ComponentScan注解虽然没有显式配置，但是实际上已经包含在了引导类声明注解 @SpringBootApplication 中，&#x3D;&#x3D;<strong>默认扫描的范围是SpringBoot启动类所在包及其子包</strong>&#x3D;&#x3D;。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204224643683.png" alt="image"> </p>
+</blockquote>
+<ul>
+<li>解决方案：手动添加@ComponentScan注解，指定要扫描的包   （&#x3D;&#x3D;仅做了解，不推荐&#x3D;&#x3D;）</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204225437297.png" alt="image"></p>
+<p>推荐做法（如下图）：</p>
+<ul>
+<li>将我们定义的controller，service，dao这些包呢，都放在引导类所在包com.itheima的子包下，这样我们定义的bean就会被自动的扫描到</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204225815624.png" alt="image"></p>
+<h4 id="3-3-3-DI详解"><a href="#3-3-3-DI详解" class="headerlink" title="3.3.3 DI详解"></a>3.3.3 DI详解</h4><p>上一小节我们讲解了控制反转IOC的细节，接下来呢，我们学习依赖注解DI的细节。</p>
+<p>依赖注入，是指IOC容器要为应用程序去提供运行时所依赖的资源，而资源指的就是对象。</p>
+<p>在入门程序案例中，我们使用了@Autowired这个注解，完成了依赖注入的操作，而这个Autowired翻译过来叫：自动装配。</p>
+<p>@Autowired注解，默认是按照<strong>类型</strong>进行自动装配的（去IOC容器中找某个类型的对象，然后完成注入操作）</p>
+<blockquote>
+<p>入门程序举例：在EmpController运行的时候，就要到IOC容器当中去查找EmpService这个类型的对象，而我们的IOC容器中刚好有一个EmpService这个类型的对象，所以就找到了这个类型的对象完成注入操作。</p>
+</blockquote>
+<p>那如果在IOC容器中，存在多个相同类型的bean对象，会出现什么情况呢？</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204232154445.png" alt="image"></p>
+<ul>
+<li>程序运行会报错</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204231616724.png" alt="image"></p>
+<p>如何解决上述问题呢？Spring提供了以下几种解决方案：</p>
+<ul>
+<li><p>@Primary</p>
+</li>
+<li><p>@Qualifier</p>
+</li>
+<li><p>@Resource</p>
+</li>
+</ul>
+<p>使用@Primary注解：当存在多个相同类型的Bean注入时，加上@Primary注解，来确定默认的实现。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204232501679.png" alt="image"> </p>
+<p>使用@Qualifier注解：指定当前要注入的bean对象。 在@Qualifier的value属性中，指定注入的bean的名称。</p>
+<ul>
+<li>@Qualifier注解不能单独使用，必须配合@Autowired使用</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204233333606.png" alt="image"></p>
+<p>使用@Resource注解：是按照bean的名称进行注入。通过name属性指定要注入的bean的名称。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets1/image-20221204233637735.png" alt="image"></p>
+<blockquote>
+<p>面试题 ： @Autowird 与 @Resource的区别</p>
+<ul>
+<li>@Autowired 是spring框架提供的注解，而@Resource是JDK提供的注解</li>
+<li>@Autowired 默认是按照类型注入，而@Resource是按照名称注入</li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/about/">肥林(Playing 🦸‍♂️)</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/2023/07/17/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016/">https://cheung-pui-lam.github.io/2023/07/17/java学习笔记16/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href = https://creativecommons.org/licenses/by-nc-sa/4.0/ target = "_blank"> CC BY-NC-SA 4.0</a>许可协议。转载请注明来自 <a href = https://cheung-pui-lam.github.io/ target = "_blank">肥林の仓库</a></span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/javaWeb/">javaWeb</a><a class="post-meta__tags" href="/tags/SpringBoot/">SpringBoot</a><a class="post-meta__tags" href="/tags/Spring/">Spring</a><a class="post-meta__tags" href="/tags/IOC/">IOC</a><a class="post-meta__tags" href="/tags/%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC/">控制反转</a><a class="post-meta__tags" href="/tags/DI/">DI</a><a class="post-meta__tags" href="/tags/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">依赖注入</a></div><div class="post_share"><div class="social-share" data-image="/upload/java/springboot.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF7/" title="javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）"><img class="cover" src="/upload/java/springboot.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF5/" title="javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程"><img class="cover" src="/upload/java/springboot.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程</div></div></a></div><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF6/" title="javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应"><img class="cover" src="/upload/java/springboot.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应</div></div></a></div><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF7/" title="javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）"><img class="cover" src="/upload/java/springboot.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）</div></div></a></div><div><a href="/2023/06/04/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B033/" title="nodejs学习笔记(33) - nest学习笔记(4) :编程思想以及环境变量的配置"><img class="cover" src="/upload/nodejs/nest.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-04</div><div class="title">nodejs学习笔记(33) - nest学习笔记(4) :编程思想以及环境变量的配置</div></div></a></div><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF1/" title="javaWeb后端技术 - Maven(1)"><img class="cover" src="/upload/java/maven.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术 - Maven(1)</div></div></a></div><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF2/" title="javaWeb后端技术 - Maven(2)"><img class="cover" src="/upload/java/maven.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术 - Maven(2)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/assets/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">肥林(Playing 🦸‍♂️)</div><div class="author-info__description">一名菜鸡程序员</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">232</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">345</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Cheung-Pui-Lam" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://mail.qq.com/" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☄️欢迎来到我的博客!☄️<br>这个🔗站点主要用于记录博主的🤡生活和🌍学习的点滴!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%88%86%E5%B1%82%E8%A7%A3%E8%80%A6"><span class="toc-number">1.</span> <span class="toc-text">3. 分层解耦</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">3.1 三层架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.1.</span> <span class="toc-text">3.1.1 介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2-%E4%BB%A3%E7%A0%81%E6%8B%86%E5%88%86"><span class="toc-number">1.1.2.</span> <span class="toc-text">3.1.2 代码拆分</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%88%86%E5%B1%82%E8%A7%A3%E8%80%A6"><span class="toc-number">1.2.</span> <span class="toc-text">3.2 分层解耦</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1-%E8%80%A6%E5%90%88%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">3.2.1 耦合问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E8%A7%A3%E8%80%A6%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.2.</span> <span class="toc-text">3.2.2  解耦思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-IOC-amp-DI"><span class="toc-number">1.3.</span> <span class="toc-text">3.3 IOC&amp;DI</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-IOC-amp-DI%E5%85%A5%E9%97%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.3.1 IOC&amp;DI入门</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2-IOC%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.3.2 IOC详解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-2-1-bean%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">3.3.2.1 bean的声明</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-2-2-%E7%BB%84%E4%BB%B6%E6%89%AB%E6%8F%8F"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">3.3.2.2 组件扫描</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-3-DI%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3.3 DI详解</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF8/" title="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦"><img src="/upload/java/springboot.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦"/></a><div class="content"><a class="title" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF8/" title="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦">javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦</a><time datetime="2023-07-30T08:54:43.000Z" title="发表于 2023-07-30 16:54:43">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF7/" title="javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）"><img src="/upload/java/springboot.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）"/></a><div class="content"><a class="title" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF7/" title="javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）">javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）</a><time datetime="2023-07-30T08:54:40.000Z" title="发表于 2023-07-30 16:54:40">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF6/" title="javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应"><img src="/upload/java/springboot.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应"/></a><div class="content"><a class="title" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF6/" title="javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应">javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应</a><time datetime="2023-07-30T08:54:36.000Z" title="发表于 2023-07-30 16:54:36">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF5/" title="javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程"><img src="/upload/java/springboot.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程"/></a><div class="content"><a class="title" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF5/" title="javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程">javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程</a><time datetime="2023-07-30T08:54:32.000Z" title="发表于 2023-07-30 16:54:32">2023-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF4/" title="javaWeb后端技术(4) - HTTP协议"><img src="/upload/java/Tomcat.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(4) - HTTP协议"/></a><div class="content"><a class="title" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF4/" title="javaWeb后端技术(4) - HTTP协议">javaWeb后端技术(4) - HTTP协议</a><time datetime="2023-07-30T08:54:29.000Z" title="发表于 2023-07-30 16:54:29">2023-07-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 肥林(Playing 🦸‍♂️)</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div>🦸‍♂️目在当下,活在当下</div> <div>🦾成为自己想成为的人!</div></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://s2.loli.net/2022/07/26/vqTgLsAKRQOpVeF.png" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo" title=""><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly" title=""><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://sm.ms/" style="margin-inline:5px" data-title="本站的静态资源由github和sm.ms提供托管服务" title=""><img src="https://img.shields.io/badge/CDN-Github%26SM.MS-brightgreen?style=flat&amp;logo=Shelly" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/Myjs/runtimer.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Es6/es6.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">Es6中的类与对象</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/js/event.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">JavaScript 中的 event</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/prototype/prototype.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-29</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">构造函数和原型(1)</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(2)-事件处理</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(1)-模板语法,数据绑定以及数据代理</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '500ms');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
