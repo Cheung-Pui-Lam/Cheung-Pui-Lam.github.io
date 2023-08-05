@@ -1,0 +1,539 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1) | 肥林の仓库</title><meta name="author" content="肥林(Playing 🦸‍♂️)"><meta name="copyright" content="肥林(Playing 🦸‍♂️)"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="创建一个新的springboot工程，选择引入对应的起步依赖（mybatis、mysql驱动、lombok）  application.properties中引入数据库连接信息  提示：可以把之前项目中已有的配置信息复制过来即可  #驱动类名称spring.datasource.driver-class-name&#x3D;com.mysql.cj.jdbc.Driver#数据库连接的urlspring.d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)">
+<meta property="og:url" content="http://example.com/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF11/index.html">
+<meta property="og:site_name" content="肥林の仓库">
+<meta property="og:description" content="创建一个新的springboot工程，选择引入对应的起步依赖（mybatis、mysql驱动、lombok）  application.properties中引入数据库连接信息  提示：可以把之前项目中已有的配置信息复制过来即可  #驱动类名称spring.datasource.driver-class-name&#x3D;com.mysql.cj.jdbc.Driver#数据库连接的urlspring.d">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/upload/java/mybatis.jpg">
+<meta property="article:published_time" content="2023-08-05T10:04:54.000Z">
+<meta property="article:modified_time" content="2023-08-05T10:33:08.010Z">
+<meta property="article:author" content="肥林(Playing 🦸‍♂️)">
+<meta property="article:tag" content="javaWeb">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="Mysql">
+<meta property="article:tag" content="Mybatis">
+<meta property="article:tag" content="sql注入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/upload/java/mybatis.jpg"><link rel="shortcut icon" href="/assets/ficon32.png"><link rel="canonical" href="http://example.com/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF11/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-05 18:33:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/Mycss/style.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="/Mycss/runtimer.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/assets/tx.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">236</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">347</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS：小兔鲜儿(PC端)</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS+JS：品优购(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：仿抑云音乐(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：后台管理系统(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue3-waimai.vercel.app/#/"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue3：饿了美外卖(移动端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/vlpo4U4Lilc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业自动化办公OA系统(双端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/Hb9c8cjoBVc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业后台管理系统+企业门户官网(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam?tab=repositories"><i class="fa-fw fa-brands fa-square-github"></i><span> 所有项目的源码</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/upload/java/mybatis.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="肥林の仓库"><span class="site-name">肥林の仓库</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-laugh"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/game/"><i class="fa-fw fas fa-computer"></i><span> 小游戏</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 听音乐</span></a></li><li><a class="site-page child" href="/Special-effects/firework/index.html"><i class="fa-fw fas fa-meteor"></i><span> 看烟花</span></a></li><li><a class="site-page child" href="/Special-effects/air-conditioner/index.html"><i class="fa-fw fas fa-wind"></i><span> 吹空调</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-boxes-packing"></i><span> Portfolio</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/portfolio/xtxe/index.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS：小兔鲜儿(PC端)</span></a></li><li><a class="site-page child" href="/portfolio/pyg/home.html"><i class="fa-fw fa-brands fa-html5"></i><span> HTML+CSS+JS：品优购(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://fanfyiyu-music.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：仿抑云音乐(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue2-manage-lovat.vercel.app"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue2：后台管理系统(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://vue3-waimai.vercel.app/#/"><i class="fa-fw fa-brands fa-vuejs"></i><span> Vue3：饿了美外卖(移动端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/vlpo4U4Lilc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业自动化办公OA系统(双端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://youtu.be/Hb9c8cjoBVc"><i class="fa-fw fa-brands fa-node"></i><span> 全栈项目：企业后台管理系统+企业门户官网(PC端)</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam?tab=repositories"><i class="fa-fw fa-brands fa-square-github"></i><span> 所有项目的源码</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-wrench"></i><span> 工具箱</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于博主</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-05T10:04:54.000Z" title="发表于 2023-08-05 18:04:54">2023-08-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-05T10:33:08.010Z" title="更新于 2023-08-05 18:33:08">2023-08-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/">后端知识分享</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/javaWeb/">javaWeb</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/javaWeb/Spring/">Spring</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/%E5%90%8E%E7%AB%AF%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/javaWeb/Spring/SpringBoot/">SpringBoot</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>创建一个新的springboot工程，选择引入对应的起步依赖（mybatis、mysql驱动、lombok）</strong></p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210182008131.png" alt="image"></p>
+<p><strong>application.properties中引入数据库连接信息</strong></p>
+<blockquote>
+<p>提示：可以把之前项目中已有的配置信息复制过来即可</p>
+</blockquote>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#驱动类名称</span></span><br><span class="line"><span class="attr">spring.datasource.driver-class-name</span>=<span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line"><span class="comment">#数据库连接的url</span></span><br><span class="line"><span class="attr">spring.datasource.url</span>=<span class="string">jdbc:mysql://localhost:3306/mybatis</span></span><br><span class="line"><span class="comment">#连接数据库的用户名</span></span><br><span class="line"><span class="attr">spring.datasource.username</span>=<span class="string">root</span></span><br><span class="line"><span class="comment">#连接数据库的密码</span></span><br><span class="line"><span class="attr">spring.datasource.password</span>=<span class="string">1234</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>创建对应的实体类Emp（实体类属性采用驼峰命名）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Emp</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Short gender;</span><br><span class="line">    <span class="keyword">private</span> String image;</span><br><span class="line">    <span class="keyword">private</span> Short job;</span><br><span class="line">    <span class="keyword">private</span> LocalDate entrydate;     <span class="comment">//LocalDate类型对应数据表中的date类型</span></span><br><span class="line">    <span class="keyword">private</span> Integer deptId;</span><br><span class="line">    <span class="keyword">private</span> LocalDateTime createTime;<span class="comment">//LocalDateTime类型对应数据表中的datetime类型</span></span><br><span class="line">    <span class="keyword">private</span> LocalDateTime updateTime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>准备Mapper接口：EmpMapper</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*@Mapper注解：表示当前接口为mybatis中的Mapper接口</span></span><br><span class="line"><span class="comment">  程序运行时会自动创建接口的实现类对象(代理对象)，并交给Spring的IOC容器管理</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpMapper</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成以上操作后，项目工程结构目录如下：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210182500817.png" alt="image"></p>
+<h2 id="1-3-删除"><a href="#1-3-删除" class="headerlink" title="1.3 删除"></a>1.3 删除</h2><h3 id="1-3-1-功能实现"><a href="#1-3-1-功能实现" class="headerlink" title="1.3.1 功能实现"></a>1.3.1 功能实现</h3><p>页面原型：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210183336095.png" alt="image"></p>
+<blockquote>
+<p>当我们点击后面的”删除”按钮时，前端页面会给服务端传递一个参数，也就是该行数据的ID。 我们接收到ID后，根据ID删除数据即可。</p>
+</blockquote>
+<p><strong>功能：根据主键删除数据</strong></p>
+<ul>
+<li>SQL语句</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 删除id=17的数据</span><br><span class="line">delete from emp where id = 17;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Mybatis框架让程序员更关注于SQL语句</p>
+</blockquote>
+<ul>
+<li>接口方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpMapper</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//@Delete(&quot;delete from emp where id = 17&quot;)</span></span><br><span class="line">    <span class="comment">//public void delete();</span></span><br><span class="line">    <span class="comment">//以上delete操作的SQL语句中的id值写成固定的17，就表示只能删除id=17的用户数据</span></span><br><span class="line">    <span class="comment">//SQL语句中的id值不能写成固定数值，需要变为动态的数值</span></span><br><span class="line">    <span class="comment">//解决方案：在delete方法中添加一个参数(用户id)，将方法中的参数，传给SQL语句</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据id删除数据</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id    用户id</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Delete(&quot;delete from emp where id = #&#123;id&#125;&quot;)</span><span class="comment">//使用#&#123;key&#125;方式获取方法中的参数值</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">delete</span><span class="params">(Integer id)</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>@Delete注解：用于编写delete操作的SQL语句</p>
+</blockquote>
+<blockquote>
+<p>如果mapper接口方法形参只有一个普通类型的参数，#{…} 里面的属性名可以随便写，如：#{id}、#{value}。但是建议保持名字一致。</p>
+</blockquote>
+<ul>
+<li>测试<ul>
+<li>在单元测试类中通过@Autowired注解注入EmpMapper类型对象</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SpringbootMybatisCrudApplicationTests</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span> <span class="comment">//从Spring的IOC容器中，获取类型是EmpMapper的对象并注入</span></span><br><span class="line">    <span class="keyword">private</span> EmpMapper empMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testDel</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//调用删除方法</span></span><br><span class="line">        empMapper.delete(<span class="number">16</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="1-3-2-日志输入"><a href="#1-3-2-日志输入" class="headerlink" title="1.3.2 日志输入"></a>1.3.2 日志输入</h3><p>在Mybatis当中我们可以借助日志，查看到sql语句的执行、执行传递的参数以及执行结果。具体操作如下：</p>
+<ol>
+<li><p>打开application.properties文件</p>
+</li>
+<li><p>开启mybatis的日志，并指定输出到控制台</p>
+</li>
+</ol>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="comment">#指定mybatis输出日志的位置, 输出控制台</span></span><br><span class="line"><span class="attr">mybatis.configuration.log-impl</span>=<span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br></pre></td></tr></table></figure>
+
+<p>开启日志之后，我们再次运行单元测试，可以看到在控制台中，输出了以下的SQL语句信息：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20220901164225644.png" alt="image"> </p>
+<blockquote>
+<p>但是我们发现输出的SQL语句：delete from emp where id &#x3D; ?，我们输入的参数16并没有在后面拼接，id的值是使用?进行占位。那这种SQL语句我们称为预编译SQL。</p>
+</blockquote>
+<h3 id="1-3-3-预编译SQL"><a href="#1-3-3-预编译SQL" class="headerlink" title="1.3.3 预编译SQL"></a>1.3.3 预编译SQL</h3><h4 id="1-3-3-1-介绍"><a href="#1-3-3-1-介绍" class="headerlink" title="1.3.3.1 介绍"></a>1.3.3.1 介绍</h4><p>预编译SQL有两个优势：</p>
+<ol>
+<li>性能更高</li>
+<li>更安全(防止SQL注入)</li>
+</ol>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210202222206.png" alt="image"></p>
+<blockquote>
+<p>性能更高：预编译SQL，编译一次之后会将编译后的SQL语句缓存起来，后面再次执行这条语句时，不会再次编译。（只是输入的参数不同）</p>
+<p>更安全(防止SQL注入)：将敏感字进行转义，保障SQL的安全性。</p>
+</blockquote>
+<h4 id="1-3-3-2-SQL注入"><a href="#1-3-3-2-SQL注入" class="headerlink" title="1.3.3.2 SQL注入"></a>1.3.3.2 SQL注入</h4><p>SQL注入：是通过操作输入的数据来修改事先定义好的SQL语句，以达到执行代码对服务器进行攻击的方法。</p>
+<blockquote>
+<p>由于没有对用户输入进行充分检查，而SQL又是拼接而成，在用户输入参数时，在参数中添加一些SQL关键字，达到改变SQL运行结果的目的，也可以完成恶意攻击。</p>
+</blockquote>
+<p><strong>测试1：使用资料中提供的程序，来验证SQL注入问题</strong></p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210205419634.png" alt="image"></p>
+<p>第1步：进入到DOS</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211124744203.png" alt="image"></p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211124840720.png" alt="image"></p>
+<p>第2步：执行以下命令，启动程序</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动存在SQL注入的程序</span></span><br><span class="line">java <span class="literal">-jar</span> sql_Injection_demo<span class="literal">-0</span>.<span class="number">0.1</span><span class="literal">-SNAPSHOT</span>.jar </span><br></pre></td></tr></table></figure>
+
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210211605231.png" alt="image"></p>
+<p>第3步：打开浏览器输入<code>http://localhost:9090/login.html</code></p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210212406527.png" alt="image"></p>
+<p>发现竟然能够登录成功：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210212511915.png" alt="image"></p>
+<p>以上操作为什么能够登录成功呢？</p>
+<ul>
+<li>由于没有对用户输入内容进行充分检查，而SQL又是字符串拼接方式而成，在用户输入参数时，在参数中添加一些SQL关键字，达到改变SQL运行结果的目的，从而完成恶意攻击。</li>
+</ul>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210213311518.png" alt="image"></p>
+<blockquote>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210214431228.png" alt="image"></p>
+<p>用户在页面提交数据的时候人为的添加一些特殊字符，使得sql语句的结构发生了变化，最终可以在没有用户名或者密码的情况下进行登录。</p>
+</blockquote>
+<p><strong>测试2：使用资料中提供的程序，来验证SQL注入问题</strong></p>
+<p>第1步：进入到DOS</p>
+<p>第2步：执行以下命令，启动程序：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#启动解决了SQL注入的程序</span></span><br><span class="line">java <span class="literal">-jar</span> sql_prepared_demo<span class="literal">-0</span>.<span class="number">0.1</span><span class="literal">-SNAPSHOT</span>.jar</span><br></pre></td></tr></table></figure>
+
+<p>第3步：打开浏览器输入<code>http://localhost:9090/login.html</code></p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221210212406527.png" alt="image"></p>
+<p>发现无法登录：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211125751981.png" alt="image"></p>
+<p>以上操作SQL语句的执行：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211130011973.png" alt="image"></p>
+<blockquote>
+<p>把整个<code>&#39; or &#39;1&#39;=&#39;1</code>作为一个完整的参数，赋值给第2个问号（<code>&#39; or &#39;1&#39;=&#39;1</code>进行了转义，只当做字符串使用）</p>
+</blockquote>
+<h4 id="1-3-3-3-参数占位符"><a href="#1-3-3-3-参数占位符" class="headerlink" title="1.3.3.3 参数占位符"></a>1.3.3.3 参数占位符</h4><p>在Mybatis中提供的参数占位符有两种：${…} 、#{…}</p>
+<ul>
+<li><p>#{…}</p>
+<ul>
+<li>执行SQL时，会将#{…}替换为?，生成预编译SQL，会自动设置参数值</li>
+<li>使用时机：参数传递，都使用#{…}</li>
+</ul>
+</li>
+<li><p>${…}</p>
+<ul>
+<li>拼接SQL。直接将参数拼接在SQL语句中，存在SQL注入问题</li>
+<li>使用时机：如果对表名、列表进行动态设置时使用</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注意事项：在项目开发中，建议使用#{…}，生成预编译SQL，防止SQL注入安全。</p>
+</blockquote>
+<h2 id="1-4-新增"><a href="#1-4-新增" class="headerlink" title="1.4 新增"></a>1.4 新增</h2><p>功能：新增员工信息</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211134239610.png" alt="image"></p>
+<h3 id="1-4-1-基本新增"><a href="#1-4-1-基本新增" class="headerlink" title="1.4.1 基本新增"></a>1.4.1 基本新增</h3><p>员工表结构：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211134746319.png" alt="image"></p>
+<p>SQL语句：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> emp(username, name, gender, image, job, entrydate, dept_id, create_time, update_time) <span class="keyword">values</span> (<span class="string">&#x27;songyuanqiao&#x27;</span>,<span class="string">&#x27;宋远桥&#x27;</span>,<span class="number">1</span>,<span class="string">&#x27;1.jpg&#x27;</span>,<span class="number">2</span>,<span class="string">&#x27;2012-10-09&#x27;</span>,<span class="number">2</span>,<span class="string">&#x27;2022-10-01 10:00:00&#x27;</span>,<span class="string">&#x27;2022-10-01 10:00:00&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>接口方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpMapper</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Insert(&quot;insert into emp(username, name, gender, image, job, entrydate, dept_id, create_time, update_time) values (#&#123;username&#125;, #&#123;name&#125;, #&#123;gender&#125;, #&#123;image&#125;, #&#123;job&#125;, #&#123;entrydate&#125;, #&#123;deptId&#125;, #&#123;createTime&#125;, #&#123;updateTime&#125;)&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(Emp emp)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>说明：#{…} 里面写的名称是对象的属性名</p>
+</blockquote>
+<p>测试类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.mapper.EmpMapper;</span><br><span class="line"><span class="keyword">import</span> com.itheima.pojo.Emp;</span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalDateTime;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SpringbootMybatisCrudApplicationTests</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmpMapper empMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testInsert</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//创建员工对象</span></span><br><span class="line">        <span class="type">Emp</span> <span class="variable">emp</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Emp</span>();</span><br><span class="line">        emp.setUsername(<span class="string">&quot;tom&quot;</span>);</span><br><span class="line">        emp.setName(<span class="string">&quot;汤姆&quot;</span>);</span><br><span class="line">        emp.setImage(<span class="string">&quot;1.jpg&quot;</span>);</span><br><span class="line">        emp.setGender((<span class="type">short</span>)<span class="number">1</span>);</span><br><span class="line">        emp.setJob((<span class="type">short</span>)<span class="number">1</span>);</span><br><span class="line">        emp.setEntrydate(LocalDate.of(<span class="number">2000</span>,<span class="number">1</span>,<span class="number">1</span>));</span><br><span class="line">        emp.setCreateTime(LocalDateTime.now());</span><br><span class="line">        emp.setUpdateTime(LocalDateTime.now());</span><br><span class="line">        emp.setDeptId(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//调用添加方法</span></span><br><span class="line">        empMapper.insert(emp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>日志输出：</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211140222240.png" alt="image"></p>
+</blockquote>
+<h3 id="1-4-2-主键返回"><a href="#1-4-2-主键返回" class="headerlink" title="1.4.2 主键返回"></a>1.4.2 主键返回</h3><p>概念：在数据添加成功后，需要获取插入数据库数据的主键。</p>
+<blockquote>
+<p>如：添加套餐数据时，还需要维护套餐菜品关系表数据。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221211150353385.png" alt="image"></p>
+<p>业务场景：在前面讲解到的苍穹外卖菜品与套餐模块的表结构，菜品与套餐是多对多的关系，一个套餐对应多个菜品。既然是多对多的关系，是不是有一张套餐菜品中间表来维护它们之间的关系。</p>
+<p><img src="/../upload/java/javaweb/springboot/assets2/image-20221212093655389.png" alt="image"></p>
+<p>在添加套餐的时候，我们需要在界面当中来录入套餐的基本信息，还需要来录入套餐与菜品的关联信息。这些信息录入完毕之后，我们一点保存，就需要将套餐的信息以及套餐与菜品的关联信息都需要保存到数据库当中。其实具体的过程包括两步，首先第一步先需要将套餐的基本信息保存了，接下来第二步再来保存套餐与菜品的关联信息。套餐与菜品的关联信息就是往中间表当中来插入数据，来维护它们之间的关系。而中间表当中有两个外键字段，一个是菜品的ID，就是当前菜品的ID，还有一个就是套餐的ID，而这个套餐的 ID 指的就是此次我所添加的套餐的ID，所以我们在第一步保存完套餐的基本信息之后，就需要将套餐的主键值返回来供第二步进行使用。这个时候就需要用到主键返回功能。</p>
+</blockquote>
+<p>那要如何实现在插入数据之后返回所插入行的主键值呢？</p>
+<ul>
+<li>默认情况下，执行插入操作时，是不会主键值返回的。如果我们想要拿到主键值，需要在Mapper接口中的方法上添加一个Options注解，并在注解中指定属性useGeneratedKeys&#x3D;true和keyProperty&#x3D;”实体类属性名”</li>
+</ul>
+<p>主键返回代码实现：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EmpMapper</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//会自动将生成的主键值，赋值给emp对象的id属性</span></span><br><span class="line">    <span class="meta">@Options(useGeneratedKeys = true,keyProperty = &quot;id&quot;)</span></span><br><span class="line">    <span class="meta">@Insert(&quot;insert into emp(username, name, gender, image, job, entrydate, dept_id, create_time, update_time) values (#&#123;username&#125;, #&#123;name&#125;, #&#123;gender&#125;, #&#123;image&#125;, #&#123;job&#125;, #&#123;entrydate&#125;, #&#123;deptId&#125;, #&#123;createTime&#125;, #&#123;updateTime&#125;)&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(Emp emp)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SpringbootMybatisCrudApplicationTests</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> EmpMapper empMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testInsert</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">//创建员工对象</span></span><br><span class="line">        <span class="type">Emp</span> <span class="variable">emp</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Emp</span>();</span><br><span class="line">        emp.setUsername(<span class="string">&quot;jack&quot;</span>);</span><br><span class="line">        emp.setName(<span class="string">&quot;杰克&quot;</span>);</span><br><span class="line">        emp.setImage(<span class="string">&quot;1.jpg&quot;</span>);</span><br><span class="line">        emp.setGender((<span class="type">short</span>)<span class="number">1</span>);</span><br><span class="line">        emp.setJob((<span class="type">short</span>)<span class="number">1</span>);</span><br><span class="line">        emp.setEntrydate(LocalDate.of(<span class="number">2000</span>,<span class="number">1</span>,<span class="number">1</span>));</span><br><span class="line">        emp.setCreateTime(LocalDateTime.now());</span><br><span class="line">        emp.setUpdateTime(LocalDateTime.now());</span><br><span class="line">        emp.setDeptId(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">//调用添加方法</span></span><br><span class="line">        empMapper.insert(emp);</span><br><span class="line"></span><br><span class="line">        System.out.println(emp.getDeptId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/about/">肥林(Playing 🦸‍♂️)</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://cheung-pui-lam.github.io/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF8/">https://cheung-pui-lam.github.io/2023/07/30/javaWeb后端技术8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href = https://creativecommons.org/licenses/by-nc-sa/4.0/ target = "_blank"> CC BY-NC-SA 4.0</a>许可协议。转载请注明来自 <a href = https://cheung-pui-lam.github.io/ target = "_blank">肥林の仓库</a></span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/javaWeb/">javaWeb</a><a class="post-meta__tags" href="/tags/SpringBoot/">SpringBoot</a><a class="post-meta__tags" href="/tags/Spring/">Spring</a><a class="post-meta__tags" href="/tags/Mysql/">Mysql</a><a class="post-meta__tags" href="/tags/Mybatis/">Mybatis</a><a class="post-meta__tags" href="/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a></div><div class="post_share"><div class="social-share" data-image="/upload/java/mybatis.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF12/" title="javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)"><img class="cover" src="/upload/java/mybatis.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)</div></div></a></div><div class="next-post pull-right"><a href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF10/" title="javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)"><img class="cover" src="/upload/java/mybatis.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF10/" title="javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)"><img class="cover" src="/upload/java/mybatis.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-05</div><div class="title">javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)</div></div></a></div><div><a href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF12/" title="javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)"><img class="cover" src="/upload/java/mybatis.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-05</div><div class="title">javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)</div></div></a></div><div><a href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF9/" title="javaWeb后端技术(9) - javaWeb后端技术 - SpringBoot快速入门(5):Mybatis入门(1)"><img class="cover" src="/upload/java/mybatis.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-05</div><div class="title">javaWeb后端技术(9) - javaWeb后端技术 - SpringBoot快速入门(5):Mybatis入门(1)</div></div></a></div><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF5/" title="javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程"><img class="cover" src="/upload/java/springboot.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术(5) - SpringBoot快速入门(1) - 创建工程</div></div></a></div><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF7/" title="javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）"><img class="cover" src="/upload/java/springboot.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术(7) - SpringBoot快速入门(3) - 响应体（@ResponseBody）</div></div></a></div><div><a href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF6/" title="javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应"><img class="cover" src="/upload/java/springboot.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-30</div><div class="title">javaWeb后端技术(6) - SpringBoot快速入门(2) - 请求响应</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/assets/tx.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">肥林(Playing 🦸‍♂️)</div><div class="author-info__description">一名菜鸡程序员</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">236</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">347</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">35</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Cheung-Pui-Lam"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Cheung-Pui-Lam" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://mail.qq.com/" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☄️欢迎来到我的博客!☄️<br>这个🔗站点主要用于记录博主的🤡生活和🌍学习的点滴!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%88%A0%E9%99%A4"><span class="toc-number">1.</span> <span class="toc-text">1.3 删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-1-%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1.3.1 功能实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-2-%E6%97%A5%E5%BF%97%E8%BE%93%E5%85%A5"><span class="toc-number">1.2.</span> <span class="toc-text">1.3.2 日志输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-3-%E9%A2%84%E7%BC%96%E8%AF%91SQL"><span class="toc-number">1.3.</span> <span class="toc-text">1.3.3 预编译SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-1-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.3.3.1 介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-2-SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">1.3.2.</span> <span class="toc-text">1.3.3.2 SQL注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-3-3-%E5%8F%82%E6%95%B0%E5%8D%A0%E4%BD%8D%E7%AC%A6"><span class="toc-number">1.3.3.</span> <span class="toc-text">1.3.3.3 参数占位符</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E6%96%B0%E5%A2%9E"><span class="toc-number">2.</span> <span class="toc-text">1.4 新增</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-1-%E5%9F%BA%E6%9C%AC%E6%96%B0%E5%A2%9E"><span class="toc-number">2.1.</span> <span class="toc-text">1.4.1 基本新增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-2-%E4%B8%BB%E9%94%AE%E8%BF%94%E5%9B%9E"><span class="toc-number">2.2.</span> <span class="toc-text">1.4.2 主键返回</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF12/" title="javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)"><img src="/upload/java/mybatis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)"/></a><div class="content"><a class="title" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF12/" title="javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)">javaWeb后端技术(12) - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(2)</a><time datetime="2023-08-05T10:29:51.000Z" title="发表于 2023-08-05 18:29:51">2023-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF11/" title="javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)"><img src="/upload/java/mybatis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)"/></a><div class="content"><a class="title" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF11/" title="javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)">javaWeb后端技术(11) - javaWeb后端技术 - SpringBoot快速入门(7):Mybatis入门(3)-基本crud(1)</a><time datetime="2023-08-05T10:04:54.000Z" title="发表于 2023-08-05 18:04:54">2023-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF10/" title="javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)"><img src="/upload/java/mybatis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)"/></a><div class="content"><a class="title" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF10/" title="javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)">javaWeb后端技术(10) - javaWeb后端技术 - SpringBoot快速入门(6):Mybatis入门(2)</a><time datetime="2023-08-05T10:04:50.000Z" title="发表于 2023-08-05 18:04:50">2023-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF9/" title="javaWeb后端技术(9) - javaWeb后端技术 - SpringBoot快速入门(5):Mybatis入门(1)"><img src="/upload/java/mybatis.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(9) - javaWeb后端技术 - SpringBoot快速入门(5):Mybatis入门(1)"/></a><div class="content"><a class="title" href="/2023/08/05/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF9/" title="javaWeb后端技术(9) - javaWeb后端技术 - SpringBoot快速入门(5):Mybatis入门(1)">javaWeb后端技术(9) - javaWeb后端技术 - SpringBoot快速入门(5):Mybatis入门(1)</a><time datetime="2023-08-05T10:04:48.000Z" title="发表于 2023-08-05 18:04:48">2023-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF8/" title="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦"><img src="/upload/java/springboot.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦"/></a><div class="content"><a class="title" href="/2023/07/30/javaWeb%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF8/" title="javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦">javaWeb后端技术(8) - SpringBoot快速入门(4) - 开发的三层架构(MVC)以及分层解耦</a><time datetime="2023-07-30T08:54:43.000Z" title="发表于 2023-07-30 16:54:43">2023-07-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 肥林(Playing 🦸‍♂️)</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><div>🦸‍♂️目在当下,活在当下</div> <div>🦾成为自己想成为的人!</div></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://s2.loli.net/2022/07/26/vqTgLsAKRQOpVeF.png" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://unpkg.zhimg.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo" title=""><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly" title=""><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://sm.ms/" style="margin-inline:5px" data-title="本站的静态资源由github和sm.ms提供托管服务" title=""><img src="https://img.shields.io/badge/CDN-Github%26SM.MS-brightgreen?style=flat&amp;logo=Shelly" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/Myjs/runtimer.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Es6/es6.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-20</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">Es6中的类与对象</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/20/Es6中的类与对象/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/js/event.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">JavaScript 中的 event</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/js中的event/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/prototype/prototype.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-07-29</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">构造函数和原型(1)</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/07/29/构造函数和原型1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-02</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(2)-事件处理</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/02/Vue学习笔记2/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/upload/Vue/Vue.jpeg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-08-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">Vue学习笔记(1)-模板语法,数据绑定以及数据代理</a><div class="blog-slider__text">作者是个 懒 🅱 !</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/08/01/Vue学习笔记1/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '500ms');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '30');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '80ms');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('flink-list-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('article-sort-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__slideInRight');
+    arr[i].setAttribute('data-wow-duration', '1.5s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__flipInY');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script><script async="async">var arr = document.getElementsByClassName('site-card');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__animated');
+    arr[i].setAttribute('data-wow-duration', '3s');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://cdn.cbd.int/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
